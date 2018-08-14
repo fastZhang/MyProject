@@ -1,0 +1,23 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorMain</item>
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:screenOrientation">portrait</item>
+
+        <!--被启动的activtity启动过程中透明-->
+        <item name="android:windowIsTranslucent">true</item>
+
+    </style>
+
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/colorLine</item>
+        <item name="colorControlActivated">@color/colorMain</item>
+    </style>
+
+</resources>

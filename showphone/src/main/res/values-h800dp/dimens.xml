@@ -1,0 +1,12 @@
+<resources>
+
+
+    <dimen name="menu_height">130dp</dimen>
+
+    <dimen name="menu_margintop">40dp</dimen>
+
+
+    <dimen name="menu_startw">260dp</dimen>
+    <dimen name="menu_starth">60dp</dimen>
+
+</resources>

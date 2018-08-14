@@ -1,0 +1,32 @@
+<resources>
+
+    <dimen name="app_title_h">65dp</dimen>
+
+    <dimen name="card_margin">5dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="menu_text_t">20dp</dimen>
+
+
+    <dimen name="menu_width">140dp</dimen>
+    <dimen name="menu_height">95dp</dimen>
+
+    <dimen name="menu_margintop">100dp</dimen>
+
+    <dimen name="menu_startw">188dp</dimen>
+    <dimen name="menu_starth">44dp</dimen>
+
+
+    <dimen name="tip_margin">20dp</dimen>
+
+    <dimen name="tip_item_h">68dp</dimen>
+
+    <dimen name="app_title_text">24sp</dimen>
+    <dimen name="item_text">18sp</dimen>
+
+
+    <dimen name="glowpadview_outerring_diameter">250.0dip</dimen>
+    <dimen name="incoming_call_widget_circle_size">56.0dip</dimen>
+
+
+
+</resources>

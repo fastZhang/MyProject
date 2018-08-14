@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_homepic_tip"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_title_h"
+        android:background="@color/colorMain">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/call_time_set"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/app_title_text" />
+
+
+    </FrameLayout>
+
+    <!--<FrameLayout-->
+    <!--android:id="@+id/fl_picphoto"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/tip_item_h">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_margin="@dimen/tip_margin"-->
+    <!--android:text="@string/pic_photo"-->
+    <!--android:textColor="@color/colorMenuTitle"-->
+    <!--android:textSize="@dimen/item_text" />-->
+
+
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:layout_gravity="bottom"-->
+    <!--android:background="@color/colorLine" />-->
+
+    <!--</FrameLayout>-->
+
+    <!--<FrameLayout-->
+    <!--android:id="@+id/fl_camera"-->
+
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/tip_item_h">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_margin="@dimen/tip_margin"-->
+    <!--android:text="@string/pic_camera"-->
+    <!--android:textColor="@color/colorMenuTitle"-->
+    <!--android:textSize="@dimen/item_text" />-->
+
+
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:layout_gravity="bottom"-->
+    <!--android:background="@color/colorLine" />-->
+
+    <!--</FrameLayout>-->
+
+    <!--<FrameLayout-->
+    <!--android:id="@+id/fl_camera"-->
+
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/tip_item_h">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_margin="@dimen/tip_margin"-->
+    <!--android:text="@string/pic_camera"-->
+    <!--android:textColor="@color/colorMenuTitle"-->
+    <!--android:textSize="@dimen/item_text" />-->
+
+
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:layout_gravity="bottom"-->
+    <!--android:background="@color/colorLine" />-->
+
+    <!--</FrameLayout>-->
+
+    <!--<FrameLayout-->
+    <!--android:id="@+id/fl_camera"-->
+
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/tip_item_h">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_margin="@dimen/tip_margin"-->
+    <!--android:text="@string/pic_camera"-->
+    <!--android:textColor="@color/colorMenuTitle"-->
+    <!--android:textSize="@dimen/item_text" />-->
+
+
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:layout_gravity="bottom"-->
+    <!--android:background="@color/colorLine" />-->
+
+    <!--</FrameLayout>-->
+
+    <!--<FrameLayout-->
+    <!--android:id="@+id/fl_systemphoto"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/tip_item_h">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_margin="@dimen/tip_margin"-->
+    <!--android:text="@string/pic_system"-->
+    <!--android:textColor="@color/colorMenuTitle"-->
+    <!--android:textSize="@dimen/item_text" />-->
+
+
+    <!--</FrameLayout>-->
+
+
+    <RadioGroup
+        android:id="@+id/rp_sel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rb_3"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tip_item_h"
+            android:gravity="center"
+            android:text="3 seconds" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="@color/colorLine" />
+
+        <RadioButton
+            android:id="@+id/rb_30"
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tip_item_h"
+            android:gravity="center"
+            android:text="30 seconds" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="@color/colorLine" />
+
+        <RadioButton
+            android:id="@+id/rb_60"
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tip_item_h"
+            android:gravity="center"
+            android:text="60 seconds" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="@color/colorLine" />
+
+        <RadioButton
+            android:id="@+id/rb_120"
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tip_item_h"
+            android:gravity="center"
+            android:text="120 seconds" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tv_active"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/colorMain"
+        android:gravity="center"
+        android:text="@string/active"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp" />
+
+
+</LinearLayout>

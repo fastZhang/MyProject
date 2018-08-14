@@ -1,0 +1,8 @@
+<resources>
+
+
+    <dimen name="menu_height">80dp</dimen>
+
+    <dimen name="menu_margintop">20dp</dimen>
+
+</resources>

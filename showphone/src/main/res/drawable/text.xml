@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@android:color/transparent" />
+            <size
+                android:width="@dimen/incoming_call_widget_circle_size"
+                android:height="@dimen/incoming_call_widget_circle_size" />
+        </shape>
+    </item>
+    <item>
+        <bitmap
+            android:autoMirrored="true"
+            android:gravity="center"
+            android:src="@mipmap/message"
+            android:tint="@color/incoming_call_widget_bitmap" />
+    </item>
+</layer-list>

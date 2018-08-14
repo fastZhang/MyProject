@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Fack Call</string>
+    <string name="app_setting">Setting</string>
+
+    <string name="call_start">Start</string>
+
+    <string name="call_man">Call Man</string>
+    <string name="call_number">Call number</string>
+
+    <string name="call_time">Call Time</string>
+    <string name="call_time_set">Setting Call Time</string>
+    <string name="call_repeate_set">Setting Repeate Mode</string>
+    <string name="call_volice">Call Volice</string>
+    <string name="call_ring">Call Ring</string>
+    <string name="call_mode">Call Mode</string>
+
+    <string name="call_time_type">3 seconds after</string>
+    <string name="call_volice_type">null</string>
+    <string name="call_ring_type">fllow system</string>
+    <string name="call_mode_type">none</string>
+
+
+    <string name="pic_photo">Coustom Photo</string>
+    <string name="pic_camera">Camera</string>
+    <string name="pic_system">System Photo</string>
+
+
+    <string name="active">Active</string>
+
+
+    <string name="Privacy">Privacy</string>
+    <string name="Rate">Rate</string>
+    <string name="Share">Share</string>
+    <string name="FeedBack">FeedBack</string>
+    <string name="About">About</string>
+
+    <string name="unknown">Unknown</string>
+    <string name="incoming_call">Incoming Call</string>
+    <string name="missed_call">Missed Call</string>
+
+
+    <string name="text_permission">plese to system setting open camera and storage permission</string>
+    <string name="text_permission_contacts">plese to system setting open contacts permission</string>
+    <string name="text_permission_call_log">plese to system setting open cell log permission</string>
+
+
+</resources>
