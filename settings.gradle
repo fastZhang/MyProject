@@ -1,1 +1,9 @@
-include ':app'
+//include ':app'
+
+include ':showphone'
+
+
+include ':wqgallery'
+project(':wqgallery').projectDir = new File('../wqgallery/')
+//include ':wqgallery:app'
+include ':wqgallery:photogallery'
