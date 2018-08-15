@@ -16,8 +16,11 @@ import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,6 +29,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.zcl.showphone.IFace.IEventListener;
@@ -35,6 +40,12 @@ import com.zcl.showphone.view.CallTimeDialogView;
 import com.zcl.showphone.view.PicTipDialogView;
 
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -46,11 +57,12 @@ import static com.zcl.showphone.utils.Constant.SYSTEM_VOICE_REQ;
 
 public class ControlActivity extends BaseActivity implements IEventListener {
 
-    @BindView(R.id.ll_root)
-    LinearLayout ll_root;
-
     @BindView(R.id.iv_add)
     ImageView iv_add;
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer_layout;
+
     @BindView(R.id.et_num)
     EditText et_num;
     @BindView(R.id.et_name)
@@ -83,6 +95,17 @@ public class ControlActivity extends BaseActivity implements IEventListener {
 
     @Override
     protected void init() {
+        drawer_layout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+                // 得到contentView
+                View content = drawer_layout.getChildAt(0);
+                int offset = (int) (drawerView.getWidth() * slideOffset);
+                content.setTranslationX(offset);
+
+            }
+        });
 
     }
 
@@ -114,7 +137,9 @@ public class ControlActivity extends BaseActivity implements IEventListener {
                         start();
                 break;
             case R.id.fl_setting:
-                SettingActivity.startActivity(this);
+
+                drawer_layout.openDrawer(Gravity.START);
+//                SettingActivity.startActivity(this);
                 break;
             case R.id.iv_add:
                 onToAddpic();
@@ -219,9 +244,15 @@ public class ControlActivity extends BaseActivity implements IEventListener {
     }
 
     @Override
-    public void setIvAddImage(Uri uri) {
-        iv_add.setImageURI(uri);
-        iv_add.setTag(uri);
+    public void setIvAddImage(String url) {
+        iv_add.setTag(null);//需要清空tag，否则报错
+
+        Glide.with(this).load(url).
+                fitCenter()
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .into(iv_add);
+        iv_add.setTag(url);
     }
 
     @Override
@@ -248,7 +279,15 @@ public class ControlActivity extends BaseActivity implements IEventListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == SYSTEM_CONTACTS_REQ) {
-            parseContactsData(data);
+            try {
+                parseContactsData(data);
+
+            } catch (Exception e) {
+
+            } catch (Throwable e) {
+
+            }
+
         } else if (resultCode == RESULT_OK && requestCode == SYSTEM_RING_REQ) {
             parseRingData(data);
 
@@ -320,6 +359,13 @@ public class ControlActivity extends BaseActivity implements IEventListener {
         if (contactData == null) {
             return;
         }
+        if (true) {
+            String[] strings = getPhoneContacts(contactData);
+            et_name.setText(strings[0]);
+            et_num.setText(strings[1]);
+            return;
+        }
+
 
 //        这个问题其实很简单  估计大家在查询数据库的时候用的是这个函数
 //        viedoCursor = context.managedQuery(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, videoColumns,null, null, null);
@@ -350,11 +396,98 @@ public class ControlActivity extends BaseActivity implements IEventListener {
 
 //            cursor.close();//managedQuery时不要close
         }
-//        Log.i("info", "联系人：" + name + "--" + phoneNumber);
         et_num.setText(phoneNumber);
         et_name.setText(name);
 
     }
+
+
+    private String[] getPhoneContacts(Uri contactData) {
+        String[] contact = new String[2];
+
+        Cursor cursor = getContentResolver().query(contactData, null, null, null, null);
+        //Key联系人姓名,Value联系人手机号
+        Map<String, String> phoneMap = this.getContactPhone(cursor);
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        if (null != phoneMap && !phoneMap.isEmpty()) {
+            Set<String> keySet = phoneMap.keySet();
+            if (null != keySet && !keySet.isEmpty()) {
+                Object[] keys = keySet.toArray();
+                contact[0] = (String) keys[0];
+                contact[1] = phoneMap.get(contact[0]);
+            }
+        }
+        return contact;
+    }
+
+    /**
+     * 获取联系人姓名及手机号
+     *
+     * @param cursor
+     * @return Key为联系人姓名, Value为联系人手机号
+     */
+    private Map<String, String> getContactPhone(Cursor cursor) {
+        Map<String, String> resultMap = new HashMap<String, String>();
+        String phoneName = null;// 姓名
+        String mobilePhoneNo = null;// 手机号
+
+        if (null != cursor) {
+            cursor.moveToFirst();
+
+            // 获得联系人的ID号
+            int idFieldIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID);
+            String contactId = cursor.getString(idFieldIndex);
+            // 联系人姓名
+            int idphoneNameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+            phoneName = cursor.getString(idphoneNameIndex);
+
+            // 获得联系人的电话号码的cursor;
+            Cursor allPhones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?", new String[]{contactId}, null);
+
+            // 所以联系电话（包话电话和手机号）
+            List<String> allPhoneNumList = new ArrayList<String>();
+            if (allPhones.moveToFirst()) {
+
+                // 遍历所有的电话号码
+                for (; !allPhones.isAfterLast(); allPhones.moveToNext()) {
+                    int telNoTypeIndex = allPhones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE);
+                    int telNoType = allPhones.getInt(telNoTypeIndex);
+
+                    int telNoIndex = allPhones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                    String telNo = allPhones.getString(telNoIndex);
+                    allPhoneNumList.add(telNo);
+
+                    if (2 == telNoType) {// 手机号（原生态的SDK定义：mobile是2，home是1，work是3，other是7）
+                        mobilePhoneNo = telNo;
+                        break;
+                    }
+                }
+                if (!allPhones.isClosed()) {
+                    allPhones.close();
+                }
+
+                if (null == mobilePhoneNo) {// 没有存贮手机号
+                    if (!allPhoneNumList.isEmpty()) {// 存在其它号码
+                        for (String tel : allPhoneNumList) {
+                            if (null != tel) {// 取属于手机号格式
+                                mobilePhoneNo = tel;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            if (!cursor.isClosed()) {
+                cursor.close();
+            }
+
+            resultMap.put(phoneName, mobilePhoneNo);
+        }
+        return resultMap;
+    }
+
 
     private static final int HANA_UP_AFTER = 120;
     private static final int DURATION = 120;

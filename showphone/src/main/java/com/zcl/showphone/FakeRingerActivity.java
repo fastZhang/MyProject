@@ -35,6 +35,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.zcl.showphone.utils.CallLogUtilities;
 import com.zcl.showphone.utils.ScreenInfoUtil;
 
@@ -164,7 +169,7 @@ public class FakeRingerActivity extends BaseActivity {
 
         callDuration = (TextView) findViewById(R.id.callDuration);
 
-        main =  findViewById(R.id.main);
+        main = findViewById(R.id.main);
 
         ring = (ImageView) findViewById(R.id.ring);
 
@@ -366,26 +371,21 @@ public class FakeRingerActivity extends BaseActivity {
 
         if (!(contactImageString == null)) {
 
-            Uri contactImageUri = Uri.parse(contactImageString);
 
-            try {
+            Glide.with(this).load(contactImageString).into(new SimpleTarget<GlideDrawable>() {
+                @Override
+                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
 
-                InputStream contactImageStream = contentResolver.openInputStream(contactImageUri);
-                Drawable contactImage = Drawable.createFromStream(contactImageStream, contactImageUri.toString());
-
-                if (tint) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        contactImage.setTint(getResources().getColor(R.color.contact_photo_tint));
-                        contactImage.setTintMode(PorterDuff.Mode.DARKEN);
+                    if (tint) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            resource.setTint(getResources().getColor(R.color.contact_photo_tint));
+                            resource.setTintMode(PorterDuff.Mode.DARKEN);
+                        }
                     }
+
+                    contactPhoto.setImageDrawable(resource);
                 }
-
-                contactPhoto.setImageDrawable(contactImage);
-
-            } catch (Exception e) {
-
-            }
-
+            });
 
         }
     }

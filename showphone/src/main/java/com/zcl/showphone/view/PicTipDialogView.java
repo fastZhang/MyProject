@@ -33,7 +33,9 @@ import com.zcl.showphone.IFace.IEventListener;
 import com.zcl.showphone.R;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -54,6 +56,7 @@ public class PicTipDialogView extends Dialog {
     private Context mContext;
     private int mChosemode = PickConfig.MODE_SINGLE_PICK;
 
+    private ArrayList<String> imagesPath;
 
 
     public PicTipDialogView(@NonNull final Context context) {
@@ -71,19 +74,39 @@ public class PicTipDialogView extends Dialog {
 
         switch (view.getId()) {
             case R.id.fl_picphoto:
+                if (null == imagesPath) {
+
+                    try {
+
+                        final String HEADER = "file:///android_asset/img_header/";
+                        String[] strings = mContext.getAssets().list("img_header");
+
+                        imagesPath = new ArrayList<>();
+
+                        for (String s : strings) {
+                            imagesPath.add(HEADER + s);
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+
+                }
 
                 UCrop.Options options = new UCrop.Options();
                 options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
                 options.setCompressionQuality(60);
                 new PickConfig.Builder((Activity) mContext)
-                        .isneedcrop(true)
                         .actionBarcolor(Color.parseColor("#f08300"))
                         .statusBarcolor(Color.parseColor("#f08300"))
-                        .isneedcamera(true)
-                        .isSqureCrop(true)
+                        .isneedcamera(false)
+                        .isSqureCrop(false)
                         .setUropOptions(options)
                         .maxPickSize(1)
                         .spanCount(4)
+                        .setImagesPathFromAssets(imagesPath)
+                        .isneedcrop(false)
                         .pickMode(mChosemode).build();
                 break;
             case R.id.fl_camera:
@@ -229,7 +252,7 @@ public class PicTipDialogView extends Dialog {
 
 
     private void onPicSel(String crop_path) {
-        ((IEventListener) mContext).setIvAddImage(Uri.fromFile(new File(crop_path)));
+        ((IEventListener) mContext).setIvAddImage(crop_path);
 
     }
 }

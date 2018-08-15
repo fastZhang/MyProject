@@ -69,6 +69,7 @@ dependencies {
     annotationProcessor rootEXT.butterknife_compiler
 
     implementation permission
+    implementation glide
     implementation project(':wqgallery:photogallery')
 
 

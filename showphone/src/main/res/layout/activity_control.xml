@@ -1,208 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_root"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    android:orientation="vertical"
     tools:context=".ControlActivity">
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/app_title_h"
-        android:background="@color/colorMain"
-        android:gravity="center"
-        android:text="@string/app_name"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/app_title_text" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <ImageView
-            android:id="@+id/iv_add"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_margin="20dp"
-            android:scaleType="fitXY"
-            android:src="@mipmap/btn_header" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="8dp"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/et_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="65dp"
-                android:cursorVisible="true"
-                android:hint="@string/call_man"
-                android:textColor="@color/colorTextHini"
-                android:textCursorDrawable="@null"
-                android:textSize="14sp"
-                android:theme="@style/MyEditText" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/et_num"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:cursorVisible="true"
-                    android:hint="@string/call_number"
-                    android:inputType="number"
-                    android:textColor="@color/colorTextHini"
-                    android:textCursorDrawable="@null"
-                    android:textSize="14sp"
-                    android:theme="@style/MyEditText" />
-
-                <ImageView
-                    android:id="@+id/iv_contacts"
-                    android:layout_width="65dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/btn_contacts_add" />
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="@dimen/menu_margintop"
+        android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/cv_calltime"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/card_margin"
-                android:layout_weight="1"
-                app:cardElevation="@dimen/card_elevation">
-
-                <include layout="@layout/item_menu" />
-            </android.support.v7.widget.CardView>
-
-            <View
-                android:layout_width="25dp"
-                android:layout_height="0dp" />
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/cv_callvolice"
-
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/card_margin"
-                android:layout_weight="1"
-                app:cardElevation="@dimen/card_elevation">
-
-                <include layout="@layout/item_menu1" />
-            </android.support.v7.widget.CardView>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="25dp"
-            android:orientation="horizontal">
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/cv_callring"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/card_margin"
-                android:layout_weight="1"
-                app:cardElevation="@dimen/card_elevation">
-
-                <include layout="@layout/item_menu2" />
-            </android.support.v7.widget.CardView>
-
-            <View
-                android:layout_width="25dp"
-                android:layout_height="0dp" />
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/cv_callmode"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/card_margin"
-                android:layout_weight="1"
-                app:cardElevation="@dimen/card_elevation">
-
-                <include layout="@layout/item_menu3" />
-            </android.support.v7.widget.CardView>
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="bottom"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tv_start"
-            android:layout_width="@dimen/menu_startw"
-            android:layout_height="@dimen/menu_starth"
-            android:layout_gravity="center"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/shape_homestart"
-            android:gravity="center"
-            android:text="@string/call_start"
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp" />
 
         <FrameLayout
-            android:id="@+id/fl_setting"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_gravity="bottom">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorLine" />
+            android:layout_height="wrap_content"
+            android:background="@color/colorMain">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
+
+            <FrameLayout
+                android:id="@+id/fl_setting"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center|left">
+
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -210,20 +34,211 @@
                     android:layout_gravity="center"
                     android:src="@mipmap/btn_setting" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/app_setting"
-                    android:textColor="@color/colorMenuTitle"
-                    android:textSize="16sp" />
-            </LinearLayout>
 
+            </FrameLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/app_title_h"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/app_name"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/app_title_text" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center"
+                android:text="trigger" />
 
         </FrameLayout>
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:id="@+id/iv_add"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_margin="20dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/btn_header" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="65dp"
+                    android:cursorVisible="true"
+                    android:hint="@string/call_man"
+                    android:textColor="@color/colorTextHini"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp"
+                    android:theme="@style/MyEditText" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_num"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:cursorVisible="true"
+                        android:hint="@string/call_number"
+                        android:inputType="number"
+                        android:textColor="@color/colorTextHini"
+                        android:textCursorDrawable="@null"
+                        android:textSize="14sp"
+                        android:theme="@style/MyEditText" />
+
+                    <ImageView
+                        android:id="@+id/iv_contacts"
+                        android:layout_width="65dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/btn_contacts_add" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="@dimen/menu_margintop"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cv_calltime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/card_margin"
+                    android:layout_weight="1"
+                    app:cardElevation="@dimen/card_elevation">
+
+                    <include layout="@layout/item_menu" />
+                </android.support.v7.widget.CardView>
+
+                <View
+                    android:layout_width="25dp"
+                    android:layout_height="0dp" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cv_callvolice"
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/card_margin"
+                    android:layout_weight="1"
+                    app:cardElevation="@dimen/card_elevation">
+
+                    <include layout="@layout/item_menu1" />
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cv_callring"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/card_margin"
+                    android:layout_weight="1"
+                    app:cardElevation="@dimen/card_elevation">
+
+                    <include layout="@layout/item_menu2" />
+                </android.support.v7.widget.CardView>
+
+                <View
+                    android:layout_width="25dp"
+                    android:layout_height="0dp" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cv_callmode"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/card_margin"
+                    android:layout_weight="1"
+                    app:cardElevation="@dimen/card_elevation">
+
+                    <include layout="@layout/item_menu3" />
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_start"
+                android:layout_width="@dimen/menu_startw"
+                android:layout_height="@dimen/menu_starth"
+                android:layout_gravity="center"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/shape_homestart"
+                android:gravity="center"
+                android:text="@string/call_start"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp" />
+
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!-- 左侧滑动栏 -->
+    <FrameLayout
+        android:id="@+id/main_left_drawer_layout"
+        android:layout_width="260dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start">
+
+        <include layout="@layout/activity_setting" />
+
+
     </FrameLayout>
 
-</LinearLayout>
+</android.support.v4.widget.DrawerLayout>
