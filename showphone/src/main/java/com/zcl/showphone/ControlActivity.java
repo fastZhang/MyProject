@@ -536,7 +536,7 @@ public class ControlActivity extends BaseActivity implements IEventListener {
         alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + Integer.parseInt(time) * 1000, pendingIntent);
         Toast.makeText(this, "Fake call scheduled", Toast.LENGTH_SHORT).show();
 
-//        finish();
+        finish();
 
     }
 

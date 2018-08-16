@@ -23,6 +23,7 @@ import android.os.Vibrator;
 import android.provider.CallLog;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.PhoneNumberUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,6 +115,7 @@ public class FakeRingerActivity extends BaseActivity {
         @Override
         public void run() {
             finish();
+            onNextCall();
         }
     };
 
@@ -242,6 +244,7 @@ public class FakeRingerActivity extends BaseActivity {
                     y2 = event.getY();
 
                     if ((x2 - 200) > x1) {
+                        //接通
 
                         callActionButtons.removeView(callActionButton);
 
@@ -294,6 +297,8 @@ public class FakeRingerActivity extends BaseActivity {
 
                             @Override
                             public void run() {
+
+                                onNextCall();
                                 finish();
                             }
 
@@ -303,14 +308,19 @@ public class FakeRingerActivity extends BaseActivity {
                     } else if ((x2 + 200) < x1) {
 
                         finish();
+                        onNextCall();
 
                     } else if ((y2 + 200) < y1) {
 
                         finish();
+                        onNextCall();
+
 
                     } else if ((y2 - 200) > y1) {
 
                         finish();
+                        onNextCall();
+
 
                     }
 
@@ -437,8 +447,8 @@ public class FakeRingerActivity extends BaseActivity {
 
     public void onClickEndCall(View view) {
 
+        onNextCall();
         stopVoice();
-
         finish();
 
     }
@@ -537,9 +547,18 @@ public class FakeRingerActivity extends BaseActivity {
 
     @Override
     public void finish() {
+        super.finish();
+        handler.removeCallbacks(hangUP);
+
+
+    }
+
+    private void onNextCall() {
         String mode = getIntent().getExtras().getString("mode");
 
         int modeTimes = getIntent().getExtras().getInt("modeTimes");
+
+        Log.d("modeTimes", "finish: " + modeTimes);
 
         if (!mode.equals(getString(R.string.call_mode_type)) && modeTimes < 3) {
             Intent intent = new Intent(this, FakeRingerActivity.class);
@@ -551,7 +570,8 @@ public class FakeRingerActivity extends BaseActivity {
             intent.putExtra("voice", voice);
             intent.putExtra("ringUri", ringStringUri);
             intent.putExtra("mode", mode);
-            intent.putExtra("modeTimes", modeTimes++);
+            modeTimes++;
+            intent.putExtra("modeTimes", modeTimes);
 
 
             intent.putExtra("duration", duration);
@@ -563,10 +583,8 @@ public class FakeRingerActivity extends BaseActivity {
 
             alarmManager.cancel(pendingIntent);
 
-            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10 * 1000, pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + Integer.parseInt(mode) * 1000, pendingIntent);
 
         }
-        super.finish();
-
     }
 }

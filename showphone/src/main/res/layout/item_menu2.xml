@@ -38,12 +38,12 @@
 
     <TextView
         android:id="@+id/tv_ring"
-        android:gravity="center"
-        android:lines="1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/menu_text_t"
+        android:gravity="center"
+        android:lines="1"
         android:text="@string/call_ring_type"
         android:textColor="@color/colorMain"
         android:textSize="14sp" />

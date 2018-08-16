@@ -47,6 +47,7 @@ public class CallTimeDialogView extends Dialog {
 
     @BindView(R.id.rp_sel)
     RadioGroup rp_sel;
+
     @BindView(R.id.rb_3)
     RadioButton rb_3;
     @BindView(R.id.rb_30)
@@ -62,26 +63,23 @@ public class CallTimeDialogView extends Dialog {
         mContext = context;
         setContentView(R.layout.view_calltime_tip);
         ButterKnife.bind(this);
+
     }
 
 
-    @OnClick({R.id.tv_active})
+    @OnClick({R.id.tv_active, R.id.rb_3, R.id.rb_30, R.id.rb_60, R.id.rb_120})
     void onClick(View view) {
 
-        switch (view.getId()) {
-            case R.id.tv_active:
-                onSelId();
-                break;
-
-        }
+        onSelId(view);
 
 
     }
 
-    private void onSelId() {
+    private void onSelId(View view) {
         String time = "";
         String timeNum = "";
-        switch (rp_sel.getCheckedRadioButtonId()) {
+        final String afterCall = " after call";
+        switch (view.getId()) {
             case R.id.rb_3:
                 time = (String) rb_3.getText();
                 timeNum = "3";
@@ -102,7 +100,7 @@ public class CallTimeDialogView extends Dialog {
                 time = (String) rb_120.getText();
                 break;
         }
-        ((IEventListener) mContext).setTimeTextView(time, timeNum);
+        ((IEventListener) mContext).setTimeTextView(time + afterCall, timeNum);
         dismiss();
 
     }

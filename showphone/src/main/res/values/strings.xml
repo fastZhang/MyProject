@@ -7,14 +7,14 @@
     <string name="call_man">Name</string>
     <string name="call_number">Number</string>
 
-    <string name="call_time">Call Time</string>
-    <string name="call_time_set">Setting Call Time</string>
-    <string name="call_repeate_set">Setting Repeate Mode</string>
-    <string name="call_volice">Call Volice</string>
-    <string name="call_ring">Call Ring</string>
-    <string name="call_mode">Call Mode</string>
+    <string name="call_time">Time</string>
+    <string name="call_time_set">Make a call after</string>
+    <string name="call_repeate_set">Repeat</string>
+    <string name="call_voice">Voice</string>
+    <string name="call_ring">Ring</string>
+    <string name="call_mode">Repeat</string>
 
-    <string name="call_time_type">3 seconds after</string>
+    <string name="call_time_type">3s after call</string>
     <string name="call_volice_type">null</string>
     <string name="call_ring_type">fllow system</string>
     <string name="call_mode_type">none</string>
@@ -28,10 +28,10 @@
     <string name="active">Active</string>
 
 
-    <string name="Privacy">Privacy</string>
-    <string name="Rate">Rate</string>
-    <string name="Share">Share</string>
-    <string name="FeedBack">FeedBack</string>
+    <string name="Privacy">Privacy policy</string>
+    <string name="Rate">Rate me</string>
+    <string name="Share">Share me</string>
+    <string name="FeedBack">Feedback</string>
     <string name="About">About</string>
 
     <string name="unknown">Unknown</string>

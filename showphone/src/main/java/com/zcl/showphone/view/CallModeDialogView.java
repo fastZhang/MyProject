@@ -39,24 +39,16 @@ public class CallModeDialogView extends Dialog {
         ButterKnife.bind(this);
     }
 
-
-    @OnClick({R.id.tv_active})
+    @OnClick({R.id.tv_active, R.id.rb_3, R.id.rb_30, R.id.rb_60, R.id.rb_120})
     void onClick(View view) {
 
-        switch (view.getId()) {
-            case R.id.tv_active:
-                onSelId();
-                break;
-
-        }
-
-
+        onSelId(view);
     }
 
-    private void onSelId() {
+    private void onSelId(View view) {
         String text = "";
         String mode = mContext.getString(R.string.call_mode_type);
-        switch (rp_sel.getCheckedRadioButtonId()) {
+        switch (view.getId()) {
             case R.id.rb_3:
 //                不重复
                 text = (String) rb_3.getText();

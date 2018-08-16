@@ -144,8 +144,10 @@
             android:id="@+id/rb_3"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tip_item_h"
+            android:button="@null"
             android:gravity="center"
-            android:text="3 seconds" />
+
+            android:text="3s" />
 
         <View
             android:layout_width="match_parent"
@@ -158,8 +160,10 @@
 
             android:layout_width="match_parent"
             android:layout_height="@dimen/tip_item_h"
+            android:button="@null"
+
             android:gravity="center"
-            android:text="30 seconds" />
+            android:text="30s" />
 
 
         <View
@@ -173,8 +177,10 @@
 
             android:layout_width="match_parent"
             android:layout_height="@dimen/tip_item_h"
+            android:button="@null"
+
             android:gravity="center"
-            android:text="60 seconds" />
+            android:text="60s" />
 
 
         <View
@@ -185,11 +191,11 @@
 
         <RadioButton
             android:id="@+id/rb_120"
-
             android:layout_width="match_parent"
             android:layout_height="@dimen/tip_item_h"
+            android:button="@null"
             android:gravity="center"
-            android:text="120 seconds" />
+            android:text="120s" />
 
     </RadioGroup>
 
@@ -201,7 +207,8 @@
         android:gravity="center"
         android:text="@string/active"
         android:textColor="@color/colorWhite"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:visibility="gone" />
 
 
 </LinearLayout>
