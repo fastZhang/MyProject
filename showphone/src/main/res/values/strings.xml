@@ -4,8 +4,8 @@
 
     <string name="call_start">Start</string>
 
-    <string name="call_man">Call Man</string>
-    <string name="call_number">Call number</string>
+    <string name="call_man">Name</string>
+    <string name="call_number">Number</string>
 
     <string name="call_time">Call Time</string>
     <string name="call_time_set">Setting Call Time</string>
@@ -20,9 +20,9 @@
     <string name="call_mode_type">none</string>
 
 
-    <string name="pic_photo">Coustom Photo</string>
+    <string name="pic_photo">Photos</string>
     <string name="pic_camera">Camera</string>
-    <string name="pic_system">System Photo</string>
+    <string name="pic_system">Gallery</string>
 
 
     <string name="active">Active</string>
