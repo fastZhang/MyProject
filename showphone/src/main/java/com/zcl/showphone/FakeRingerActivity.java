@@ -41,6 +41,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.xdandroid.hellodaemon.DaemonEnv;
+import com.zcl.showphone.service.TraceServiceImpl;
 import com.zcl.showphone.utils.CallLogUtilities;
 import com.zcl.showphone.utils.ScreenInfoUtil;
 
@@ -557,11 +559,12 @@ public class FakeRingerActivity extends BaseActivity {
         String mode = getIntent().getExtras().getString("mode");
 
         int modeTimes = getIntent().getExtras().getInt("modeTimes");
+        System.out.println("modeTimes" + modeTimes);
 
         Log.d("modeTimes", "finish: " + modeTimes);
 
         if (!mode.equals(getString(R.string.call_mode_type)) && modeTimes < 3) {
-            Intent intent = new Intent(this, FakeRingerActivity.class);
+            Intent intent = new Intent(this, TraceServiceImpl.class);
 
             intent.putExtra("contactImage", contactImageString);
             intent.putExtra("number", number);
@@ -573,17 +576,20 @@ public class FakeRingerActivity extends BaseActivity {
             modeTimes++;
             intent.putExtra("modeTimes", modeTimes);
 
+            intent.putExtra("time", Integer.parseInt(mode));
 
             intent.putExtra("duration", duration);
             intent.putExtra("hangUpAfter", hangUpAfter);
 
-
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, ALARM_ID, intent, PendingIntent.FLAG_ONE_SHOT);
-            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-            alarmManager.cancel(pendingIntent);
-
-            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + Integer.parseInt(mode) * 1000, pendingIntent);
+            TraceServiceImpl.sShouldStopService = false;
+            DaemonEnv.startServiceMayBindByIntentData(intent, TraceServiceImpl.class);
+//
+//            PendingIntent pendingIntent = PendingIntent.getActivity(this, ALARM_ID, intent, PendingIntent.FLAG_ONE_SHOT);
+//            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//
+//            alarmManager.cancel(pendingIntent);
+//
+//            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + Integer.parseInt(mode) * 1000, pendingIntent);
 
         }
     }

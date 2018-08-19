@@ -7,3 +7,10 @@ include ':wqgallery'
 project(':wqgallery').projectDir = new File('../wqgallery/')
 //include ':wqgallery:app'
 include ':wqgallery:photogallery'
+
+
+include ':HelloDaemon-master'
+project(':HelloDaemon-master').projectDir = new File('../HelloDaemon-master/')
+//include ':wqgallery:app'
+include ':HelloDaemon-master:hellodaemon'
+include ':HelloDaemon-master:sample'

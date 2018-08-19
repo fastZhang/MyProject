@@ -11,6 +11,7 @@
         android:layout_height="@dimen/app_title_h"
         android:background="@color/colorMain">
 
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,8 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|left"
             android:padding="20dp"
-            android:src="@drawable/ucrop_ic_cross"
-            android:visibility="gone" />
+            android:src="@drawable/ucrop_ic_cross" />
 
     </FrameLayout>
 
@@ -39,6 +39,7 @@
 
 
         <FrameLayout
+            android:id="@+id/fl_pp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tip_item_h">
 
@@ -125,6 +126,7 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/fl_feedback"
 
             android:layout_width="match_parent"
             android:layout_height="@dimen/tip_item_h">
@@ -154,6 +156,8 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/fl_about"
+
             android:layout_width="match_parent"
             android:layout_height="@dimen/tip_item_h">
 

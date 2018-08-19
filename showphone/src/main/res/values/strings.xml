@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Fack Call</string>
     <string name="app_setting">Setting</string>
+    <string name="app_about">About</string>
 
     <string name="call_start">Start</string>
 
@@ -29,6 +30,7 @@
 
 
     <string name="Privacy">Privacy policy</string>
+    <string name="Version">App version :</string>
     <string name="Rate">Rate me</string>
     <string name="Share">Share me</string>
     <string name="FeedBack">Feedback</string>

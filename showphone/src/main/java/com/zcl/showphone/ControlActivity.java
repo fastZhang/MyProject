@@ -31,9 +31,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.xdandroid.hellodaemon.DaemonEnv;
+import com.xdandroid.hellodaemon.IntentWrapper;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.zcl.showphone.IFace.IEventListener;
+import com.zcl.showphone.service.TraceServiceImpl;
+import com.zcl.showphone.utils.Feedback;
 import com.zcl.showphone.utils.PreferencesUtil;
 import com.zcl.showphone.view.CallModeDialogView;
 import com.zcl.showphone.view.CallTimeDialogView;
@@ -77,6 +81,7 @@ public class ControlActivity extends BaseActivity implements IEventListener {
     @BindView(R.id.tv_mode)
     TextView tv_mode;
 
+
     private PicTipDialogView mPicTipDialog;
     private CallTimeDialogView mCallTimeDialogView;
     private CallModeDialogView mCallModeDialogView;
@@ -112,7 +117,9 @@ public class ControlActivity extends BaseActivity implements IEventListener {
     @OnClick({R.id.tv_start, R.id.fl_setting,
             R.id.iv_add, R.id.iv_contacts,
             R.id.cv_calltime, R.id.cv_callring,
-            R.id.cv_callvolice, R.id.cv_callmode})
+            R.id.cv_callvolice, R.id.cv_callmode,
+            R.id.iv_finish, R.id.fl_pp,
+            R.id.fl_feedback, R.id.fl_about,})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_start:
@@ -175,22 +182,58 @@ public class ControlActivity extends BaseActivity implements IEventListener {
 
                 break;
 
+            case R.id.iv_finish:
+                drawer_layout.closeDrawer(Gravity.START);
+
+                break;
+            case R.id.fl_pp:
+
+                try {
+                    Uri uri = Uri.parse("https://shimo.im/docs/XAiddJOJuLsCV7vP/"); // 浏览器
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    this.startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            case R.id.fl_feedback:
+                try {
+                    Feedback feedback = new Feedback(this);
+                    feedback.startFeedback();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.fl_about:
+                AboutActivity.startActivity(this);
+                break;
+
         }
     }
 
     private void toChooseVolice() {
+        AndPermission
+                .with(this)
+                .runtime()
+                .permission(Permission.Group.STORAGE)
+                .onGranted(permissions -> {
 
-
-//        Intent intentAlbum = new Intent(Intent.ACTION_PICK);
+                    Intent intentAlbum = new Intent(Intent.ACTION_PICK);
 //        intentAlbum.setType("image/*");
 //
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("audio/*");
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("audio/*");
 
 
 //        Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
-        startActivityForResult(intent, SYSTEM_VOICE_REQ);
+                    startActivityForResult(intent, SYSTEM_VOICE_REQ);
 
+                })
+                .onDenied(permissions -> {
+                    AndPermission.with(this).runtime().setting().start();
+                    Toast.makeText(this, this.getString(R.string.text_permission), Toast.LENGTH_LONG).show();
+                }).start();
     }
 
     //选择铃声
@@ -312,9 +355,9 @@ public class ControlActivity extends BaseActivity implements IEventListener {
 
             if (cursor.moveToFirst()) {
 //                for (int i = 0; i < 6; i++)
-                String name = cursor.getString(2);
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE));
 
-                if (null != name && (name.contains(".mp3") || name.contains(".amr"))) {
+                if (null != name) {
                     Log.d("cursor.getString(i)", "parseringData: " + name);
                     String[] names = name.split("\\.");
 
@@ -340,8 +383,16 @@ public class ControlActivity extends BaseActivity implements IEventListener {
             Cursor cursor = managedQuery(pickedUri, null, null, null, null);
 
             if (cursor.moveToFirst()) {
-//                for (int i = 0; i < 10; i++)
-                tv_ring.setText(cursor.getString(8));
+                for (int i = 0; i < 10; i++) {
+
+//                    song.song = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME));
+//                    song.singer = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
+//                    song.path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
+//                    song.duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
+//                    song.size = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE));
+                    tv_ring.setText(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)));
+                }
+
                 tv_ring.setTag(pickedUri);
             }
 
@@ -489,11 +540,12 @@ public class ControlActivity extends BaseActivity implements IEventListener {
     }
 
 
-    private static final int HANA_UP_AFTER = 120;
-    private static final int DURATION = 120;
+    public static final int HANA_UP_AFTER = 120;
+    public static final int DURATION = 120;
 
 
     public void onClickSchedule() {
+
 
         String headPicUri = (iv_add.getTag() == null) ? null : iv_add.getTag().toString();
         String number = (et_num.getText() == null) ? null : et_num.getText().toString();
@@ -514,7 +566,8 @@ public class ControlActivity extends BaseActivity implements IEventListener {
             return;
         }
 
-        Intent intent = new Intent(this, FakeRingerActivity.class);
+        Intent intent = new Intent(getApplication(), TraceServiceImpl.class);
+//        Intent intent = new Intent(getApplication(), FakeRingerActivity.class);
 
         intent.putExtra("contactImage", headPicUri);
         intent.putExtra("number", number);
@@ -527,17 +580,42 @@ public class ControlActivity extends BaseActivity implements IEventListener {
         intent.putExtra("modeTimes", 1);
 
 
+        intent.putExtra("time", Integer.parseInt(time));
+
         intent.putExtra("duration", Integer.parseInt(duration));
         intent.putExtra("hangUpAfter", Integer.parseInt(hangUpAfter));
 
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, ALARM_ID, intent, PendingIntent.FLAG_ONE_SHOT);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + Integer.parseInt(time) * 1000, pendingIntent);
+        TraceServiceImpl.sShouldStopService = false;
+//        DaemonEnv.startServiceMayBind(TraceServiceImpl.class);
+        DaemonEnv.startServiceMayBindByIntentData(intent, TraceServiceImpl.class);
+
+
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, ALARM_ID, intent, PendingIntent.FLAG_ONE_SHOT);
+//        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + Integer.parseInt(time) * 1000, pendingIntent);
         Toast.makeText(this, "Fake call scheduled", Toast.LENGTH_SHORT).show();
 
-        finish();
+//        finish();
 
+    }
+
+
+    public void onClickTest(View v) {
+//            case R.id.btn_start:
+
+        TraceServiceImpl.sShouldStopService = false;
+        DaemonEnv.startServiceMayBind(TraceServiceImpl.class);
+
+//            case R.id.btn_white:
+        IntentWrapper.whiteListMatters(this, "轨迹跟踪服务的持续运行");
+//            case R.id.btn_stop:
+        TraceServiceImpl.stopService();
+    }
+
+    //防止华为机型未加入白名单时按返回键回到桌面再锁屏后几秒钟进程被杀
+    public void onBackPressed() {
+        IntentWrapper.onBackPressed(this);
     }
 
 }

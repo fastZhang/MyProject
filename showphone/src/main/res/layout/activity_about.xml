@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_title_h"
+        android:background="@color/colorMain">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/app_about"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/app_title_text" />
+
+        <ImageView
+            android:id="@+id/iv_finish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:padding="20dp"
+            android:src="@drawable/ucrop_ic_cross" />
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/app_title_h"
+        android:orientation="vertical">
+
+
+        <FrameLayout
+            android:id="@+id/fl_pp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tip_item_h">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_margin="@dimen/tip_margin"
+                android:text="@string/Version"
+                android:textColor="@color/colorMenuTitle"
+                android:textSize="@dimen/item_text" />
+
+            <TextView
+                android:id="@+id/tv_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginLeft="130dp"
+                android:text="1.0"
+                android:textColor="@color/colorMenuTitle"
+                android:textSize="@dimen/item_text" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="@color/colorLine" />
+
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+</FrameLayout>
