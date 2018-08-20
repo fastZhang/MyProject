@@ -65,9 +65,9 @@ dependencies {
     implementation cardview_v7
 
 
+    annotationProcessor rootEXT.butterknife_compiler
     implementation rootEXT.butterknife
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    annotationProcessor rootEXT.butterknife_compiler
 
     implementation permission
     implementation glide

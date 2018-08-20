@@ -14,3 +14,6 @@ include ':HelloDaemon'
 project(':HelloDaemon').projectDir = new File('../HelloDaemon/')
 include ':HelloDaemon:hellodaemon'
 //include ':HelloDaemon:sample'
+
+include ':AConfig'
+project(':AConfig').projectDir = new File('../AConfig/')
