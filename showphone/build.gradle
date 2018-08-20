@@ -73,7 +73,7 @@ dependencies {
     implementation glide
 
     implementation project(':wqgallery:photogallery')
-    implementation project(':HelloDaemon-master:hellodaemon')
+    implementation project(':HelloDaemon:hellodaemon')
 
 
 }

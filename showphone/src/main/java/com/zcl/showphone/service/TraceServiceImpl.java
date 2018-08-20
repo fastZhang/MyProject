@@ -77,7 +77,7 @@ public class TraceServiceImpl extends AbsWorkService {
 //                return Observable.just(throwable).delay(5, TimeUnit.SECONDS);
 //            }
 //        });
-
+        if (intent == null) return;
 
         String contactImage = intent.getStringExtra("contactImage");
         String number = intent.getStringExtra("number");
