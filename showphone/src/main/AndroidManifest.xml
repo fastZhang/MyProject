@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.zcl.showphone">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -22,7 +23,11 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
+
+    <uses-sdk tools:overrideLibrary="com.example.mid" />
+
     <application
+
         android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

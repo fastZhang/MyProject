@@ -8,227 +8,242 @@
     android:background="#fff"
     tools:context=".ControlActivity">
 
-
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-
-            android:layout_height="wrap_content"
-            android:background="@color/colorMain">
-
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <FrameLayout
-                android:id="@+id/fl_setting"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center|left">
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:background="@color/colorMain">
 
 
-                <ImageView
+                <FrameLayout
+                    android:id="@+id/fl_setting"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center|left">
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/btn_setting" />
+
+
+                </FrameLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/app_title_h"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/app_name"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/app_title_text" />
+
+                <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/btn_setting" />
-
+                    android:layout_gravity="right|center"
+                    android:text="trigger"
+                    android:visibility="gone" />
 
             </FrameLayout>
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/app_title_h"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="@string/app_name"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/app_title_text" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center"
-                android:text="trigger"
-                android:visibility="gone" />
-
-        </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/iv_add"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:layout_margin="20dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/btn_header" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/et_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="65dp"
+                        android:cursorVisible="true"
+                        android:hint="@string/call_man"
+                        android:textColor="@color/colorTextHini"
+                        android:textCursorDrawable="@null"
+                        android:textSize="14sp"
+                        android:theme="@style/MyEditText" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/et_num"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:cursorVisible="true"
+                            android:hint="@string/call_number"
+                            android:inputType="number"
+                            android:textColor="@color/colorTextHini"
+                            android:textCursorDrawable="@null"
+                            android:textSize="14sp"
+                            android:theme="@style/MyEditText" />
+
+                        <ImageView
+                            android:id="@+id/iv_contacts"
+                            android:layout_width="65dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@mipmap/btn_contacts_add" />
+                    </LinearLayout>
 
 
-            <ImageView
-                android:id="@+id/iv_add"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                android:layout_margin="20dp"
-                android:scaleType="fitXY"
-                android:src="@mipmap/btn_header" />
+                </LinearLayout>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="@dimen/menu_margintop"
                 android:orientation="vertical">
-
-                <EditText
-                    android:id="@+id/et_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="65dp"
-                    android:cursorVisible="true"
-                    android:hint="@string/call_man"
-                    android:textColor="@color/colorTextHini"
-                    android:textCursorDrawable="@null"
-                    android:textSize="14sp"
-                    android:theme="@style/MyEditText" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/et_num"
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cv_calltime"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/card_margin"
                         android:layout_weight="1"
-                        android:cursorVisible="true"
-                        android:hint="@string/call_number"
-                        android:inputType="number"
-                        android:textColor="@color/colorTextHini"
-                        android:textCursorDrawable="@null"
-                        android:textSize="14sp"
-                        android:theme="@style/MyEditText" />
+                        app:cardElevation="@dimen/card_elevation">
 
-                    <ImageView
-                        android:id="@+id/iv_contacts"
-                        android:layout_width="65dp"
+                        <include layout="@layout/item_menu" />
+                    </android.support.v7.widget.CardView>
+
+                    <View
+                        android:layout_width="25dp"
+                        android:layout_height="0dp" />
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cv_callvolice"
+
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:src="@mipmap/btn_contacts_add" />
+                        android:layout_margin="@dimen/card_margin"
+                        android:layout_weight="1"
+                        app:cardElevation="@dimen/card_elevation">
+
+                        <include layout="@layout/item_menu1" />
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cv_callring"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/card_margin"
+                        android:layout_weight="1"
+                        app:cardElevation="@dimen/card_elevation">
+
+                        <include layout="@layout/item_menu2" />
+                    </android.support.v7.widget.CardView>
+
+                    <View
+                        android:layout_width="25dp"
+                        android:layout_height="0dp" />
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cv_callmode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/card_margin"
+                        android:layout_weight="1"
+                        app:cardElevation="@dimen/card_elevation">
+
+                        <include layout="@layout/item_menu3" />
+                    </android.support.v7.widget.CardView>
                 </LinearLayout>
 
 
             </LinearLayout>
 
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="@dimen/menu_margintop"
-            android:orientation="vertical">
-
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cv_calltime"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/card_margin"
-                    android:layout_weight="1"
-                    app:cardElevation="@dimen/card_elevation">
-
-                    <include layout="@layout/item_menu" />
-                </android.support.v7.widget.CardView>
-
-                <View
-                    android:layout_width="25dp"
-                    android:layout_height="0dp" />
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cv_callvolice"
-
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/card_margin"
-                    android:layout_weight="1"
-                    app:cardElevation="@dimen/card_elevation">
-
-                    <include layout="@layout/item_menu1" />
-                </android.support.v7.widget.CardView>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_gravity="bottom"
-                android:layout_marginTop="25dp"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cv_callring"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                <TextView
+                    android:id="@+id/tv_start"
+                    android:layout_width="@dimen/menu_startw"
+                    android:layout_height="@dimen/menu_starth"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/card_margin"
-                    android:layout_weight="1"
-                    app:cardElevation="@dimen/card_elevation">
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/shape_homestart"
+                    android:gravity="center"
+                    android:text="@string/call_start"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp" />
 
-                    <include layout="@layout/item_menu2" />
-                </android.support.v7.widget.CardView>
 
-                <View
-                    android:layout_width="25dp"
-                    android:layout_height="0dp" />
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cv_callmode"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/card_margin"
-                    android:layout_weight="1"
-                    app:cardElevation="@dimen/card_elevation">
-
-                    <include layout="@layout/item_menu3" />
-                </android.support.v7.widget.CardView>
-            </LinearLayout>
-
+            </FrameLayout>
 
         </LinearLayout>
 
 
-        <FrameLayout
+        <ImageView
+            android:id="@+id/iv_splash"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="bottom"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite"
+            android:scaleType="center"
+            android:src="@mipmap/ic_launcher" />
 
-            <TextView
-                android:id="@+id/tv_start"
-                android:layout_width="@dimen/menu_startw"
-                android:layout_height="@dimen/menu_starth"
-                android:layout_gravity="center"
-                android:layout_marginBottom="24dp"
-                android:background="@drawable/shape_homestart"
-                android:gravity="center"
-                android:text="@string/call_start"
-                android:textColor="@color/colorWhite"
-                android:textSize="20sp" />
+    </FrameLayout>
 
-
-        </FrameLayout>
-
-    </LinearLayout>
 
     <!-- 左侧滑动栏 -->
     <FrameLayout

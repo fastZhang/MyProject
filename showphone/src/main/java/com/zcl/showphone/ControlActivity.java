@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,8 @@ import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
@@ -22,6 +25,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,13 +35,19 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.xdandroid.hellodaemon.DaemonEnv;
 import com.xdandroid.hellodaemon.IntentWrapper;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.zcl.showphone.IFace.IEventListener;
+import com.zcl.showphone.ad.LoadInterstitialAd;
 import com.zcl.showphone.service.TraceServiceImpl;
 import com.zcl.showphone.utils.Feedback;
+import com.zcl.showphone.utils.MtaUtils;
 import com.zcl.showphone.utils.PreferencesUtil;
 import com.zcl.showphone.view.CallModeDialogView;
 import com.zcl.showphone.view.CallTimeDialogView;
@@ -63,6 +73,8 @@ public class ControlActivity extends BaseActivity implements IEventListener {
 
     @BindView(R.id.iv_add)
     ImageView iv_add;
+    @BindView(R.id.iv_splash)
+    ImageView iv_splash;
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer_layout;
@@ -86,6 +98,8 @@ public class ControlActivity extends BaseActivity implements IEventListener {
     private CallTimeDialogView mCallTimeDialogView;
     private CallModeDialogView mCallModeDialogView;
 
+    LoadInterstitialAd loadInterstitialAd;
+
 
     public static void startActivity(Activity owner) {
         Intent intent = new Intent(owner, ControlActivity.class);
@@ -100,6 +114,8 @@ public class ControlActivity extends BaseActivity implements IEventListener {
 
     @Override
     protected void init() {
+
+
         drawer_layout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -112,6 +128,45 @@ public class ControlActivity extends BaseActivity implements IEventListener {
             }
         });
 
+        loadInterstitialAd = new LoadInterstitialAd(this);
+
+        if (!MtaUtils.isAppLive()) {
+            finish();
+
+        }
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isOnBackPressed) {
+
+            if (!loadInterstitialAd.getSplashAd().isLoaded()) {
+                iv_splash.setVisibility(View.VISIBLE);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());
+                    }
+                }, 2200);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        iv_splash.setVisibility(View.GONE);
+                    }
+                }, 2500);
+            } else {
+                loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());
+
+            }
+
+
+            isOnBackPressed = false;
+        }
+
     }
 
     @OnClick({R.id.tv_start, R.id.fl_setting,
@@ -119,9 +174,19 @@ public class ControlActivity extends BaseActivity implements IEventListener {
             R.id.cv_calltime, R.id.cv_callring,
             R.id.cv_callvolice, R.id.cv_callmode,
             R.id.iv_finish, R.id.fl_pp,
-            R.id.fl_feedback, R.id.fl_about,})
+            R.id.fl_feedback, R.id.fl_about,
+            R.id.fl_rate, R.id.fl_share})
     void onClick(View view) {
         switch (view.getId()) {
+            case R.id.fl_share:
+                toOtherApp(this, null, "Fack Call",
+                        "Fack Call: Fack Call for you." +
+                                "get it from Google play： " +
+                                "https://play.google.com/store/apps/details?id=com.zcl.showphone");
+                break;
+            case R.id.fl_rate:
+                rate();
+                break;
             case R.id.tv_start:
                 AndPermission.with(this).runtime().
                         permission(new String[]{Permission.READ_CALL_LOG, Permission.WRITE_CALL_LOG, Manifest.permission.WAKE_LOCK}).
@@ -149,6 +214,9 @@ public class ControlActivity extends BaseActivity implements IEventListener {
 //                SettingActivity.startActivity(this);
                 break;
             case R.id.iv_add:
+
+                loadInterstitialAd.showInterstitial(loadInterstitialAd.getHeaderAd());
+
                 onToAddpic();
 
                 break;
@@ -597,6 +665,8 @@ public class ControlActivity extends BaseActivity implements IEventListener {
         Toast.makeText(this, "Fake call scheduled", Toast.LENGTH_SHORT).show();
 
 //        finish();
+        loadInterstitialAd.showInterstitial(loadInterstitialAd.getStartAd());
+
 
     }
 
@@ -613,9 +683,41 @@ public class ControlActivity extends BaseActivity implements IEventListener {
         TraceServiceImpl.stopService();
     }
 
+
+    protected void rate() {
+        try {
+            startActivity(new Intent("android.intent.action.VIEW", Uri.parse("market://details?id=" + getPackageName())));
+        } catch (ActivityNotFoundException var3) {
+            Toast.makeText(this, "No Play Store installed on device", Toast.LENGTH_SHORT).show();
+        } finally {
+        }
+    }
+
+
+    protected boolean toOtherApp(Activity activity, String packageName, String title, String text) {
+        try {
+            Intent shareIntent = new Intent("android.intent.action.SEND");
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra("android.intent.extra.SUBJECT", title);
+            shareIntent.putExtra("android.intent.extra.TEXT", text);
+            if (packageName != null) {
+                shareIntent.setPackage(packageName);
+            }
+
+            activity.startActivity(shareIntent);
+            return true;
+        } catch (Exception var5) {
+            return false;
+        }
+    }
+
     //防止华为机型未加入白名单时按返回键回到桌面再锁屏后几秒钟进程被杀
+    boolean isOnBackPressed = true;
+
     public void onBackPressed() {
         IntentWrapper.onBackPressed(this);
+        isOnBackPressed = true;
     }
+
 
 }

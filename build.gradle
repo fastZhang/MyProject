@@ -1,4 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply from: project(':AConfig').projectDir.getPath() + "/config.gradle"
+def rootEXT = rootProject.ext
+
 
 buildscript {
 
@@ -10,7 +13,7 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.1.4'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -18,11 +21,17 @@ buildscript {
     }
 }
 
+
 allprojects {
     repositories {
         google()
         jcenter()
         mavenCentral()
+
+
+        maven {
+            url rootEXT.mavengoogleurl
+        }
 
     }
 }
@@ -32,4 +41,3 @@ task clean(type: Delete) {
 }
 
 
-apply from: project(':AConfig').projectDir.getPath()+ "/config.gradle"

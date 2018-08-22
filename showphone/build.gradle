@@ -14,12 +14,24 @@ android {
         minSdkVersion rootEXT.minSdkVersion
         targetSdkVersion targetSdkVersion
 
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.01"
 
 //        ndk {
 //            abiFilters "armeabi", "armeabi-v7a", "x86"
 //        }
+
+//        ndk {
+//            //根据需要 自行选择添加的对应cpu类型的.so库。
+//            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+//            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+//        }
+        manifestPlaceholders = [
+                //AML912VK4XNY 属于应用"fackcall"独有的 Android AppKey, 用于配置SDK
+                MTA_APPKEY : "AML912VK4XNY",
+                //标注应用推广渠道用以区分新用户来源，可填写如应用宝，豌豆荚等
+                MTA_CHANNEL: "gp"
+        ]
 
     }
 
@@ -75,5 +87,11 @@ dependencies {
     implementation project(':wqgallery:photogallery')
     implementation project(':HelloDaemon:hellodaemon')
 
+    implementation play_services_ads
+
+
+
+    implementation 'com.qq.mta:mta:3.4.7-release'
+    implementation 'com.tencent.mid:mid:4.06-release'
 
 }
