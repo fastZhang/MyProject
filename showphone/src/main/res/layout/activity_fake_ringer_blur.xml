@@ -69,7 +69,8 @@
             android:layout_marginBottom="30dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitXY"
+            android:src="@mipmap/xiaomitonghuazhongtouxiang" />
 
         <RelativeLayout
             android:id="@+id/callActionButtons"

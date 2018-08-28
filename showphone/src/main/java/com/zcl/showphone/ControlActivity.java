@@ -26,8 +26,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -38,6 +40,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.xdandroid.hellodaemon.DaemonEnv;
@@ -117,8 +121,8 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
     private CallModeDialogView mCallModeDialogView;
 
     LoadInterstitialAd loadInterstitialAd;
-
     protected HandLoadInterstitialAd ad;
+    AdView adView;
 
 
     public static void startActivity(Activity owner) {
@@ -170,6 +174,7 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
         theme_android.setTextColor(CallSettingUtil.isThisCalltheme(this, CallSettingUtil.CallTheme.ANDROID5) ? getResources().getColor(R.color.colorMain) : getResources().getColor(R.color.colorMenuTitle));
         theme_mi.setTextColor(CallSettingUtil.isThisCalltheme(this, CallSettingUtil.CallTheme.MI) ? getResources().getColor(R.color.colorMain) : getResources().getColor(R.color.colorMenuTitle));
         theme_blur.setTextColor(CallSettingUtil.isThisCalltheme(this, CallSettingUtil.CallTheme.BLUR) ? getResources().getColor(R.color.colorMain) : getResources().getColor(R.color.colorMenuTitle));
+        initBanner();
     }
 
     @Override
@@ -201,16 +206,17 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 
     @Override
     public void onAdClosed(InterstitialAd ad) {
-        if (ad == loadInterstitialAd.getStartAd()) {
-            onClickSchedule();
-
-        }
+//        if (ad == loadInterstitialAd.getStartAd()) {
+////            onClickSchedule();
+//
+//        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         if (isOnBackPressed) {
+            loadBanner(adView);
 
             if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && !loadInterstitialAd.getSplashAd().isLoaded()) {
                 iv_splash.setVisibility(View.VISIBLE);
@@ -250,7 +256,7 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 
             R.id.try1, R.id.try2, R.id.try_blur,
 
-            R.id.theme_mi, R.id.theme_android, R.id.theme_blur,
+            R.id.fl_theme_mi, R.id.fl_theme_android, R.id.fl_theme_blur,
             R.id.fl_rate, R.id.fl_share})
     void onClick(View view) {
         switch (view.getId()) {
@@ -272,16 +278,16 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
             case R.id.fl_theme:
                 theme();
                 break;
-            case R.id.theme_mi:
-                themeSelect((TextView) view, CallSettingUtil.CallTheme.MI);
+            case R.id.fl_theme_mi:
+                themeSelect((TextView) theme_mi, CallSettingUtil.CallTheme.MI);
 
                 break;
-            case R.id.theme_android:
-                themeSelect((TextView) view, CallSettingUtil.CallTheme.ANDROID5);
+            case R.id.fl_theme_android:
+                themeSelect((TextView) theme_android, CallSettingUtil.CallTheme.ANDROID5);
 
                 break;
-            case R.id.theme_blur:
-                themeSelect((TextView) view, CallSettingUtil.CallTheme.BLUR);
+            case R.id.fl_theme_blur:
+                themeSelect((TextView) theme_blur, CallSettingUtil.CallTheme.BLUR);
 
                 break;
             case R.id.tv_start:
@@ -401,8 +407,8 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
                         Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
                         getApplicationContext().startActivity(intent);
                     } else {
-                        if ((callTheme != null) || !loadInterstitialAd.showInterstitial(loadInterstitialAd.getStartAd()))
-                            onClickSchedule();
+//                        if ((callTheme != null) || !loadInterstitialAd.showInterstitial(loadInterstitialAd.getStartAd()))
+                        onClickSchedule();
 
                     }
 
@@ -822,7 +828,7 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
         Toast.makeText(this, R.string.call_ready, Toast.LENGTH_SHORT).show();
         ad.startGame(ad.getSplashAd());
 
-
+//        loadInterstitialAd.showInterstitial(loadInterstitialAd.getStartAd());
 //        finish();
 
     }
@@ -877,6 +883,34 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
         else {
             IntentWrapper.onBackPressed(this);
             isOnBackPressed = true;
+        }
+
+    }
+
+    // TODO: 2018/8/28  
+    private void initBanner() {
+        adView = new AdView(this);
+        adView.setAdSize(AdSize.SMART_BANNER);
+        adView.setAdUnitId("ca-app-pub-7835308551963221/8619964851");
+
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+
+                super.onAdClosed();
+            }
+        });
+
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.gravity = Gravity.BOTTOM | Gravity.CENTER;
+        ((FrameLayout) findViewById(R.id.fl_main)).addView(adView, lp);
+    }
+
+
+    private void loadBanner(AdView ad) {
+        if (ad != null && !ad.isLoading()) {
+            AdRequest adRequest = new AdRequest.Builder().build();
+            ad.loadAd(adRequest);
         }
 
     }

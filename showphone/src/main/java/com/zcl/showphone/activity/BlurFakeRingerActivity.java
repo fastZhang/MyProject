@@ -216,6 +216,12 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
 
         muteAll();
 
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) contactPhoto.getLayoutParams();
+        int w = ScreenInfoUtil.screenWidth(BlurFakeRingerActivity.this) - ScreenInfoUtil.dip2px(BlurFakeRingerActivity.this, 60);
+        lp.width = w;
+        lp.height = w;
+        contactPhoto.setLayoutParams(lp);
+
         setContactImage(true);
 
         callActionButton.setOnTouchListener(new View.OnTouchListener() {
@@ -397,13 +403,6 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
                             resource.setTintMode(PorterDuff.Mode.DARKEN);
                         }
                     }
-
-
-                    FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) contactPhoto.getLayoutParams();
-                    int w = ScreenInfoUtil.screenWidth(BlurFakeRingerActivity.this) - ScreenInfoUtil.dip2px(BlurFakeRingerActivity.this, 60);
-                    lp.width = w;
-                    lp.height = w;
-                    contactPhoto.setLayoutParams(lp);
 
 
                     contactPhoto.setImageDrawable(resource);

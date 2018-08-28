@@ -29,6 +29,7 @@
 
         </FrameLayout>
         <FrameLayout
+            android:id="@+id/fl_theme_blur"
 
             android:layout_width="match_parent"
             android:layout_height="@dimen/tip_item_h">
@@ -46,9 +47,9 @@
 
             <TextView
                 android:id="@+id/try_blur"
-                android:layout_width="30dp"
+                android:layout_width="35dp"
 
-                android:layout_height="20dp"
+                android:layout_height="22dp"
                 android:layout_gravity="center|right"
                 android:layout_margin="@dimen/tip_margin"
                 android:background="@drawable/shape_try"
@@ -65,6 +66,7 @@
 
         </FrameLayout>
         <FrameLayout
+            android:id="@+id/fl_theme_mi"
 
             android:layout_width="match_parent"
             android:layout_height="@dimen/tip_item_h">
@@ -82,9 +84,9 @@
 
             <TextView
                 android:id="@+id/try2"
-                android:layout_width="30dp"
+                android:layout_width="35dp"
 
-                android:layout_height="20dp"
+                android:layout_height="22dp"
                 android:layout_gravity="center|right"
                 android:layout_margin="@dimen/tip_margin"
                 android:background="@drawable/shape_try"
@@ -102,6 +104,7 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/fl_theme_android"
 
             android:layout_width="match_parent"
             android:layout_height="@dimen/tip_item_h">
@@ -119,8 +122,8 @@
 
             <TextView
                 android:id="@+id/try1"
-                android:layout_width="30dp"
-                android:layout_height="20dp"
+                android:layout_width="35dp"
+                android:layout_height="22dp"
                 android:layout_gravity="center|right"
                 android:layout_margin="@dimen/tip_margin"
                 android:background="@drawable/shape_try"
