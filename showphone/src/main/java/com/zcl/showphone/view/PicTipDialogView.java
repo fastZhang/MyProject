@@ -31,6 +31,7 @@ import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.zcl.showphone.IFace.IEventListener;
 import com.zcl.showphone.R;
+import com.zcl.showphone.utils.PicPathUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,25 +75,15 @@ public class PicTipDialogView extends Dialog {
 
         switch (view.getId()) {
             case R.id.fl_picphoto:
-                if (null == imagesPath) {
 
-                    try {
+                try {
+                    imagesPath = PicPathUtils.getHeaderPicPath(getContext().getApplicationContext());
 
-                        final String HEADER = "file:///android_asset/img_header/";
-                        String[] strings = mContext.getAssets().list("img_header");
-
-                        imagesPath = new ArrayList<>();
-
-                        for (String s : strings) {
-                            imagesPath.add(HEADER + s);
-                        }
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        return;
-                    }
-
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
                 }
+
 
                 UCrop.Options options = new UCrop.Options();
                 options.setCompressionFormat(Bitmap.CompressFormat.JPEG);

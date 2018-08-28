@@ -1,6 +1,7 @@
 package com.zcl.showphone;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
@@ -43,9 +44,13 @@ import com.xdandroid.hellodaemon.DaemonEnv;
 import com.xdandroid.hellodaemon.IntentWrapper;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
+import com.zcl.showphone.IFace.IAdListener;
 import com.zcl.showphone.IFace.IEventListener;
+import com.zcl.showphone.ad.HandLoadInterstitialAd;
 import com.zcl.showphone.ad.LoadInterstitialAd;
 import com.zcl.showphone.service.TraceServiceImpl;
+import com.zcl.showphone.utils.AppInfoUtil;
+import com.zcl.showphone.utils.CallSettingUtil;
 import com.zcl.showphone.utils.Feedback;
 import com.zcl.showphone.utils.MtaUtils;
 import com.zcl.showphone.utils.PreferencesUtil;
@@ -65,11 +70,13 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.zcl.showphone.utils.Constant.ALARM_ID;
+import static com.zcl.showphone.utils.Constant.GP_STORE;
+import static com.zcl.showphone.utils.Constant.MI_STORE;
 import static com.zcl.showphone.utils.Constant.SYSTEM_CONTACTS_REQ;
 import static com.zcl.showphone.utils.Constant.SYSTEM_RING_REQ;
 import static com.zcl.showphone.utils.Constant.SYSTEM_VOICE_REQ;
 
-public class ControlActivity extends BaseActivity implements IEventListener {
+public class ControlActivity extends BaseActivity implements IEventListener, IAdListener {
 
     @BindView(R.id.iv_add)
     ImageView iv_add;
@@ -93,12 +100,25 @@ public class ControlActivity extends BaseActivity implements IEventListener {
     @BindView(R.id.tv_mode)
     TextView tv_mode;
 
+    @BindView(R.id.theme_android)
+    TextView theme_android;
+
+    @BindView(R.id.theme_mi)
+    TextView theme_mi;
+    @BindView(R.id.theme_blur)
+    TextView theme_blur;
+
+    @BindView(R.id.iv_guagua)
+    ImageView iv_guagua;
+
 
     private PicTipDialogView mPicTipDialog;
     private CallTimeDialogView mCallTimeDialogView;
     private CallModeDialogView mCallModeDialogView;
 
     LoadInterstitialAd loadInterstitialAd;
+
+    protected HandLoadInterstitialAd ad;
 
 
     public static void startActivity(Activity owner) {
@@ -107,6 +127,7 @@ public class ControlActivity extends BaseActivity implements IEventListener {
     }
 
 
+    @SuppressLint("ResourceType")
     @Override
     protected int getLayout() {
         return R.layout.activity_control;
@@ -121,21 +142,69 @@ public class ControlActivity extends BaseActivity implements IEventListener {
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
                 // 得到contentView
+
                 View content = drawer_layout.getChildAt(0);
+
                 int offset = (int) (drawerView.getWidth() * slideOffset);
-                content.setTranslationX(offset);
+                content.setTranslationX(drawerView == drawer_layout.getChildAt(1) ? offset : -offset);
 
             }
         });
 
         loadInterstitialAd = new LoadInterstitialAd(this);
+        ad = HandLoadInterstitialAd.getInstance(this);
 
         if (!MtaUtils.isAppLive()) {
             finish();
 
         }
 
+        if (BuildConfig.FLAVOR.equals(BuildConfig.mi)) {
+            findViewById(R.id.fl_pp).setVisibility(View.GONE);
 
+        }
+
+        Glide.with(this).load(R.mipmap.gif_guagua).into(iv_guagua);
+
+
+        theme_android.setTextColor(CallSettingUtil.isThisCalltheme(this, CallSettingUtil.CallTheme.ANDROID5) ? getResources().getColor(R.color.colorMain) : getResources().getColor(R.color.colorMenuTitle));
+        theme_mi.setTextColor(CallSettingUtil.isThisCalltheme(this, CallSettingUtil.CallTheme.MI) ? getResources().getColor(R.color.colorMain) : getResources().getColor(R.color.colorMenuTitle));
+        theme_blur.setTextColor(CallSettingUtil.isThisCalltheme(this, CallSettingUtil.CallTheme.BLUR) ? getResources().getColor(R.color.colorMain) : getResources().getColor(R.color.colorMenuTitle));
+    }
+
+    @Override
+    public void onAdLoaded(InterstitialAd ad) {
+
+        if (ad == loadInterstitialAd.getSplashAd()) {
+
+
+            if (iv_splash.getVisibility() == View.GONE) return;
+
+            mHandler.removeCallbacks(null);
+            mHandler.removeCallbacksAndMessages(null);
+            isOnBackPressed = false;
+
+            if (AppInfoUtil.isGP()) {
+                loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());
+
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        iv_splash.setVisibility(View.GONE);
+                    }
+                }, 200);
+
+            }
+        }
+
+    }
+
+    @Override
+    public void onAdClosed(InterstitialAd ad) {
+        if (ad == loadInterstitialAd.getStartAd()) {
+            onClickSchedule();
+
+        }
     }
 
     @Override
@@ -143,22 +212,23 @@ public class ControlActivity extends BaseActivity implements IEventListener {
         super.onResume();
         if (isOnBackPressed) {
 
-            if (!loadInterstitialAd.getSplashAd().isLoaded()) {
+            if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && !loadInterstitialAd.getSplashAd().isLoaded()) {
                 iv_splash.setVisibility(View.VISIBLE);
 
-                new Handler().postDelayed(new Runnable() {
+                mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());
                     }
-                }, 2200);
-                new Handler().postDelayed(new Runnable() {
+                }, 4800);
+                mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         iv_splash.setVisibility(View.GONE);
                     }
-                }, 2500);
+                }, 5000);
             } else {
+
                 loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());
 
             }
@@ -175,38 +245,67 @@ public class ControlActivity extends BaseActivity implements IEventListener {
             R.id.cv_callvolice, R.id.cv_callmode,
             R.id.iv_finish, R.id.fl_pp,
             R.id.fl_feedback, R.id.fl_about,
+            R.id.fl_tigger,
+            R.id.fl_theme,
+
+            R.id.try1, R.id.try2, R.id.try_blur,
+
+            R.id.theme_mi, R.id.theme_android, R.id.theme_blur,
             R.id.fl_rate, R.id.fl_share})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.fl_share:
                 toOtherApp(this, null, "Fack Call",
                         "Fack Call: Fack Call for you." +
-                                "get it from Google play： " +
-                                "https://play.google.com/store/apps/details?id=com.zcl.showphone");
+                                "get it from：" +
+                                (AppInfoUtil.isGP() ? GP_STORE : MI_STORE)
+                                + "details?id=com.zcl.showphone");
                 break;
+            case R.id.fl_tigger:
+
+                loadInterstitialAd.showInterstitial(loadInterstitialAd.getTiggerAd());
+                break;
+
             case R.id.fl_rate:
                 rate();
                 break;
+            case R.id.fl_theme:
+                theme();
+                break;
+            case R.id.theme_mi:
+                themeSelect((TextView) view, CallSettingUtil.CallTheme.MI);
+
+                break;
+            case R.id.theme_android:
+                themeSelect((TextView) view, CallSettingUtil.CallTheme.ANDROID5);
+
+                break;
+            case R.id.theme_blur:
+                themeSelect((TextView) view, CallSettingUtil.CallTheme.BLUR);
+
+                break;
             case R.id.tv_start:
-                AndPermission.with(this).runtime().
-                        permission(new String[]{Permission.READ_CALL_LOG, Permission.WRITE_CALL_LOG, Manifest.permission.WAKE_LOCK}).
-                        onGranted(permission -> {
 
-                            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !notificationManager.isNotificationPolicyAccessGranted()) {
-                                Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-                                getApplicationContext().startActivity(intent);
-                            } else {
-                                onClickSchedule();
+                callTheme = null;
+                onStartCall();
+                break;
 
-                            }
+            case R.id.try1:
+                callTheme = CallSettingUtil.CallTheme.ANDROID5;
+                onStartCall();
+                break;
+            case R.id.try2:
+                callTheme = CallSettingUtil.CallTheme.MI;
 
-                        }).
-                        onDenied(permission -> {
-                            AndPermission.with(this).runtime().setting().start();
-                            Toast.makeText(this, this.getString(R.string.text_permission_call_log), Toast.LENGTH_LONG).show();
-                        }).
-                        start();
+                onStartCall();
+
+                break;
+
+            case R.id.try_blur:
+                callTheme = CallSettingUtil.CallTheme.BLUR;
+
+                onStartCall();
+
                 break;
             case R.id.fl_setting:
 
@@ -278,6 +377,46 @@ public class ControlActivity extends BaseActivity implements IEventListener {
                 break;
 
         }
+    }
+
+    private void themeSelect(TextView view, CallSettingUtil.CallTheme theme) {
+
+        Toast.makeText(this, this.getString(R.string.text_select_theme), Toast.LENGTH_SHORT).show();
+
+        theme_android.setTextColor(getResources().getColor(R.color.colorMenuTitle));
+        theme_mi.setTextColor(getResources().getColor(R.color.colorMenuTitle));
+        theme_blur.setTextColor(getResources().getColor(R.color.colorMenuTitle));
+
+        view.setTextColor(getResources().getColor(R.color.colorMain));
+        CallSettingUtil.setCallTheme(this, theme);
+    }
+
+    private void onStartCall() {
+        AndPermission.with(this).runtime().
+                permission(new String[]{Permission.READ_CALL_LOG, Permission.WRITE_CALL_LOG, Manifest.permission.WAKE_LOCK}).
+                onGranted(permission -> {
+
+                    NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !notificationManager.isNotificationPolicyAccessGranted()) {
+                        Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                        getApplicationContext().startActivity(intent);
+                    } else {
+                        if ((callTheme != null) || !loadInterstitialAd.showInterstitial(loadInterstitialAd.getStartAd()))
+                            onClickSchedule();
+
+                    }
+
+                }).
+                onDenied(permission -> {
+                    AndPermission.with(this).runtime().setting().start();
+                    Toast.makeText(this, this.getString(R.string.text_permission_call_log), Toast.LENGTH_LONG).show();
+                }).
+                start();
+    }
+
+    private void theme() {
+        drawer_layout.openDrawer(Gravity.RIGHT);
+
     }
 
     private void toChooseVolice() {
@@ -611,13 +750,16 @@ public class ControlActivity extends BaseActivity implements IEventListener {
     public static final int HANA_UP_AFTER = 120;
     public static final int DURATION = 120;
 
+    private CallSettingUtil.CallTheme callTheme = null;
+
 
     public void onClickSchedule() {
 
 
         String headPicUri = (iv_add.getTag() == null) ? null : iv_add.getTag().toString();
-        String number = (et_num.getText() == null) ? null : et_num.getText().toString();
-        String name = (et_name.getText() == null) ? getResources().getString(R.string.unknown) : et_name.getText().toString();
+
+        String number = (TextUtils.isEmpty(et_num.getText())) ? getResources().getString(R.string.unknown_number) : et_num.getText().toString();
+        String name = (TextUtils.isEmpty(et_name.getText())) ? getResources().getString(R.string.unknown) : et_name.getText().toString();
 
         String time = (tv_time.getTag() == null) ? "3" : tv_time.getTag().toString();
         String voiceUri = (tv_voice.getTag() == null) ? null : tv_voice.getTag().toString();
@@ -630,12 +772,12 @@ public class ControlActivity extends BaseActivity implements IEventListener {
 
 
         if (TextUtils.isEmpty(number)) {
-            Toast.makeText(this, "Number can't be empty!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.number_null, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Intent intent = new Intent(getApplication(), TraceServiceImpl.class);
-//        Intent intent = new Intent(getApplication(), FakeRingerActivity.class);
+        Intent intent = new Intent();
+
 
         intent.putExtra("contactImage", headPicUri);
         intent.putExtra("number", number);
@@ -654,6 +796,21 @@ public class ControlActivity extends BaseActivity implements IEventListener {
         intent.putExtra("hangUpAfter", Integer.parseInt(hangUpAfter));
 
 
+        if (callTheme != null) {
+            time = "0";
+
+            intent.setClass(this, CallSettingUtil.getThemeClass(getApplication(), callTheme));
+            startActivity(intent);
+            callTheme = null;
+
+            return;
+
+
+        } else {
+            intent.setClass(getApplication(), TraceServiceImpl.class);
+        }
+
+
         TraceServiceImpl.sShouldStopService = false;
 //        DaemonEnv.startServiceMayBind(TraceServiceImpl.class);
         DaemonEnv.startServiceMayBindByIntentData(intent, TraceServiceImpl.class);
@@ -662,11 +819,11 @@ public class ControlActivity extends BaseActivity implements IEventListener {
 //        PendingIntent pendingIntent = PendingIntent.getActivity(this, ALARM_ID, intent, PendingIntent.FLAG_ONE_SHOT);
 //        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 //        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + Integer.parseInt(time) * 1000, pendingIntent);
-        Toast.makeText(this, "Fake call scheduled", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.call_ready, Toast.LENGTH_SHORT).show();
+        ad.startGame(ad.getSplashAd());
+
 
 //        finish();
-        loadInterstitialAd.showInterstitial(loadInterstitialAd.getStartAd());
-
 
     }
 
@@ -688,7 +845,7 @@ public class ControlActivity extends BaseActivity implements IEventListener {
         try {
             startActivity(new Intent("android.intent.action.VIEW", Uri.parse("market://details?id=" + getPackageName())));
         } catch (ActivityNotFoundException var3) {
-            Toast.makeText(this, "No Play Store installed on device", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No Store installed on device", Toast.LENGTH_SHORT).show();
         } finally {
         }
     }
@@ -715,8 +872,13 @@ public class ControlActivity extends BaseActivity implements IEventListener {
     boolean isOnBackPressed = true;
 
     public void onBackPressed() {
-        IntentWrapper.onBackPressed(this);
-        isOnBackPressed = true;
+        if (drawer_layout.isDrawerOpen(Gravity.START) || drawer_layout.isDrawerOpen(Gravity.RIGHT))
+            drawer_layout.closeDrawers();
+        else {
+            IntentWrapper.onBackPressed(this);
+            isOnBackPressed = true;
+        }
+
     }
 
 

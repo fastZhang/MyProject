@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@color/colorLine"
 
     android:orientation="vertical">
 
@@ -13,20 +13,22 @@
 
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/app_setting"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/app_title_text" />
-
-        <ImageView
             android:id="@+id/iv_finish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|left"
+            android:text="@string/app_setting"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/app_title_text" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
             android:padding="20dp"
-            android:src="@drawable/ucrop_ic_cross" />
+            android:src="@drawable/ucrop_ic_cross"
+            android:visibility="gone" />
 
     </FrameLayout>
 
@@ -34,7 +36,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_marginTop="@dimen/app_title_h"
+        android:background="@color/colorWhite"
         android:orientation="vertical">
 
 
@@ -43,11 +46,18 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/tip_item_h">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
                 android:layout_margin="@dimen/tip_margin"
+                android:src="@mipmap/home_settings_privacy" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginLeft="@dimen/setting_menu_left"
                 android:text="@string/Privacy"
                 android:textColor="@color/colorMenuTitle"
                 android:textSize="@dimen/item_text" />
@@ -73,11 +83,18 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/tip_item_h">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
                 android:layout_margin="@dimen/tip_margin"
+                android:src="@mipmap/home_settings_rate" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginLeft="@dimen/setting_menu_left"
                 android:text="@string/Rate"
                 android:textColor="@color/colorMenuTitle"
                 android:textSize="@dimen/item_text" />
@@ -102,11 +119,18 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/tip_item_h">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
                 android:layout_margin="@dimen/tip_margin"
+                android:src="@mipmap/home_settings_share" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginLeft="@dimen/setting_menu_left"
                 android:text="@string/Share"
                 android:textColor="@color/colorMenuTitle"
                 android:textSize="@dimen/item_text" />
@@ -132,11 +156,18 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/tip_item_h">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
                 android:layout_margin="@dimen/tip_margin"
+                android:src="@mipmap/home_settings_feedback" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginLeft="@dimen/setting_menu_left"
                 android:text="@string/FeedBack"
                 android:textColor="@color/colorMenuTitle"
                 android:textSize="@dimen/item_text" />
@@ -162,11 +193,18 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/tip_item_h">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
                 android:layout_margin="@dimen/tip_margin"
+                android:src="@mipmap/home_settings_version" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginLeft="@dimen/setting_menu_left"
                 android:text="@string/About"
                 android:textColor="@color/colorMenuTitle"
                 android:textSize="@dimen/item_text" />
@@ -177,6 +215,12 @@
                 android:layout_gravity="center|right"
                 android:layout_margin="@dimen/tip_margin"
                 android:src="@mipmap/icon_pic_arrow" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="@color/colorLine" />
 
         </FrameLayout>
 

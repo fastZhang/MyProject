@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 def rootEXT = rootProject.ext
 
 
+
 android {
     compileSdkVersion rootEXT.compileSdkVersion
 
@@ -14,8 +15,8 @@ android {
         minSdkVersion rootEXT.minSdkVersion
         targetSdkVersion targetSdkVersion
 
-        versionCode 2
-        versionName "1.01"
+        versionCode 3
+        versionName "1.02"
 
 //        ndk {
 //            abiFilters "armeabi", "armeabi-v7a", "x86"
@@ -26,12 +27,47 @@ android {
 //            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
 //            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
 //        }
+
+
+        flavorDimensions "default"//这个名字貌似随便取，也可以有多个，总之一定要有..
+
+
+    }
+
+
+
+    productFlavors {
+
+
+        mi {
+
+            minSdkVersion 21
+            targetSdkVersion 24
+
+            dimension "default"
+
+        }
+        gp {
+            dimension "default"
+
+        }
+    }
+
+    productFlavors.all { flavor ->
         manifestPlaceholders = [
                 //AML912VK4XNY 属于应用"fackcall"独有的 Android AppKey, 用于配置SDK
                 MTA_APPKEY : "AML912VK4XNY",
                 //标注应用推广渠道用以区分新用户来源，可填写如应用宝，豌豆荚等
-                MTA_CHANNEL: "gp"
+                MTA_CHANNEL: flavor.name
         ]
+
+
+        productFlavors.findAll {
+            productFlavor ->
+                buildConfigField("String", productFlavor.name, "\"${productFlavor.name}\"")
+
+        }
+
 
     }
 
@@ -71,27 +107,19 @@ android {
 }
 
 dependencies {
-    api fileTree(dir: 'libs', include: ['*.jar'])
-
+    api fileTree(include: ['*.jar'], dir: 'libs')
     implementation appcompat_v7
     implementation cardview_v7
-
-
     annotationProcessor rootEXT.butterknife_compiler
     implementation rootEXT.butterknife
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-
     implementation permission
     implementation glide
-
     implementation project(':wqgallery:photogallery')
     implementation project(':HelloDaemon:hellodaemon')
-
     implementation play_services_ads
-
-
-
     implementation 'com.qq.mta:mta:3.4.7-release'
     implementation 'com.tencent.mid:mid:4.06-release'
-
+    implementation 'com.nineoldandroids:library:2.4.0'
 }
+

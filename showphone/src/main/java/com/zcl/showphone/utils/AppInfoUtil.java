@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import com.zcl.showphone.BuildConfig;
+
 public class AppInfoUtil {
 
 
@@ -19,4 +21,9 @@ public class AppInfoUtil {
             return null;
         }
     }
+
+    public static boolean isGP() {
+        return BuildConfig.FLAVOR.equals(BuildConfig.gp);
+    }
+
 }

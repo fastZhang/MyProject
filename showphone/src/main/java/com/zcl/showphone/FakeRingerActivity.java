@@ -1,5 +1,7 @@
 package com.zcl.showphone;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -42,8 +44,11 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.xdandroid.hellodaemon.DaemonEnv;
+import com.zcl.showphone.activity.CallBaseActivity;
 import com.zcl.showphone.service.TraceServiceImpl;
+import com.zcl.showphone.utils.AppInfoUtil;
 import com.zcl.showphone.utils.CallLogUtilities;
+import com.zcl.showphone.utils.PicPathUtils;
 import com.zcl.showphone.utils.ScreenInfoUtil;
 
 import java.io.InputStream;
@@ -51,9 +56,10 @@ import java.util.Locale;
 
 import butterknife.BindView;
 
+import static android.view.View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
 import static com.zcl.showphone.utils.Constant.ALARM_ID;
 
-public class FakeRingerActivity extends BaseActivity {
+public class FakeRingerActivity extends CallBaseActivity {
 
     private static final int INCOMING_CALL_NOTIFICATION = 1001;
     private static final int MISSED_CALL_NOTIFICATION = 1002;
@@ -118,14 +124,18 @@ public class FakeRingerActivity extends BaseActivity {
         public void run() {
             finish();
             onNextCall();
+
         }
     };
 
     @BindView(R.id.callInfoLayout)
     RelativeLayout mRelativeLayout;
 
+
+    @SuppressLint("ResourceType")
     @Override
     protected int getLayout() {
+        fullScreen(this);
         return R.layout.activity_fake_ringer;
     }
 
@@ -384,7 +394,7 @@ public class FakeRingerActivity extends BaseActivity {
         if (!(contactImageString == null)) {
 
 
-            Glide.with(this).load(contactImageString).into(new SimpleTarget<GlideDrawable>() {
+            Glide.with(this).load(PicPathUtils.wrapHeaderPicPath(this, contactImageString)).into(new SimpleTarget<GlideDrawable>() {
                 @Override
                 public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
 
@@ -551,6 +561,7 @@ public class FakeRingerActivity extends BaseActivity {
     public void finish() {
         super.finish();
         handler.removeCallbacks(hangUP);
+        callFinishAction();
 
 
     }

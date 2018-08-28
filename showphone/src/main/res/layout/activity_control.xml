@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@color/colorMainBg"
     tools:context=".ControlActivity">
 
     <FrameLayout
@@ -49,6 +49,43 @@
                     android:text="@string/app_name"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/app_title_text" />
+
+                <FrameLayout
+                    android:id="@+id/fl_tigger"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center|right"
+                    android:layout_marginRight="30dp">
+
+
+                    <ImageView
+                        android:id="@+id/iv_guagua"
+
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center" />
+
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/fl_theme"
+
+                    android:layout_width="35dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center|right">
+
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/call_theme_icon" />
+
+
+                </FrameLayout>
+
 
                 <Button
                     android:layout_width="wrap_content"
@@ -238,9 +275,10 @@
             android:id="@+id/iv_splash"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorWhite"
+            android:background="@color/colorMainBg"
             android:scaleType="center"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"
+            android:visibility="gone" />
 
     </FrameLayout>
 
@@ -253,6 +291,18 @@
         android:layout_gravity="start">
 
         <include layout="@layout/activity_setting" />
+
+
+    </FrameLayout>
+
+    <!-- 右侧滑动栏 -->
+    <FrameLayout
+        android:id="@+id/main_right_drawer_layout"
+        android:layout_width="260dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right">
+
+        <include layout="@layout/activity_theme" />
 
 
     </FrameLayout>

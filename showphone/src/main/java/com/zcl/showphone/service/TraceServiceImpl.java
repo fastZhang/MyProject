@@ -6,6 +6,7 @@ import android.os.IBinder;
 
 import com.xdandroid.hellodaemon.AbsWorkService;
 import com.zcl.showphone.FakeRingerActivity;
+import com.zcl.showphone.utils.CallSettingUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -105,7 +106,8 @@ public class TraceServiceImpl extends AbsWorkService {
             public void run() {
 
 
-                Intent intent = new Intent(getApplication(), FakeRingerActivity.class);
+
+                Intent intent = new Intent(getApplication(), CallSettingUtil.getSetThemeClass(getApplication()));
 
                 intent.putExtra("contactImage", contactImage);
                 intent.putExtra("number", number);

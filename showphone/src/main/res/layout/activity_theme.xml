@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMainBg"
+
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_title_h"
+            android:background="@color/colorMain">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/app_theme"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/app_title_text" />
+
+
+        </FrameLayout>
+        <FrameLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tip_item_h">
+
+
+            <TextView
+                android:id="@+id/theme_blur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:padding="@dimen/tip_margin"
+                android:text="@string/theme_blur"
+                android:textColor="@color/colorMenuTitle"
+                android:textSize="@dimen/item_text" />
+
+            <TextView
+                android:id="@+id/try_blur"
+                android:layout_width="30dp"
+
+                android:layout_height="20dp"
+                android:layout_gravity="center|right"
+                android:layout_margin="@dimen/tip_margin"
+                android:background="@drawable/shape_try"
+                android:gravity="center"
+                android:text="@string/theme_try"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/item_text_tip" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="@color/colorLine" />
+
+        </FrameLayout>
+        <FrameLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tip_item_h">
+
+
+            <TextView
+                android:id="@+id/theme_mi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:padding="@dimen/tip_margin"
+                android:text="@string/theme_mi"
+                android:textColor="@color/colorMenuTitle"
+                android:textSize="@dimen/item_text" />
+
+            <TextView
+                android:id="@+id/try2"
+                android:layout_width="30dp"
+
+                android:layout_height="20dp"
+                android:layout_gravity="center|right"
+                android:layout_margin="@dimen/tip_margin"
+                android:background="@drawable/shape_try"
+                android:gravity="center"
+                android:text="@string/theme_try"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/item_text_tip" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="@color/colorLine" />
+
+        </FrameLayout>
+
+        <FrameLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tip_item_h">
+
+
+            <TextView
+                android:id="@+id/theme_android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:padding="@dimen/tip_margin"
+                android:text="@string/theme_android"
+                android:textColor="@color/colorMain"
+                android:textSize="@dimen/item_text" />
+
+            <TextView
+                android:id="@+id/try1"
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center|right"
+                android:layout_margin="@dimen/tip_margin"
+                android:background="@drawable/shape_try"
+                android:gravity="center"
+                android:text="@string/theme_try"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/item_text_tip" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="@color/colorLine" />
+
+        </FrameLayout>
+
+
+
+        <FrameLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tip_item_h">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/More"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/item_text" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="@color/colorLine" />
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+
+</FrameLayout>

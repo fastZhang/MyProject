@@ -6,6 +6,8 @@ import android.os.CountDownTimer;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.zcl.showphone.BuildConfig;
+import com.zcl.showphone.IFace.IAdListener;
 
 public class LoadInterstitialAd {
 
@@ -21,20 +23,33 @@ public class LoadInterstitialAd {
         return startAd;
     }
 
+    public InterstitialAd getTiggerAd() {
+        return tiggerAd;
+    }
+
     private InterstitialAd splashAd;
     private InterstitialAd headerAd;
     private InterstitialAd startAd;
 
 
+    private InterstitialAd tiggerAd;
+
+
     public LoadInterstitialAd(Context context) {
+        if (!(BuildConfig.FLAVOR.equals(BuildConfig.gp))) {
+            return;
+        }
+
         splashAd = new InterstitialAd(context);
         headerAd = new InterstitialAd(context);
         startAd = new InterstitialAd(context);
+        tiggerAd = new InterstitialAd(context);
 
 
         initInterstitialAd(context, splashAd, "ca-app-pub-7835308551963221/7461473036");
         initInterstitialAd(context, headerAd, "ca-app-pub-7835308551963221/1948334040");
         initInterstitialAd(context, startAd, "ca-app-pub-7835308551963221/2533414136");
+        initInterstitialAd(context, tiggerAd, "ca-app-pub-7835308551963221/3328572744");
 
     }
 
@@ -44,10 +59,15 @@ public class LoadInterstitialAd {
             @Override
             public void onAdClosed() {
                 startGame(ad);
+                if (null != context)
+                    ((IAdListener) context).onAdClosed(ad);
             }
 
             @Override
-            public void onAdFailedToLoad(int var1) {
+            public void onAdLoaded() {
+                if (null != context)
+                    ((IAdListener) context).onAdLoaded(ad);
+
             }
         });
 
@@ -55,7 +75,7 @@ public class LoadInterstitialAd {
     }
 
     private void startGame(InterstitialAd ad) {
-        if (!ad.isLoading() && !ad.isLoaded()) {
+        if (ad != null && !ad.isLoading() && !ad.isLoaded()) {
             AdRequest adRequest = new AdRequest.Builder().build();
 //            AdRequest adRequest = new AdRequest.Builder().addTestDevice("B09B121E39796297E267CE7F263B3D26").build();
             ad.loadAd(adRequest);
@@ -63,12 +83,15 @@ public class LoadInterstitialAd {
 
     }
 
-    public void showInterstitial(InterstitialAd ad) {
+    public boolean showInterstitial(InterstitialAd ad) {
         // Show the ad if it's ready. Otherwise toast and restart the game.
         if (ad != null && ad.isLoaded()) {
             ad.show();
+            return true;
         } else {
             startGame(ad);
+            return false;
+
         }
     }
 

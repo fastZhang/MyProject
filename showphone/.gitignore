@@ -1,3 +1,4 @@
 *.md
 /build
 /release
+/gp

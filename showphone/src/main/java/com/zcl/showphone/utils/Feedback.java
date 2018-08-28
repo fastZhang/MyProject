@@ -20,7 +20,8 @@ public class Feedback {
     public Feedback(Activity activity) {
         this.context = activity;
         this.appName = activity.getString(R.string.app_name);
-        this.emailAddress = MT + "johnkuok568@gmail.com";
+
+        this.emailAddress = MT + (AppInfoUtil.isGP() ? "johnkuok568@gmail.com" : "zhangl0186@gmail.com");
     }
 
     public void startFeedback() {
@@ -51,7 +52,7 @@ public class Feedback {
 //        this.context.startActivity(data);
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:johnkuok568@gmail.com"));
+        intent.setData(Uri.parse(emailAddress));
         intent.putExtra("android.intent.extra.SUBJECT", "for " + this.appName);
         intent.putExtra("android.intent.extra.TEXT", "App Name: " + this.appName + " android\nApp Version:" + this.getVersion(this.context) + "\nSystem Version:" + Build.VERSION.RELEASE + "\nPhone:" + Build.MODEL + "\n\nYour Suggestion:\n");
         this.context.startActivity(intent);

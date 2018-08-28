@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Fack Call</string>
     <string name="app_setting">Setting</string>
+    <string name="app_theme">Call Theme</string>
     <string name="app_about">About</string>
 
     <string name="call_start">Start</string>
@@ -35,8 +36,10 @@
     <string name="Share">Share me</string>
     <string name="FeedBack">Feedback</string>
     <string name="About">About</string>
+    <string name="More">more...</string>
 
     <string name="unknown">Unknown</string>
+    <string name="unknown_number">Unknown Number</string>
     <string name="incoming_call">Incoming Call</string>
     <string name="missed_call">Missed Call</string>
 
@@ -44,6 +47,25 @@
     <string name="text_permission">plese to system setting open camera and storage permission</string>
     <string name="text_permission_contacts">plese to system setting open contacts permission</string>
     <string name="text_permission_call_log">plese to system setting open cell log permission</string>
+    <string name="text_select_theme">select</string>
+
+    <string name="number_null">Number can\'t be empty!</string>
+    <string name="call_ready">Fake call scheduled!</string>
+
+    <string name="theme_android">Android</string>
+    <string name="theme_mi">MIUI</string>
+    <string name="theme_blur">Blur</string>
+    <string name="theme_try">Try</string>
+
+    <string name="theme_mi_jy">Mute</string>
+    <string name="theme_mi_zanting">Suspend</string>
+    <string name="theme_mi_bianqian">Note</string>
+    <string name="theme_mi_tongxunlu">Contacts</string>
+    <string name="theme_mi_tianjia">Add Call</string>
+    <string name="theme_mi_luyin">Record</string>
+
+    <string name="theme_mi_mianti">Hands-free</string>
+    <string name="theme_mi_jianpan">keyboard</string>
 
 
 </resources>

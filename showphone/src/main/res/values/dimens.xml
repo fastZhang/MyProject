@@ -7,6 +7,8 @@
     <dimen name="menu_text_t">20dp</dimen>
 
 
+    <dimen name="setting_menu_left">50dp</dimen>
+
     <dimen name="menu_width">140dp</dimen>
     <dimen name="menu_height">95dp</dimen>
 
@@ -19,14 +21,16 @@
     <dimen name="tip_margin">20dp</dimen>
 
     <dimen name="tip_item_h">68dp</dimen>
+    <dimen name="mi_call_iv">58dp</dimen>
 
-    <dimen name="app_title_text">24sp</dimen>
+    <dimen name="app_title_text">22sp</dimen>
     <dimen name="item_text">18sp</dimen>
+    <dimen name="item_text_tip">12sp</dimen>
+    <dimen name="item_text_call_mi">12sp</dimen>
 
 
     <dimen name="glowpadview_outerring_diameter">250.0dip</dimen>
     <dimen name="incoming_call_widget_circle_size">56.0dip</dimen>
-
 
 
 </resources>

@@ -56,12 +56,26 @@
         </activity>
         <activity android:name=".VirtualActivity" />
         <activity android:name=".SettingActivity" />
+
+        <activity android:name=".AboutActivity"></activity>
+
         <activity
             android:name=".FakeRingerActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <activity android:name=".AboutActivity"></activity>
+
+        <activity
+            android:name="com.zcl.showphone.activity.mi.MIFakeRingerActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.zcl.showphone.activity.BlurFakeRingerActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
 
         <!--全名称-->
         <service android:name="com.zcl.showphone.service.TraceServiceImpl" />
