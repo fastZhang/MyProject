@@ -320,46 +320,30 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
     protected void onResume() {
         super.onResume();
 
-//        if (isOnBackPressed) {
-//            loadBanner(adView);
-//
-//            if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && !loadInterstitialAd.getSplashAd().isLoaded()) {
-//                iv_splash.setVisibility(View.VISIBLE);
-//
-//                mHandler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());
-//                    }
-//                }, 4800);
-//                mHandler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        iv_splash.setVisibility(View.GONE);
-//                    }
-//                }, 5000);
-//            } else {
-//
-//                loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());
-//
-//            }
-//
-//
-//            isOnBackPressed = false;
-//        }
-//
         if (isOnBackPressed) {
             loadBanner(adView);
+            if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && loadInterstitialAd.getSplashAd().isLoaded()) {
 
-            if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && !interstitialAd.isAdLoaded()) {
+                loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());
+
+            } else if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && interstitialAd.isAdLoaded()) {
+                interstitialAd.show();
+
+            } else {
                 iv_splash.setVisibility(View.VISIBLE);
+
+            }
+
+
+            if (!loadInterstitialAd.getSplashAd().isLoaded()) {
+                loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());
 
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (interstitialAd != null && interstitialAd.isAdLoaded()) {
-                            interstitialAd.show();
-                        }
+                        if (iv_splash.getVisibility() == View.GONE) return;
+                        loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());
+
                     }
                 }, 4800);
                 mHandler.postDelayed(new Runnable() {
@@ -368,13 +352,27 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
                         iv_splash.setVisibility(View.GONE);
                     }
                 }, 5000);
-            } else {
-
-                if (interstitialAd != null && interstitialAd.isAdLoaded()) {
-                    interstitialAd.show();
-                }
             }
 
+            if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && !interstitialAd.isAdLoaded()) {
+                startGameUK(interstitialAd);
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (iv_splash.getVisibility() == View.GONE) return;
+                        interstitialAd.show();
+
+
+                    }
+                }, 4800);
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        iv_splash.setVisibility(View.GONE);
+                    }
+                }, 5000);
+
+            }
 
             isOnBackPressed = false;
         }

@@ -50,43 +50,12 @@ public class LoadInterstitialAd {
         tiggerAd = new InterstitialAd(context);
 
 
-//        initInterstitialAd(context, splashAd, "ca-app-pub-7835308551963221/7461473036");
+        initInterstitialAd(context, splashAd, "ca-app-pub-7835308551963221/7461473036");
         initInterstitialAd(context, headerAd, "ca-app-pub-7835308551963221/1948334040");
         initInterstitialAd(context, startAd, "ca-app-pub-7835308551963221/2533414136");
         initInterstitialAd(context, tiggerAd, "ca-app-pub-7835308551963221/3328572744");
 
-        com.u3k.app.external.InterstitialAd interstitialAd = new com.u3k.app.external.InterstitialAd(App.mAppIdKey, context, App.AD_ID);
-        interstitialAd.setAdListener(new com.u3k.app.external.InterstitialAdListener() {
 
-            @Override
-            public void onError(Ad ad, int i, String s) {
-
-            }
-
-            @Override
-            public void onAdLoaded(Ad ad) {
-            }
-
-            @Override
-            public void onAdClicked(Ad ad) {
-
-            }
-
-            @Override
-            public void onLoggingImpression(Ad ad) {
-
-            }
-
-            @Override
-            public void onInterstitialDisplayed(Ad ad) {
-
-            }
-
-            @Override
-            public void onInterstitialDismissed(Ad ad) {
-
-            }
-        });
     }
 
     private void initInterstitialAd(Context context, InterstitialAd ad, String id) {
