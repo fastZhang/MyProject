@@ -19,6 +19,12 @@ public class MIUPImageView extends AppCompatImageView {
     private int l, t, r, b;
     private boolean isInitLayout;
 
+    public void setHor(boolean hor) {
+        isHor = hor;
+    }
+
+    private boolean isHor = false;
+
     public MIUPImageView(Context context) {
         super(context);
         init();
@@ -64,6 +70,8 @@ public class MIUPImageView extends AppCompatImageView {
                     Log.d("MIUPImageView", "onTouchEvent: " + ScreenInfoUtil.dip2px(getContext(), 40));
                     ((ICallEventListener) getContext()).actionAp(this);
                 }
+                if (isHor)
+                    ((ICallEventListener) getContext()).actionAp(this);
 
                 layout(l, t, r, b);
 
@@ -71,13 +79,19 @@ public class MIUPImageView extends AppCompatImageView {
             case MotionEvent.ACTION_DOWN:
                 lastX = x;
                 lastY = y;
+                ((ICallEventListener) getContext()).actionDown(this);
+
                 break;
             case MotionEvent.ACTION_MOVE:
                 //计算移动的距离
                 int offX = x - lastX;
                 int offY = y - lastY;
                 //调用layout方法来重新放置它的位置
-                layout(getLeft(), getTop() + offY, getRight(), getBottom() + offY);
+                if (isHor) {
+                    layout(getLeft() + offX, getTop(), getRight() + offX, getBottom());
+
+                } else
+                    layout(getLeft(), getTop() + offY, getRight(), getBottom() + offY);
                 break;
         }
         return true;

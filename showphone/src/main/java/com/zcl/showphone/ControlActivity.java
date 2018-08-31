@@ -3,36 +3,27 @@ package com.zcl.showphone;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.CountDownTimer;
-import android.os.Handler;
-import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +34,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
+import com.u3k.app.external.Ad;
 import com.xdandroid.hellodaemon.DaemonEnv;
 import com.xdandroid.hellodaemon.IntentWrapper;
 import com.yanzhenjie.permission.AndPermission;
@@ -51,18 +42,17 @@ import com.yanzhenjie.permission.Permission;
 import com.zcl.showphone.IFace.IAdListener;
 import com.zcl.showphone.IFace.IEventListener;
 import com.zcl.showphone.ad.HandLoadInterstitialAd;
+//import com.zcl.showphone.ad.LoadInterstitialAd;
 import com.zcl.showphone.ad.LoadInterstitialAd;
 import com.zcl.showphone.service.TraceServiceImpl;
 import com.zcl.showphone.utils.AppInfoUtil;
 import com.zcl.showphone.utils.CallSettingUtil;
 import com.zcl.showphone.utils.Feedback;
 import com.zcl.showphone.utils.MtaUtils;
-import com.zcl.showphone.utils.PreferencesUtil;
 import com.zcl.showphone.view.CallModeDialogView;
 import com.zcl.showphone.view.CallTimeDialogView;
 import com.zcl.showphone.view.PicTipDialogView;
-
-import org.w3c.dom.Text;
+import com.zcl.showphone.view.VoiceDialogView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,7 +63,6 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.zcl.showphone.utils.Constant.ALARM_ID;
 import static com.zcl.showphone.utils.Constant.GP_STORE;
 import static com.zcl.showphone.utils.Constant.MI_STORE;
 import static com.zcl.showphone.utils.Constant.SYSTEM_CONTACTS_REQ;
@@ -81,6 +70,8 @@ import static com.zcl.showphone.utils.Constant.SYSTEM_RING_REQ;
 import static com.zcl.showphone.utils.Constant.SYSTEM_VOICE_REQ;
 
 public class ControlActivity extends BaseActivity implements IEventListener, IAdListener {
+
+    public static final String TAG = "ControlActivity";
 
     @BindView(R.id.iv_add)
     ImageView iv_add;
@@ -109,20 +100,36 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 
     @BindView(R.id.theme_mi)
     TextView theme_mi;
+    @BindView(R.id.theme_samsung)
+    TextView theme_samsung;
     @BindView(R.id.theme_blur)
     TextView theme_blur;
 
     @BindView(R.id.iv_guagua)
     ImageView iv_guagua;
 
+    @BindView(R.id.fl_main)
+    FrameLayout fl_main;
+
+    @BindView(R.id.fl_main_content)
+    LinearLayout fl_main_content;
+
+    @BindView(R.id.main_left_drawer_layout)
+    FrameLayout main_left_drawer_layout;
+    @BindView(R.id.main_right_drawer_layout)
+    FrameLayout main_right_drawer_layout;
+
 
     private PicTipDialogView mPicTipDialog;
+    private VoiceDialogView mVoiceDialogView;
     private CallTimeDialogView mCallTimeDialogView;
     private CallModeDialogView mCallModeDialogView;
 
     LoadInterstitialAd loadInterstitialAd;
     protected HandLoadInterstitialAd ad;
     AdView adView;
+
+    com.u3k.app.external.InterstitialAd interstitialAd;
 
 
     public static void startActivity(Activity owner) {
@@ -134,12 +141,26 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
     @SuppressLint("ResourceType")
     @Override
     protected int getLayout() {
+        transparentBar(this);
         return R.layout.activity_control;
+    }
+
+    private int getStateBar3() {
+        int result = 0;
+        int resourceId = this.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = this.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     @Override
     protected void init() {
-
+//        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) fl_main_content.getLayoutParams();
+//        layoutParams.topMargin = getStateBar3();
+//
+//        main_left_drawer_layout.setPadding(0, getStateBar3(), 0, 0);
+//        main_right_drawer_layout.setPadding(0, getStateBar3(), 0, 0);
 
         drawer_layout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
@@ -154,8 +175,52 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 
             }
         });
-
+        interstitialAd = new com.u3k.app.external.InterstitialAd(App.mAppIdKey, this, App.AD_ID);
         loadInterstitialAd = new LoadInterstitialAd(this);
+
+        interstitialAd.setAdListener(new com.u3k.app.external.InterstitialAdListener() {
+
+            @Override
+            public void onError(Ad ad, int i, String s) {
+                Log.d(TAG, "onError: ");
+            }
+
+            @Override
+            public void onAdLoaded(Ad ad) {
+                onASAdLoaded(interstitialAd);
+                Log.d(TAG, "onError: ");
+
+            }
+
+            @Override
+            public void onAdClicked(Ad ad) {
+                Log.d(TAG, "onError: ");
+
+            }
+
+            @Override
+            public void onLoggingImpression(Ad ad) {
+                Log.d(TAG, "onError: ");
+
+            }
+
+            @Override
+            public void onInterstitialDisplayed(Ad ad) {
+                Log.d(TAG, "onError: ");
+
+            }
+
+            @Override
+            public void onInterstitialDismissed(Ad ad) {
+                startGameUK(interstitialAd);
+                Log.d(TAG, "onError: ");
+
+
+            }
+        });
+        startGameUK(interstitialAd);
+
+
         ad = HandLoadInterstitialAd.getInstance(this);
 
         if (!MtaUtils.isAppLive()) {
@@ -174,7 +239,17 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
         theme_android.setTextColor(CallSettingUtil.isThisCalltheme(this, CallSettingUtil.CallTheme.ANDROID5) ? getResources().getColor(R.color.colorMain) : getResources().getColor(R.color.colorMenuTitle));
         theme_mi.setTextColor(CallSettingUtil.isThisCalltheme(this, CallSettingUtil.CallTheme.MI) ? getResources().getColor(R.color.colorMain) : getResources().getColor(R.color.colorMenuTitle));
         theme_blur.setTextColor(CallSettingUtil.isThisCalltheme(this, CallSettingUtil.CallTheme.BLUR) ? getResources().getColor(R.color.colorMain) : getResources().getColor(R.color.colorMenuTitle));
+        theme_samsung.setTextColor(CallSettingUtil.isThisCalltheme(this, CallSettingUtil.CallTheme.SAMSUNG) ? getResources().getColor(R.color.colorMain) : getResources().getColor(R.color.colorMenuTitle));
         initBanner();
+
+
+    }
+
+    public void startGameUK(com.u3k.app.external.InterstitialAd ad) {
+        if (ad != null && !ad.isAdLoaded()) {
+            ad.loadAd();
+        }
+
     }
 
     @Override
@@ -196,10 +271,39 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
                     @Override
                     public void run() {
                         iv_splash.setVisibility(View.GONE);
+
                     }
                 }, 200);
 
             }
+        }
+
+    }
+
+    @Override
+    public void onASAdLoaded(com.u3k.app.external.InterstitialAd ad) {
+
+
+        if (iv_splash.getVisibility() == View.GONE) return;
+
+        mHandler.removeCallbacks(null);
+        mHandler.removeCallbacksAndMessages(null);
+        isOnBackPressed = false;
+
+        if (AppInfoUtil.isGP()) {
+            // Show the ad if it's ready. Otherwise toast and restart the game.
+            if (ad != null && ad.isAdLoaded()) {
+                ad.show();
+            }
+
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    iv_splash.setVisibility(View.GONE);
+
+                }
+            }, 200);
+
         }
 
     }
@@ -215,16 +319,47 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
     @Override
     protected void onResume() {
         super.onResume();
+
+//        if (isOnBackPressed) {
+//            loadBanner(adView);
+//
+//            if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && !loadInterstitialAd.getSplashAd().isLoaded()) {
+//                iv_splash.setVisibility(View.VISIBLE);
+//
+//                mHandler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());
+//                    }
+//                }, 4800);
+//                mHandler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        iv_splash.setVisibility(View.GONE);
+//                    }
+//                }, 5000);
+//            } else {
+//
+//                loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());
+//
+//            }
+//
+//
+//            isOnBackPressed = false;
+//        }
+//
         if (isOnBackPressed) {
             loadBanner(adView);
 
-            if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && !loadInterstitialAd.getSplashAd().isLoaded()) {
+            if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && !interstitialAd.isAdLoaded()) {
                 iv_splash.setVisibility(View.VISIBLE);
 
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());
+                        if (interstitialAd != null && interstitialAd.isAdLoaded()) {
+                            interstitialAd.show();
+                        }
                     }
                 }, 4800);
                 mHandler.postDelayed(new Runnable() {
@@ -235,8 +370,9 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
                 }, 5000);
             } else {
 
-                loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());
-
+                if (interstitialAd != null && interstitialAd.isAdLoaded()) {
+                    interstitialAd.show();
+                }
             }
 
 
@@ -254,9 +390,9 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
             R.id.fl_tigger,
             R.id.fl_theme,
 
-            R.id.try1, R.id.try2, R.id.try_blur,
+            R.id.try1, R.id.try2, R.id.try_blur, R.id.try_samsung,
 
-            R.id.fl_theme_mi, R.id.fl_theme_android, R.id.fl_theme_blur,
+            R.id.fl_theme_mi, R.id.fl_theme_android, R.id.fl_theme_blur, R.id.fl_theme_samsung,
             R.id.fl_rate, R.id.fl_share})
     void onClick(View view) {
         switch (view.getId()) {
@@ -280,6 +416,10 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
                 break;
             case R.id.fl_theme_mi:
                 themeSelect((TextView) theme_mi, CallSettingUtil.CallTheme.MI);
+
+                break;
+            case R.id.fl_theme_samsung:
+                themeSelect((TextView) theme_samsung, CallSettingUtil.CallTheme.SAMSUNG);
 
                 break;
             case R.id.fl_theme_android:
@@ -309,6 +449,12 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 
             case R.id.try_blur:
                 callTheme = CallSettingUtil.CallTheme.BLUR;
+
+                onStartCall();
+                break;
+
+            case R.id.try_samsung:
+                callTheme = CallSettingUtil.CallTheme.SAMSUNG;
 
                 onStartCall();
 
@@ -391,6 +537,7 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 
         theme_android.setTextColor(getResources().getColor(R.color.colorMenuTitle));
         theme_mi.setTextColor(getResources().getColor(R.color.colorMenuTitle));
+        theme_samsung.setTextColor(getResources().getColor(R.color.colorMenuTitle));
         theme_blur.setTextColor(getResources().getColor(R.color.colorMenuTitle));
 
         view.setTextColor(getResources().getColor(R.color.colorMain));
@@ -431,16 +578,12 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
                 .runtime()
                 .permission(Permission.Group.STORAGE)
                 .onGranted(permissions -> {
+                    if (mVoiceDialogView == null) {
+                        mVoiceDialogView = new VoiceDialogView(this);
+                    }
 
-                    Intent intentAlbum = new Intent(Intent.ACTION_PICK);
-//        intentAlbum.setType("image/*");
-//
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("audio/*");
+                    mVoiceDialogView.show();
 
-
-//        Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
-                    startActivityForResult(intent, SYSTEM_VOICE_REQ);
 
                 })
                 .onDenied(permissions -> {
@@ -530,6 +673,12 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 
     }
 
+    @Override
+    public void setVoiceTextView(String name, Uri uri) {
+        tv_voice.setText(name);
+        tv_voice.setTag(uri);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -548,7 +697,9 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
             parseRingData(data);
 
         } else if (resultCode == RESULT_OK && requestCode == SYSTEM_VOICE_REQ) {
-            parseVoiceData(data);
+            if (null != mVoiceDialogView)
+                mVoiceDialogView.onActivityResult(requestCode, resultCode, data);
+
 
         } else if (null != mPicTipDialog) {
             mPicTipDialog.onActivityResult(requestCode, resultCode, data);
@@ -558,33 +709,6 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 
     }
 
-    private void parseVoiceData(Intent data) {
-        try {
-            Uri pickedUri = data.getData();
-            if (null == pickedUri)
-                return;
-
-            Cursor cursor = managedQuery(pickedUri, null, null, null, null);
-
-            if (cursor.moveToFirst()) {
-//                for (int i = 0; i < 6; i++)
-                String name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE));
-
-                if (null != name) {
-                    Log.d("cursor.getString(i)", "parseringData: " + name);
-                    String[] names = name.split("\\.");
-
-                    tv_voice.setText(names[0]);
-                    tv_voice.setTag(pickedUri);
-
-                }
-//                Log.d("cursor.getString(i)", "parseringData: " + );
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     private void parseRingData(Intent data) {
 
@@ -603,7 +727,17 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 //                    song.path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
 //                    song.duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
 //                    song.size = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE));
-                    tv_ring.setText(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)));
+
+                    String name = "";
+                    try {
+                        name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE));
+                    } catch (Exception e) {
+                        name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME));
+                    }
+
+                    if (TextUtils.isEmpty(name)) {
+                        tv_ring.setText(name);
+                    }
                 }
 
                 tv_ring.setTag(pickedUri);
@@ -903,7 +1037,7 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.BOTTOM | Gravity.CENTER;
-        ((FrameLayout) findViewById(R.id.fl_main)).addView(adView, lp);
+        fl_main.addView(adView, 1, lp);
     }
 
 

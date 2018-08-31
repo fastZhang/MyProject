@@ -1,5 +1,6 @@
 package com.zcl.showphone;
 
+import android.annotation.SuppressLint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ public class MainActivity extends BaseActivity {
     TextView tv_add;
 
 
+    @SuppressLint("ResourceType")
     @Override
     protected int getLayout() {
         return R.layout.activity_main;

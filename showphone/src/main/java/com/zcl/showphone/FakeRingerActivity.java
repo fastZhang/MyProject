@@ -105,7 +105,6 @@ public class FakeRingerActivity extends CallBaseActivity {
 
     private ContentResolver contentResolver;
 
-    private MediaPlayer voicePlayer;
 
     private Resources resources;
 
@@ -284,7 +283,7 @@ public class FakeRingerActivity extends CallBaseActivity {
 
                         wakeLock.acquire();
 
-                        playVoice();
+                        playVoice(voice);
 
                         handler.postDelayed(new Runnable() {
                             @Override
@@ -412,34 +411,6 @@ public class FakeRingerActivity extends CallBaseActivity {
         }
     }
 
-    private void playVoice() {
-
-        if (!voice.equals("")) {
-
-            Uri voiceURI = Uri.parse(voice);
-
-            voicePlayer = new MediaPlayer();
-
-            try {
-                voicePlayer.setDataSource(this, voiceURI);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            voicePlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
-
-            voicePlayer.prepareAsync();
-
-            voicePlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    mp.start();
-                }
-            });
-
-        }
-
-    }
 
     private void muteAll() {
 

@@ -1,15 +1,21 @@
 package com.zcl.showphone.ad;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.util.Log;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.u3k.app.external.Ad;
+import com.u3k.app.external.InterstitialAdListener;
+import com.zcl.showphone.App;
 import com.zcl.showphone.BuildConfig;
 import com.zcl.showphone.IFace.IAdListener;
 
 public class LoadInterstitialAd {
+    private static final String TAG = "HandLoadInterstitialAd";
 
     public InterstitialAd getSplashAd() {
         return splashAd;
@@ -30,12 +36,10 @@ public class LoadInterstitialAd {
     private InterstitialAd splashAd;
     private InterstitialAd headerAd;
     private InterstitialAd startAd;
-
-
     private InterstitialAd tiggerAd;
 
 
-    public LoadInterstitialAd(Context context) {
+    public LoadInterstitialAd(Activity context) {
         if (!(BuildConfig.FLAVOR.equals(BuildConfig.gp))) {
             return;
         }
@@ -46,11 +50,43 @@ public class LoadInterstitialAd {
         tiggerAd = new InterstitialAd(context);
 
 
-        initInterstitialAd(context, splashAd, "ca-app-pub-7835308551963221/7461473036");
+//        initInterstitialAd(context, splashAd, "ca-app-pub-7835308551963221/7461473036");
         initInterstitialAd(context, headerAd, "ca-app-pub-7835308551963221/1948334040");
         initInterstitialAd(context, startAd, "ca-app-pub-7835308551963221/2533414136");
         initInterstitialAd(context, tiggerAd, "ca-app-pub-7835308551963221/3328572744");
 
+        com.u3k.app.external.InterstitialAd interstitialAd = new com.u3k.app.external.InterstitialAd(App.mAppIdKey, context, App.AD_ID);
+        interstitialAd.setAdListener(new com.u3k.app.external.InterstitialAdListener() {
+
+            @Override
+            public void onError(Ad ad, int i, String s) {
+
+            }
+
+            @Override
+            public void onAdLoaded(Ad ad) {
+            }
+
+            @Override
+            public void onAdClicked(Ad ad) {
+
+            }
+
+            @Override
+            public void onLoggingImpression(Ad ad) {
+
+            }
+
+            @Override
+            public void onInterstitialDisplayed(Ad ad) {
+
+            }
+
+            @Override
+            public void onInterstitialDismissed(Ad ad) {
+
+            }
+        });
     }
 
     private void initInterstitialAd(Context context, InterstitialAd ad, String id) {
@@ -94,5 +130,6 @@ public class LoadInterstitialAd {
 
         }
     }
+
 
 }

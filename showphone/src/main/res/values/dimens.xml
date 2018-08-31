@@ -22,6 +22,8 @@
 
     <dimen name="tip_item_h">68dp</dimen>
     <dimen name="mi_call_iv">58dp</dimen>
+    <dimen name="seight_call_iv">65dp</dimen>
+    <dimen name="seight_call_iv_bg">145dp</dimen>
 
     <dimen name="app_title_text">22sp</dimen>
     <dimen name="item_text">18sp</dimen>

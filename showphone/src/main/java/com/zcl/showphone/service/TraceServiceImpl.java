@@ -48,7 +48,7 @@ public class TraceServiceImpl extends AbsWorkService {
 
     @Override
     public void startWork(Intent intent, int flags, int startId) {
-        System.out.println("检查磁盘中是否有上次销毁时保存的数据");
+//        System.out.println("检查磁盘中是否有上次销毁时保存的数据");
 //        if (sDisposable != null)
 //            sDisposable.dispose();
 //
@@ -160,6 +160,6 @@ public class TraceServiceImpl extends AbsWorkService {
 
     @Override
     public void onServiceKilled(Intent rootIntent) {
-        System.out.println("保存数据到磁盘。");
+//        System.out.println("保存数据到磁盘。");
     }
 }

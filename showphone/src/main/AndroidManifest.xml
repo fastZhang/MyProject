@@ -24,6 +24,14 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+
     <uses-sdk tools:overrideLibrary="com.example.mid" />
 
     <application
@@ -46,8 +54,8 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".ControlActivity"
-            android:excludeFromRecents="false">
+            android:name="com.zcl.showphone.ControlActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -57,16 +65,21 @@
         <activity android:name=".VirtualActivity" />
         <activity android:name=".SettingActivity" />
 
-        <activity android:name=".AboutActivity"></activity>
+        <activity android:name="com.zcl.showphone.AboutActivity"></activity>
 
         <activity
-            android:name=".FakeRingerActivity"
+            android:name="com.zcl.showphone.FakeRingerActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <activity
             android:name="com.zcl.showphone.activity.mi.MIFakeRingerActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.zcl.showphone.activity.mi.SmEightFakeRingerActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />

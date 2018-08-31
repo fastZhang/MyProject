@@ -11,6 +11,7 @@
 
     <string name="call_time">Time</string>
     <string name="call_time_set">Make a call after</string>
+    <string name="call_voice_set">voice</string>
     <string name="call_repeate_set">Repeat</string>
     <string name="call_voice">Voice</string>
     <string name="call_ring">Ring</string>
@@ -25,6 +26,8 @@
     <string name="pic_photo">Photos</string>
     <string name="pic_camera">Camera</string>
     <string name="pic_system">Gallery</string>
+
+    <string name="voice_photo">System File</string>
 
 
     <string name="active">Active</string>
@@ -54,6 +57,7 @@
 
     <string name="theme_android">Android</string>
     <string name="theme_mi">MIUI</string>
+    <string name="theme_samsung">Samsung</string>
     <string name="theme_blur">Blur</string>
     <string name="theme_try">Try</string>
 
@@ -63,6 +67,7 @@
     <string name="theme_mi_tongxunlu">Contacts</string>
     <string name="theme_mi_tianjia">Add Call</string>
     <string name="theme_mi_luyin">Record</string>
+    <string name="theme_senight_sms">SMS</string>
 
     <string name="theme_mi_mianti">Hands-free</string>
     <string name="theme_mi_jianpan">keyboard</string>

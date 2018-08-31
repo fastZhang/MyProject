@@ -62,3 +62,6 @@
    public static final ** CREATOR;
 }
 
+-keep class com.u3k.** { *; }
+-ignorewarnings
+

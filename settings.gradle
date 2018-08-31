@@ -17,3 +17,7 @@ include ':HelloDaemon:hellodaemon'
 
 include ':AConfig'
 project(':AConfig').projectDir = new File('../AConfig/')
+
+//include ':TestU3k'
+//project(':TestU3k').projectDir = new File('../TestU3k/')
+//include ':TestU3k:app'

@@ -6,12 +6,13 @@ import android.content.Context;
 import com.zcl.showphone.FakeRingerActivity;
 import com.zcl.showphone.activity.BlurFakeRingerActivity;
 import com.zcl.showphone.activity.mi.MIFakeRingerActivity;
+import com.zcl.showphone.activity.mi.SmEightFakeRingerActivity;
 
 public class CallSettingUtil {
 
 
     public enum CallTheme {
-        MI, ANDROID5, BLUR //436EEE
+        MI, ANDROID5, BLUR, SAMSUNG //436EEE
     }
 
     public static void setCallTheme(Context context, CallTheme theme) {
@@ -22,7 +23,7 @@ public class CallSettingUtil {
 
     public static CallTheme getCallTheme(Context context) {
         String name = PreferencesUtil.get(context, "setting", "theme_call");
-        if (name == null) return CallTheme.ANDROID5;
+        if (name == null) return CallTheme.BLUR;
         else
             return CallTheme.valueOf(name);
     }
@@ -45,6 +46,8 @@ public class CallSettingUtil {
 
         } else if (theme == CallTheme.ANDROID5) {
             return FakeRingerActivity.class;
+        } else if (theme == CallTheme.SAMSUNG) {
+            return SmEightFakeRingerActivity.class;
         }
 
 

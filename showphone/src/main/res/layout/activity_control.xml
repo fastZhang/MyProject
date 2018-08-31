@@ -11,11 +11,15 @@
     <FrameLayout
         android:id="@+id/fl_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorMainHook">
 
         <LinearLayout
+            android:id="@+id/fl_main_content"
             android:layout_width="match_parent"
+
             android:layout_height="match_parent"
+            android:background="@color/colorMainBg"
             android:orientation="vertical">
 
             <FrameLayout
@@ -69,20 +73,21 @@
 
 
                 </FrameLayout>
+
                 <FrameLayout
                     android:id="@+id/fl_tigger"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:clickable="true"
                     android:layout_gravity="center|right"
-                    android:layout_marginRight="20dp">
+                    android:layout_marginRight="30dp"
+                    android:clickable="true">
 
 
                     <ImageView
                         android:id="@+id/iv_guagua"
 
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
                         android:layout_gravity="center" />
 
 
@@ -106,10 +111,10 @@
 
                 <ImageView
                     android:id="@+id/iv_add"
-                    android:layout_width="96dp"
+                    android:layout_width="75dp"
                     android:layout_height="96dp"
                     android:layout_margin="20dp"
-                    android:scaleType="fitXY"
+                    android:scaleType="fitCenter"
                     android:src="@mipmap/btn_header" />
 
                 <LinearLayout
@@ -273,16 +278,15 @@
         </LinearLayout>
 
 
-
         <ImageView
             android:id="@+id/iv_splash"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorMainBg"
+            android:clickable="true"
             android:scaleType="center"
             android:src="@mipmap/ic_launcher"
             android:visibility="gone" />
-
 
 
     </FrameLayout>
@@ -293,7 +297,8 @@
         android:id="@+id/main_left_drawer_layout"
         android:layout_width="260dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start">
+        android:layout_gravity="start"
+        android:background="@color/colorBGMask">
 
         <include layout="@layout/activity_setting" />
 
@@ -305,7 +310,8 @@
         android:id="@+id/main_right_drawer_layout"
         android:layout_width="260dp"
         android:layout_height="match_parent"
-        android:layout_gravity="right">
+        android:layout_gravity="right"
+        android:background="@color/colorMainHook">
 
         <include layout="@layout/activity_theme" />
 

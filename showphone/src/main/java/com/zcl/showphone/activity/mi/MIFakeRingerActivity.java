@@ -101,7 +101,6 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
     private Vibrator vibrator;
     private PowerManager.WakeLock wakeLock;
     private NotificationManager notificationManager;
-    private MediaPlayer voicePlayer;
     private Resources resources;
     private AudioManager audioManager;
     private ContentResolver contentResolver;
@@ -221,34 +220,6 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
         fl_called_bg.setVisibility(View.GONE);
     }
 
-    private void playVoice() {
-
-        if (!voice.equals("")) {
-
-            Uri voiceURI = Uri.parse(voice);
-
-            voicePlayer = new MediaPlayer();
-
-            try {
-                voicePlayer.setDataSource(this, voiceURI);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            voicePlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
-
-            voicePlayer.prepareAsync();
-
-            voicePlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    mp.start();
-                }
-            });
-
-        }
-
-    }
 
     private void muteAll() {
 
@@ -410,7 +381,7 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
             mHandler.removeCallbacks(hangUP);
             stopRinging();
             wakeLock.acquire();
-            playVoice();
+            playVoice(voice);
 
             mHandler.postDelayed(new Runnable() {
                 @Override
@@ -431,5 +402,11 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
             mHandler.post(hangUP);
 
         }
+
+    }
+
+    @Override
+    public void actionDown(View view) {
+
     }
 }

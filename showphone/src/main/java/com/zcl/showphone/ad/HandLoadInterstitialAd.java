@@ -1,15 +1,20 @@
 package com.zcl.showphone.ad;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.u3k.app.external.Ad;
+import com.u3k.app.external.InterstitialAdListener;
+import com.zcl.showphone.App;
 import com.zcl.showphone.BuildConfig;
 import com.zcl.showphone.IFace.IAdListener;
 
 public class HandLoadInterstitialAd {
 
+    private static final String TAG = "HandLoadInterstitialAd";
     static HandLoadInterstitialAd instance;
 
 
@@ -27,6 +32,7 @@ public class HandLoadInterstitialAd {
     }
 
     private InterstitialAd splashAd;
+
 
 
     private HandLoadInterstitialAd(Context context) {
@@ -72,5 +78,7 @@ public class HandLoadInterstitialAd {
             ad.show();
         }
     }
+
+
 
 }

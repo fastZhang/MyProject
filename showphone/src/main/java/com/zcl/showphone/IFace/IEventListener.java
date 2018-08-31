@@ -7,4 +7,5 @@ public interface IEventListener {
 
     void setTimeTextView(String time,  String timeNum);
     void setModeTextView(String text, String mode);
+    void setVoiceTextView(String name, Uri uri);
 }

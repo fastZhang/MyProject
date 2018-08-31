@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -97,7 +98,6 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
 
     private ContentResolver contentResolver;
 
-    private MediaPlayer voicePlayer;
 
     private Resources resources;
 
@@ -123,7 +123,6 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
 
     @BindView(R.id.callInfoLayout)
     RelativeLayout mRelativeLayout;
-
 
 
     @SuppressLint("ResourceType")
@@ -283,7 +282,7 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
 
                         wakeLock.acquire();
 
-                        playVoice();
+                        playVoice(voice);
 
                         handler.postDelayed(new Runnable() {
                             @Override
@@ -412,34 +411,6 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
         }
     }
 
-    private void playVoice() {
-
-        if (!voice.equals("")) {
-
-            Uri voiceURI = Uri.parse(voice);
-
-            voicePlayer = new MediaPlayer();
-
-            try {
-                voicePlayer.setDataSource(this, voiceURI);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            voicePlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
-
-            voicePlayer.prepareAsync();
-
-            voicePlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    mp.start();
-                }
-            });
-
-        }
-
-    }
 
     private void muteAll() {
 

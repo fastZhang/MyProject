@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_eight"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/callDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="left"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="25dp"
+            android:gravity="end"
+            android:textColor="@color/darkWhite"
+            android:textSize="14sp"
+            tools:text="00:04" />
+
+        <com.zcl.showphone.view.CircleImageView
+            android:id="@+id/iv_call_pic"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/xiaomitonghuazhongtouxiang" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="@string/unknown"
+            android:textColor="@color/color_mi_text"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/tv_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="10086"
+            android:textColor="@color/color_mi_text"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_called_bg"
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_gravity="bottom"
+            android:background="@color/colorWhite"
+            android:orientation="vertical">
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="top"
+                android:background="@mipmap/s8_ingcoming">
+
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:backgroundTint="@color/colorWhite">
+
+
+                <FrameLayout
+                    android:id="@+id/btn_hangup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+
+
+                    <ImageView
+                        android:layout_width="@dimen/mi_call_iv"
+                        android:layout_height="@dimen/mi_call_iv"
+                        android:src="@mipmap/xiaomitonghuazhongguaduan" />
+
+
+                </FrameLayout>
+
+
+            </FrameLayout>
+
+        </FrameLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical">
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:layout_gravity="bottom"
+                android:backgroundTint="@color/colorWhite">
+
+
+                <FrameLayout
+                    android:id="@+id/iv_hangup_bg"
+
+                    android:layout_width="@dimen/seight_call_iv_bg"
+                    android:layout_height="@dimen/seight_call_iv_bg"
+                    android:layout_gravity="center|left"
+                    android:layout_marginLeft="-10dp"
+                    android:background="@drawable/bg_eight_td"
+                    android:visibility="gone">
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="@dimen/seight_call_iv_bg"
+
+                    android:layout_height="@dimen/seight_call_iv_bg"
+                    android:layout_gravity="center|left"
+                    android:layout_marginLeft="-10dp">
+
+                    <com.zcl.showphone.view.MIUPImageView
+                        android:id="@+id/iv_hangup"
+                        android:layout_width="@dimen/seight_call_iv"
+                        android:layout_height="@dimen/seight_call_iv"
+                        android:layout_gravity="center"
+
+                        android:src="@mipmap/xiaomitonghuazhongguaduan" />
+                </FrameLayout>
+
+
+                <FrameLayout
+                    android:id="@+id/iv_answer_bg"
+                    android:layout_width="@dimen/seight_call_iv_bg"
+                    android:layout_height="@dimen/seight_call_iv_bg"
+                    android:layout_gravity="center|right"
+                    android:layout_marginRight="-10dp"
+                    android:background="@drawable/bg_eight_td"
+                    android:visibility="gone">
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="@dimen/seight_call_iv_bg"
+
+                    android:layout_height="@dimen/seight_call_iv_bg"
+                    android:layout_gravity="center|right"
+                    android:layout_marginRight="-10dp">
+
+                    <com.zcl.showphone.view.MIUPImageView
+                        android:id="@+id/iv_answer"
+
+                        android:layout_width="@dimen/seight_call_iv"
+                        android:layout_height="@dimen/seight_call_iv"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/xiaomiweijietongjieting" />
+                </FrameLayout>
+
+                <ImageView
+                    android:id="@+id/iv_animation"
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="left|center"
+                    android:layout_marginLeft="130dp"
+                    android:rotation="90"
+                    android:src="@mipmap/xiangshang" />
+
+
+                <ImageView
+                    android:id="@+id/iv_animation_r"
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right|center"
+                    android:layout_marginRight="130dp"
+                    android:rotation="270"
+                    android:src="@mipmap/xiangshang" />
+            </FrameLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/bg_eight_xinxi"
+                android:gravity="center"
+                android:text="@string/theme_senight_sms"
+                android:textColor="@color/colorWhite"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+</LinearLayout>
