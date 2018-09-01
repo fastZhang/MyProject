@@ -53,7 +53,7 @@ public class LoadInterstitialAd {
         initInterstitialAd(context, splashAd, "ca-app-pub-7835308551963221/7461473036");
         initInterstitialAd(context, headerAd, "ca-app-pub-7835308551963221/1948334040");
         initInterstitialAd(context, startAd, "ca-app-pub-7835308551963221/2533414136");
-        initInterstitialAd(context, tiggerAd, "ca-app-pub-7835308551963221/3328572744");
+//        initInterstitialAd(context, tiggerAd, "ca-app-pub-7835308551963221/3328572744");
 
 
     }

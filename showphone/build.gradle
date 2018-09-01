@@ -22,7 +22,7 @@ android {
         minSdkVersion rootEXT.minSdkVersion
         targetSdkVersion targetSdkVersion
 
-        versionCode 4
+        versionCode 5
         versionName "1.03"
 
 //        ndk {
