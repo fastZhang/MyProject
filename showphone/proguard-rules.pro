@@ -62,6 +62,19 @@
    public static final ** CREATOR;
 }
 
--keep class com.u3k.** { *; }
--ignorewarnings
+#-keep class com.u3k.** { *; }
+#-ignorewarnings
+
+
+-keep class com.umeng.** {*;}
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+-keep public class com.zcl.showphone.R$*{
+public static final int *;
+}
 

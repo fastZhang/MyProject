@@ -6,7 +6,8 @@ import android.os.Build;
 import com.google.android.gms.ads.MobileAds;
 import com.tencent.stat.StatConfig;
 import com.tencent.stat.StatService;
-import com.u3k.app.SdkMain;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 import com.xdandroid.hellodaemon.DaemonEnv;
 import com.zcl.showphone.service.TraceServiceImpl;
 
@@ -26,8 +27,9 @@ public class App extends Application {
 
 
         }
-        mAppIdKey = SdkMain.init(this, APPID, CHANNELID);
-
+//        mAppIdKey = SdkMain.init(this, APPID, CHANNELID);
+        UMConfigure.init(this, "5b7d341bf29d9864d300001a", BuildConfig.FLAVOR, UMConfigure.DEVICE_TYPE_PHONE, null);
+        MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
 
         // [可选]设置是否打开debug输出，上线时请关闭，Logcat标签为"MtaSDK"
 //        StatConfig.setDebugEnable(true);

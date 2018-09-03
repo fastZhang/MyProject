@@ -10,16 +10,16 @@ buildscript {
         jcenter()
         mavenCentral()
 
-        maven {
-            url uri('./u3kbuild')
-        }
+//        maven {
+//            url uri('./u3kbuild')
+//        }
 
 
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.4'
 
-        classpath 'com.adflash.plugin:app:1.0'
+//        classpath 'com.adflash.plugin:app:1.0'
 
     }
 }

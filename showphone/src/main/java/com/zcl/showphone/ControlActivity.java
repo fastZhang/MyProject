@@ -8,6 +8,8 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -34,7 +36,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
-import com.u3k.app.external.Ad;
 import com.xdandroid.hellodaemon.DaemonEnv;
 import com.xdandroid.hellodaemon.IntentWrapper;
 import com.yanzhenjie.permission.AndPermission;
@@ -63,6 +64,7 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static android.view.View.VISIBLE;
 import static com.zcl.showphone.utils.Constant.GP_STORE;
 import static com.zcl.showphone.utils.Constant.MI_STORE;
 import static com.zcl.showphone.utils.Constant.SYSTEM_CONTACTS_REQ;
@@ -119,6 +121,14 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
     @BindView(R.id.main_right_drawer_layout)
     FrameLayout main_right_drawer_layout;
 
+    @BindView(R.id.fl_tigger_match)
+    FrameLayout fl_tigger_match;
+    @BindView(R.id.image_gift_anim)
+    ImageView image_gift_anim;
+
+    @BindView(R.id.btn_giftad_delete)
+    ImageView btn_giftad_delete;
+
 
     private PicTipDialogView mPicTipDialog;
     private VoiceDialogView mVoiceDialogView;
@@ -129,7 +139,7 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
     protected HandLoadInterstitialAd ad;
     AdView adView;
 
-    com.u3k.app.external.InterstitialAd interstitialAd;
+//    com.u3k.app.external.InterstitialAd interstitialAd; //艾闪
 
 
     public static void startActivity(Activity owner) {
@@ -138,7 +148,6 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
     }
 
 
-    @SuppressLint("ResourceType")
     @Override
     protected int getLayout() {
         transparentBar(this);
@@ -175,50 +184,50 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 
             }
         });
-        interstitialAd = new com.u3k.app.external.InterstitialAd(App.mAppIdKey, this, App.AD_ID);
         loadInterstitialAd = new LoadInterstitialAd(this);
 
-        interstitialAd.setAdListener(new com.u3k.app.external.InterstitialAdListener() {
-
-            @Override
-            public void onError(Ad ad, int i, String s) {
-                Log.d(TAG, "onError: ");
-            }
-
-            @Override
-            public void onAdLoaded(Ad ad) {
-                onASAdLoaded(interstitialAd);
-                Log.d(TAG, "onError: ");
-
-            }
-
-            @Override
-            public void onAdClicked(Ad ad) {
-                Log.d(TAG, "onError: ");
-
-            }
-
-            @Override
-            public void onLoggingImpression(Ad ad) {
-                Log.d(TAG, "onError: ");
-
-            }
-
-            @Override
-            public void onInterstitialDisplayed(Ad ad) {
-                Log.d(TAG, "onError: ");
-
-            }
-
-            @Override
-            public void onInterstitialDismissed(Ad ad) {
-                startGameUK(interstitialAd);
-                Log.d(TAG, "onError: ");
-
-
-            }
-        });
-        startGameUK(interstitialAd);
+//        interstitialAd = new com.u3k.app.external.InterstitialAd(App.mAppIdKey, this, App.AD_ID);
+//        interstitialAd.setAdListener(new com.u3k.app.external.InterstitialAdListener() {
+//
+//            @Override
+//            public void onError(Ad ad, int i, String s) {
+//                Log.d(TAG, "onError: ");
+//            }
+//
+//            @Override
+//            public void onAdLoaded(Ad ad) {
+//                onASAdLoaded(interstitialAd);
+//                Log.d(TAG, "onError: ");
+//
+//            }
+//
+//            @Override
+//            public void onAdClicked(Ad ad) {
+//                Log.d(TAG, "onError: ");
+//
+//            }
+//
+//            @Override
+//            public void onLoggingImpression(Ad ad) {
+//                Log.d(TAG, "onError: ");
+//
+//            }
+//
+//            @Override
+//            public void onInterstitialDisplayed(Ad ad) {
+//                Log.d(TAG, "onError: ");
+//
+//            }
+//
+//            @Override
+//            public void onInterstitialDismissed(Ad ad) {
+//                startGameUK(interstitialAd);
+//                Log.d(TAG, "onError: ");
+//
+//
+//            }
+//        });
+//        startGameUK(interstitialAd);
 
 
         ad = HandLoadInterstitialAd.getInstance(this);
@@ -241,16 +250,17 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
         theme_blur.setTextColor(CallSettingUtil.isThisCalltheme(this, CallSettingUtil.CallTheme.BLUR) ? getResources().getColor(R.color.colorMain) : getResources().getColor(R.color.colorMenuTitle));
         theme_samsung.setTextColor(CallSettingUtil.isThisCalltheme(this, CallSettingUtil.CallTheme.SAMSUNG) ? getResources().getColor(R.color.colorMain) : getResources().getColor(R.color.colorMenuTitle));
         initBanner();
+        fl_tigger_match.setVisibility(View.GONE);
 
 
     }
 
-    public void startGameUK(com.u3k.app.external.InterstitialAd ad) {
-        if (ad != null && !ad.isAdLoaded()) {
-            ad.loadAd();
-        }
-
-    }
+//    public void startGameUK(com.u3k.app.external.InterstitialAd ad) {
+//        if (ad != null && !ad.isAdLoaded()) {
+//            ad.loadAd();
+//        }
+//
+//    }
 
     @Override
     public void onAdLoaded(InterstitialAd ad) {
@@ -278,35 +288,46 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
             }
         }
 
-    }
+        if (ad == loadInterstitialAd.getTiggerAd()) {
 
-    @Override
-    public void onASAdLoaded(com.u3k.app.external.InterstitialAd ad) {
+            if (AppInfoUtil.isGP() && fl_tigger_match.getVisibility() == VISIBLE) {
+                loadInterstitialAd.showInterstitial(loadInterstitialAd.getTiggerAd());
+                fl_tigger_match.postDelayed(() -> {
+                    fl_tigger_match.setVisibility(View.GONE);
+                }, 100);
 
-
-        if (iv_splash.getVisibility() == View.GONE) return;
-
-        mHandler.removeCallbacks(null);
-        mHandler.removeCallbacksAndMessages(null);
-        isOnBackPressed = false;
-
-        if (AppInfoUtil.isGP()) {
-            // Show the ad if it's ready. Otherwise toast and restart the game.
-            if (ad != null && ad.isAdLoaded()) {
-                ad.show();
             }
 
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    iv_splash.setVisibility(View.GONE);
-
-                }
-            }, 200);
-
         }
-
     }
+
+//    @Override
+//    public void onASAdLoaded(com.u3k.app.external.InterstitialAd ad) {
+//
+//
+//        if (iv_splash.getVisibility() == View.GONE) return;
+//
+//        mHandler.removeCallbacks(null);
+//        mHandler.removeCallbacksAndMessages(null);
+//        isOnBackPressed = false;
+//
+//        if (AppInfoUtil.isGP()) {
+//            // Show the ad if it's ready. Otherwise toast and restart the game.
+////            if (ad != null && ad.isAdLoaded()) {
+////                ad.show();
+////            }
+//
+//            mHandler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    iv_splash.setVisibility(View.GONE);
+//
+//                }
+//            }, 200);
+//
+//        }
+//
+//    }
 
     @Override
     public void onAdClosed(InterstitialAd ad) {
@@ -324,55 +345,46 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
             loadBanner(adView);
             if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && loadInterstitialAd.getSplashAd().isLoaded()) {
 
-                loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());
+                loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());//显示
 
-            } else if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && interstitialAd.isAdLoaded()) {
-                interstitialAd.show();
-
-            } else {
-                iv_splash.setVisibility(View.VISIBLE);
+            }
+//            else if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && interstitialAd.isAdLoaded()) {
+//                interstitialAd.show();
+//
+//            }
+            else {
+                iv_splash.setVisibility(VISIBLE);
 
             }
 
 
             if (!loadInterstitialAd.getSplashAd().isLoaded()) {
-                loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());
-
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (iv_splash.getVisibility() == View.GONE) return;
-                        loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());
-
-                    }
-                }, 4800);
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        iv_splash.setVisibility(View.GONE);
-                    }
-                }, 5000);
-            }
-
-            if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && !interstitialAd.isAdLoaded()) {
-                startGameUK(interstitialAd);
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (iv_splash.getVisibility() == View.GONE) return;
-                        interstitialAd.show();
-
-
-                    }
-                }, 4800);
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        iv_splash.setVisibility(View.GONE);
-                    }
-                }, 5000);
+                loadInterstitialAd.startGame(loadInterstitialAd.getSplashAd());//加载
 
             }
+
+//            if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && !interstitialAd.isAdLoaded()) {
+//                startGameUK(interstitialAd); //加载
+//            }
+
+
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (iv_splash.getVisibility() == View.GONE) return;
+                    if (!loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd())) {
+
+//                        interstitialAd.show();
+                    }
+
+                }
+            }, 4800);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    iv_splash.setVisibility(View.GONE);
+                }
+            }, 5000);
 
             isOnBackPressed = false;
         }
@@ -385,7 +397,7 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
             R.id.cv_callvolice, R.id.cv_callmode,
             R.id.iv_finish, R.id.fl_pp,
             R.id.fl_feedback, R.id.fl_about,
-            R.id.fl_tigger,
+            R.id.fl_tigger, R.id.btn_giftad_delete,
             R.id.fl_theme,
 
             R.id.try1, R.id.try2, R.id.try_blur, R.id.try_samsung,
@@ -401,12 +413,19 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
                                 (AppInfoUtil.isGP() ? GP_STORE : MI_STORE)
                                 + "details?id=com.zcl.showphone");
                 break;
-            case R.id.fl_tigger:
+            case R.id.btn_giftad_delete:
+                fl_tigger_match.setVisibility(View.GONE);
 
-                loadInterstitialAd.showInterstitial(loadInterstitialAd.getTiggerAd());
+                break;
+
+            case R.id.fl_tigger:
+                fl_tigger_match.setVisibility(VISIBLE);
+                setGifDrawable(R.drawable.ani_home_top_giftad);
+                loadInterstitialAd.startGame(loadInterstitialAd.getTiggerAd());
                 break;
 
             case R.id.fl_rate:
+                Toast.makeText(this, getString(R.string.thinks), Toast.LENGTH_LONG).show();
                 rate();
                 break;
             case R.id.fl_theme:
@@ -464,7 +483,7 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
                 break;
             case R.id.iv_add:
 
-                loadInterstitialAd.showInterstitial(loadInterstitialAd.getHeaderAd());
+                loadInterstitialAd.startGame(loadInterstitialAd.getHeaderAd());
 
                 onToAddpic();
 
@@ -650,6 +669,8 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(iv_add);
         iv_add.setTag(url);
+
+        loadInterstitialAd.showInterstitial(loadInterstitialAd.getHeaderAd());
     }
 
     @Override
@@ -1009,10 +1030,13 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
     //防止华为机型未加入白名单时按返回键回到桌面再锁屏后几秒钟进程被杀
     boolean isOnBackPressed = true;
 
+    @Override
     public void onBackPressed() {
         if (drawer_layout.isDrawerOpen(Gravity.START) || drawer_layout.isDrawerOpen(Gravity.RIGHT))
             drawer_layout.closeDrawers();
-        else {
+        else if (fl_tigger_match.getVisibility() == VISIBLE) {
+
+        } else {
             IntentWrapper.onBackPressed(this);
             isOnBackPressed = true;
         }
@@ -1047,5 +1071,16 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 
     }
 
+    public void setGifDrawable(int resId) {
+        if (image_gift_anim != null) {
+            image_gift_anim.setBackgroundResource(resId);
+            image_gift_anim.setVisibility(VISIBLE);
+            Drawable drawable = image_gift_anim.getBackground();
+            if (drawable instanceof AnimationDrawable) {
+                ((AnimationDrawable) drawable).start();
+            }
+
+        }
+    }
 
 }

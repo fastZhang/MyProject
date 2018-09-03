@@ -162,7 +162,7 @@
             android:layout_height="@dimen/tip_item_h"
             android:button="@null"
             android:gravity="center"
-            android:text="interval 10s and 3 repetition" />
+            android:text="@string/call_mode_10" />
 
 
         <View
@@ -178,7 +178,7 @@
 
             android:button="@null"
             android:gravity="center"
-            android:text="interval 30s and 3 repetition" />
+            android:text="@string/call_mode_30" />
 
 
         <View
@@ -194,7 +194,7 @@
             android:button="@null"
             android:gravity="center"
 
-            android:text="interval 60s and 3 repetition" />
+            android:text="@string/call_mode_60" />
 
     </RadioGroup>
 

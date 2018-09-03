@@ -18,6 +18,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -63,7 +64,9 @@ public class PicTipDialogView extends Dialog {
     public PicTipDialogView(@NonNull final Context context) {
         super(context);
         mContext = context;
-        setContentView(R.layout.view_pic_tip);
+        ((ViewGroup) getWindow().getDecorView()).addView(View.inflate(context, R.layout.view_pic_tip, null));
+
+//        setContentView(R.layout.view_pic_tip);
         ButterKnife.bind(this);
 
 
@@ -129,7 +132,6 @@ public class PicTipDialogView extends Dialog {
 
         if (resultCode == RESULT_OK && requestCode == REQUEST_CROP) {
             final Uri resultUri = UCrop.getOutput(data);
-            Intent intent = new Intent();
             ArrayList<String> img = new ArrayList<>();
             String crop_path = resultUri.getPath();
 //            isCropOver = true;

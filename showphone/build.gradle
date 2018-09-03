@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
-apply plugin: 'u3kbuild'
-
-
-u3k {
-    addApiRefferer 'com.zcl.showphone.ControlActivity'
-}
+//apply plugin: 'u3kbuild'
+//
+//
+//u3k {
+//    addApiRefferer 'com.zcl.showphone.ControlActivity'
+//}
 
 def rootEXT = rootProject.ext
 
@@ -22,8 +22,8 @@ android {
         minSdkVersion rootEXT.minSdkVersion
         targetSdkVersion targetSdkVersion
 
-        versionCode 5
-        versionName "1.03"
+        versionCode 6
+        versionName "1.04"
 
 //        ndk {
 //            abiFilters "armeabi", "armeabi-v7a", "x86"
@@ -115,7 +115,7 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    api files('libs/u3ksdk.jar')
+//    api files('libs/u3ksdk.jar')
 
     implementation appcompat_v7
     implementation cardview_v7
@@ -133,5 +133,8 @@ dependencies {
     implementation 'com.nineoldandroids:library:2.4.0'
 
 
+
+    implementation 'com.umeng.sdk:common:1.5.0'
+    implementation 'com.umeng.sdk:analytics:7.5.0'
 }
 

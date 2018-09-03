@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -35,7 +36,8 @@ public class CallModeDialogView extends Dialog {
     public CallModeDialogView(@NonNull final Context context) {
         super(context);
         mContext = context;
-        setContentView(R.layout.view_callmode_tip);
+        ((ViewGroup) getWindow().getDecorView()).addView(View.inflate(context, R.layout.view_callmode_tip, null));
+//        setContentView(R.layout.view_callmode_tip);
         ButterKnife.bind(this);
     }
 

@@ -8,8 +8,6 @@ import android.util.Log;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.u3k.app.external.Ad;
-import com.u3k.app.external.InterstitialAdListener;
 import com.zcl.showphone.App;
 import com.zcl.showphone.BuildConfig;
 import com.zcl.showphone.IFace.IAdListener;
@@ -46,14 +44,17 @@ public class LoadInterstitialAd {
 
         splashAd = new InterstitialAd(context);
         headerAd = new InterstitialAd(context);
-        startAd = new InterstitialAd(context);
+//        startAd = new InterstitialAd(context);
         tiggerAd = new InterstitialAd(context);
 
 
         initInterstitialAd(context, splashAd, "ca-app-pub-7835308551963221/7461473036");
         initInterstitialAd(context, headerAd, "ca-app-pub-7835308551963221/1948334040");
-        initInterstitialAd(context, startAd, "ca-app-pub-7835308551963221/2533414136");
-//        initInterstitialAd(context, tiggerAd, "ca-app-pub-7835308551963221/3328572744");
+//        initInterstitialAd(context, startAd, "ca-app-pub-7835308551963221/2533414136");
+        initInterstitialAd(context, tiggerAd, "ca-app-pub-7835308551963221/3328572744");
+
+        startGame(splashAd);
+//        startGame(tiggerAd);
 
 
     }
@@ -63,7 +64,7 @@ public class LoadInterstitialAd {
         ad.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {
-                startGame(ad);
+//                startGame(ad);
                 if (null != context)
                     ((IAdListener) context).onAdClosed(ad);
             }
@@ -76,10 +77,9 @@ public class LoadInterstitialAd {
             }
         });
 
-        startGame(ad);
     }
 
-    private void startGame(InterstitialAd ad) {
+    public void startGame(InterstitialAd ad) {
         if (ad != null && !ad.isLoading() && !ad.isLoaded()) {
             AdRequest adRequest = new AdRequest.Builder().build();
 //            AdRequest adRequest = new AdRequest.Builder().addTestDevice("B09B121E39796297E267CE7F263B3D26").build();
@@ -94,7 +94,7 @@ public class LoadInterstitialAd {
             ad.show();
             return true;
         } else {
-            startGame(ad);
+//            startGame(ad);
             return false;
 
         }

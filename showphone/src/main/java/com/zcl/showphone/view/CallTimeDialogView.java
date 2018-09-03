@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -61,7 +62,9 @@ public class CallTimeDialogView extends Dialog {
     public CallTimeDialogView(@NonNull final Context context) {
         super(context);
         mContext = context;
-        setContentView(R.layout.view_calltime_tip);
+        ((ViewGroup) getWindow().getDecorView()).addView(View.inflate(context, R.layout.view_calltime_tip, null));
+
+//        setContentView(R.layout.view_calltime_tip);
         ButterKnife.bind(this);
 
     }

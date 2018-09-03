@@ -182,7 +182,6 @@
 
 
         <FrameLayout
-
             android:layout_width="match_parent"
             android:layout_height="@dimen/tip_item_h">
 

@@ -77,11 +77,11 @@
                 <FrameLayout
                     android:id="@+id/fl_tigger"
                     android:layout_width="50dp"
-                    android:visibility="gone"
                     android:layout_height="50dp"
                     android:layout_gravity="center|right"
-                    android:layout_marginRight="30dp"
-                    android:clickable="true">
+                    android:layout_marginRight="25dp"
+                    android:clickable="true"
+                    android:visibility="visible">
 
 
                     <ImageView
@@ -289,6 +289,8 @@
             android:src="@mipmap/ic_launcher"
             android:visibility="gone" />
 
+        <include
+            android:id="@+id/fl_tigger_match" layout="@layout/view_gift_ad" />
 
     </FrameLayout>
 

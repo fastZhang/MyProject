@@ -1,0 +1,81 @@
+<resources>
+
+
+    <string name="app_name">假電話</string>
+    <string name="app_setting">設置</string>
+    <string name="app_theme">來電主題</string>
+    <string name="app_about">關於</string>
+
+    <string name="call_start">開始</string>
+
+    <string name="call_man">姓名</string>
+    <string name="call_number">號碼</string>
+
+    <string name="call_time">時間</string>
+    <string name="call_time_set">稍後</string>
+    <string name="call_voice_set">語音</string>
+    <string name="call_repeate_set">重複</string>
+    <string name="call_voice">語音</string>
+    <string name="call_ring">鈴音</string>
+    <string name="call_mode">重複</string>
+
+    <string name="call_time_type">3s後來電</string>
+    <string name="call_volice_type">默認</string>
+    <string name="call_ring_type">系統默認</string>
+    <string name="call_mode_type">無</string>
+    <string name="call_mode_10">間隔10s重複3次</string>
+    <string name="call_mode_30">間隔30s重複3次</string>
+    <string name="call_mode_60">間隔60s重複3次</string>
+
+    <string name="pic_photo">頭像</string>
+    <string name="pic_camera">相機</string>
+    <string name="pic_system">相冊</string>
+
+    <string name="voice_photo">文件夾</string>
+
+
+    <string name="active">執行</string>
+
+
+    <string name="Privacy">隱私權政策</string>
+    <string name="Version">版本號:</string>
+    <string name="Rate">鼓勵</string>
+    <string name="Share">分享</string>
+    <string name="FeedBack">建議</string>
+    <string name="About">關於</string>
+    <string name="More">更新中...</string>
+
+    <string name="unknown">未知</string>
+    <string name="unknown_number">未知號碼</string>
+    <string name="incoming_call">來電</string>
+    <string name="missed_call">未接來電</string>
+
+
+    <string name="text_permission">請到系統設置中打開相機和存儲權限</string>
+    <string name="text_permission_contacts">請到系統設置中打開聯繫人權限</string>
+    <string name="text_permission_call_log">請到系統設置中打開電話紀錄權限</string>
+    <string name="text_select_theme">已選擇</string>
+
+    <string name="number_null">輸入號碼</string>
+    <string name="call_ready">設置完畢!</string>
+
+    <string name="theme_android">安卓</string>
+    <string name="theme_mi">小米</string>
+    <string name="theme_samsung">三星</string>
+    <string name="theme_blur">常規</string>
+    <string name="theme_try">預覽</string>
+
+    <string name="theme_mi_jy">靜音</string>
+    <string name="theme_mi_zanting">暫停</string>
+    <string name="theme_mi_bianqian">備註</string>
+    <string name="theme_mi_tongxunlu">聯繫人</string>
+    <string name="theme_mi_tianjia">增加來電</string>
+    <string name="theme_mi_luyin">錄音</string>
+    <string name="theme_senight_sms">SMS</string>
+
+    <string name="theme_mi_mianti">免提</string>
+    <string name="theme_mi_jianpan">鍵盤</string>
+    <string name="thinks">感謝5星好評</string>
+
+
+</resources>

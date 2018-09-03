@@ -61,7 +61,8 @@ public class VoiceDialogView extends Dialog {
     public VoiceDialogView(@NonNull final Activity context) {
         super(context);
         mContext = context;
-        setContentView(R.layout.view_voice_tip);
+        ((ViewGroup) getWindow().getDecorView()).addView(View.inflate(context, R.layout.view_voice_tip, null));
+//        setContentView(R.layout.view_voice_tip);
         ButterKnife.bind(this);
 
 

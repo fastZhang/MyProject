@@ -14,6 +14,7 @@
     <color name="colorMainBg">#fefefe</color>
     <color name="colorMenuTitle">#666</color>
     <color name="colorBGMask">#22000000</color>
+    <color name="colorBGMaskDeep">#cc000000</color>
     <color name="color333">#333</color>
 
 

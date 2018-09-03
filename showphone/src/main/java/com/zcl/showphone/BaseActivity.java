@@ -8,11 +8,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
 
@@ -30,7 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
-    @IdRes
+    @LayoutRes
     protected abstract int getLayout();
 
 
@@ -108,4 +111,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+
+
+    }
 }
