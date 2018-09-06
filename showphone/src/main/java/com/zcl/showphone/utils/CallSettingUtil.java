@@ -23,7 +23,7 @@ public class CallSettingUtil {
 
     public static CallTheme getCallTheme(Context context) {
         String name = PreferencesUtil.get(context, "setting", "theme_call");
-        if (name == null) return CallTheme.BLUR;
+        if (name == null) return CallTheme.MI;
         else
             return CallTheme.valueOf(name);
     }
@@ -51,7 +51,7 @@ public class CallSettingUtil {
         }
 
 
-        return BlurFakeRingerActivity.class;
+        return MIFakeRingerActivity.class;
 
     }
 
@@ -60,6 +60,9 @@ public class CallSettingUtil {
 
         String name = PreferencesUtil.get(application, "setting", "theme_call");
         if (name == null) {
+            if (theme == CallTheme.MI)
+                return true;
+
             return false;
         } else if (CallTheme.valueOf(name) == theme)
             return true;

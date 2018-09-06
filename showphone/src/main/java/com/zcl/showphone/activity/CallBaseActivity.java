@@ -14,7 +14,6 @@ import android.view.WindowManager;
 
 import com.zcl.showphone.BaseActivity;
 import com.zcl.showphone.R;
-import com.zcl.showphone.ad.HandLoadInterstitialAd;
 
 public abstract class CallBaseActivity extends BaseActivity {
 
@@ -22,8 +21,6 @@ public abstract class CallBaseActivity extends BaseActivity {
 
 
     protected void callFinishAction() {
-//        HandLoadInterstitialAd.getInstance(this).showInterstitial(HandLoadInterstitialAd.getInstance(this).getInterstitialAd());
-        HandLoadInterstitialAd.getInstance(this).showInterstitial(HandLoadInterstitialAd.getInstance(this).getSplashAd());
     }
 
     protected void fullScreen(Activity activity) {

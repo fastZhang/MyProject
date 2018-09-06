@@ -19,11 +19,12 @@ android {
     defaultConfig {
         applicationId "com.zcl.showphone"
 
-        minSdkVersion rootEXT.minSdkVersion
+        minSdkVersion 19
+//        minSdkVersion rootEXT.minSdkVersion
         targetSdkVersion targetSdkVersion
 
-        versionCode 6
-        versionName "1.04"
+        versionCode 1
+        versionName "1.00"
 
 //        ndk {
 //            abiFilters "armeabi", "armeabi-v7a", "x86"
@@ -115,7 +116,8 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-//    api files('libs/u3ksdk.jar')
+    implementation files('libs/MimoSdk.jar')
+
 
     implementation appcompat_v7
     implementation cardview_v7
@@ -127,7 +129,6 @@ dependencies {
     implementation glide
     implementation project(':wqgallery:photogallery')
     implementation project(':HelloDaemon:hellodaemon')
-    implementation play_services_ads
     implementation 'com.qq.mta:mta:3.4.7-release'
     implementation 'com.tencent.mid:mid:4.06-release'
     implementation 'com.nineoldandroids:library:2.4.0'

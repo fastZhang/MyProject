@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">模拟来电</string>
+    <string name="app_name">假来电</string>
     <string name="app_setting">设置</string>
     <string name="app_theme">来电主题</string>
     <string name="app_about">关于</string>

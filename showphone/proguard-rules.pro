@@ -78,3 +78,9 @@
 public static final int *;
 }
 
+
+
+#mi
+-keep class com.xiaomi.ad.**{*;}
+-keep class com.miui.zeus.**{*;}
+

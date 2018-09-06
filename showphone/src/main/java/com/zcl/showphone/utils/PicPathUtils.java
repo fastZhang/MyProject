@@ -48,6 +48,8 @@ public class PicPathUtils {
             } else if (path.contains(hander2)) {
                 string = getWrapPath(context, hander2, path);
 
+            } else {
+                string = path;
             }
         } catch (IOException e) {
             e.printStackTrace();

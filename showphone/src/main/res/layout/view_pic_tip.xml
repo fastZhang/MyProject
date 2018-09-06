@@ -37,7 +37,7 @@
 
     <FrameLayout
         android:id="@+id/fl_camera"
-
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="70dp">
 
@@ -67,6 +67,7 @@
 
     <FrameLayout
         android:id="@+id/fl_systemphoto"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="70dp">
 

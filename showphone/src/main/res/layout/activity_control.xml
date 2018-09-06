@@ -9,7 +9,6 @@
     tools:context=".ControlActivity">
 
     <FrameLayout
-        android:id="@+id/fl_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorMainHook">
@@ -81,7 +80,7 @@
                     android:layout_gravity="center|right"
                     android:layout_marginRight="25dp"
                     android:clickable="true"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
 
                     <ImageView
@@ -289,8 +288,17 @@
             android:src="@mipmap/ic_launcher"
             android:visibility="gone" />
 
+
+        <FrameLayout
+            android:id="@+id/fl_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
+
         <include
-            android:id="@+id/fl_tigger_match" layout="@layout/view_gift_ad" />
+            android:id="@+id/fl_tigger_match"
+            layout="@layout/view_gift_ad" />
 
     </FrameLayout>
 

@@ -21,7 +21,8 @@ public class Feedback {
         this.context = activity;
         this.appName = activity.getString(R.string.app_name);
 
-        this.emailAddress = MT + (AppInfoUtil.isGP() ? "johnkuok568@gmail.com" : "zhangl0186@gmail.com");
+        this.emailAddress = MT + (AppInfoUtil.isGP() ? "zhangl0186@gmail.com" : "zhangl0186@gmail.com");
+//        this.emailAddress = MT + (AppInfoUtil.isGP() ? "johnkuok568@gmail.com" : "zhangl0186@gmail.com");
     }
 
     public void startFeedback() {

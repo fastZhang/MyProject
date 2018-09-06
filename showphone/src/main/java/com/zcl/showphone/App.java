@@ -3,7 +3,7 @@ package com.zcl.showphone;
 import android.app.Application;
 import android.os.Build;
 
-import com.google.android.gms.ads.MobileAds;
+import com.miui.zeus.mimo.sdk.MimoSdk;
 import com.tencent.stat.StatConfig;
 import com.tencent.stat.StatService;
 import com.umeng.analytics.MobclickAgent;
@@ -21,12 +21,7 @@ public class App extends Application {
         DaemonEnv.initialize(this, TraceServiceImpl.class, DaemonEnv.DEFAULT_WAKE_UP_INTERVAL);
         // Initialize the Mobile Ads SDK.
 
-        if (BuildConfig.FLAVOR.equals(BuildConfig.gp)) {
 
-            MobileAds.initialize(this, "ca-app-pub-7835308551963221~5623021028");
-
-
-        }
 //        mAppIdKey = SdkMain.init(this, APPID, CHANNELID);
         UMConfigure.init(this, "5b7d341bf29d9864d300001a", BuildConfig.FLAVOR, UMConfigure.DEVICE_TYPE_PHONE, null);
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
@@ -35,6 +30,10 @@ public class App extends Application {
 //        StatConfig.setDebugEnable(true);
         // 基础统计API
         StatService.registerActivityLifecycleCallbacks(this);
+
+        MimoSdk.init(this, "2882303761517860313", "5721786083313", "nPAeoAvi6Y/JiODrbCYZ7A==");
+//        MimoSdk.setDebugOn(); // 打开调试，输出调试信息
+//        MimoSdk.setStageOn(); // 打开测试请求开关，请求测试广告
     }
 
 

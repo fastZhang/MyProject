@@ -66,10 +66,27 @@ public class PicTipDialogView extends Dialog {
         mContext = context;
         ((ViewGroup) getWindow().getDecorView()).addView(View.inflate(context, R.layout.view_pic_tip, null));
 
+        getWindow().getDecorView().setVisibility(View.GONE);
 //        setContentView(R.layout.view_pic_tip);
         ButterKnife.bind(this);
 
+    }
 
+    private void toPhotoList() {
+        UCrop.Options options = new UCrop.Options();
+        options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+        options.setCompressionQuality(60);
+        new PickConfig.Builder((Activity) mContext)
+                .actionBarcolor(Color.parseColor("#f08300"))
+                .statusBarcolor(Color.parseColor("#f08300"))
+                .isneedcamera(true)
+                .isSqureCrop(true)
+                .setUropOptions(options)
+                .maxPickSize(1)
+                .spanCount(4)
+//                        .setImagesPathFromAssets(imagesPath)
+                .isneedcrop(true)
+                .pickMode(mChosemode).build();
     }
 
     @OnClick({R.id.fl_picphoto, R.id.fl_camera, R.id.fl_systemphoto})
@@ -78,30 +95,18 @@ public class PicTipDialogView extends Dialog {
 
         switch (view.getId()) {
             case R.id.fl_picphoto:
+                if (true)
+                    toPhotoList();
+                else
+                    try {
+                        imagesPath = PicPathUtils.getHeaderPicPath(getContext().getApplicationContext());
 
-                try {
-                    imagesPath = PicPathUtils.getHeaderPicPath(getContext().getApplicationContext());
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return;
-                }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return;
+                    }
 
 
-                UCrop.Options options = new UCrop.Options();
-                options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
-                options.setCompressionQuality(60);
-                new PickConfig.Builder((Activity) mContext)
-                        .actionBarcolor(Color.parseColor("#f08300"))
-                        .statusBarcolor(Color.parseColor("#f08300"))
-                        .isneedcamera(false)
-                        .isSqureCrop(false)
-                        .setUropOptions(options)
-                        .maxPickSize(1)
-                        .spanCount(4)
-                        .setImagesPathFromAssets(imagesPath)
-                        .isneedcrop(false)
-                        .pickMode(mChosemode).build();
                 break;
             case R.id.fl_camera:
                 StartCamera.sendStarCamera((Activity) mContext);
@@ -130,6 +135,7 @@ public class PicTipDialogView extends Dialog {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        dismiss();
         if (resultCode == RESULT_OK && requestCode == REQUEST_CROP) {
             final Uri resultUri = UCrop.getOutput(data);
             ArrayList<String> img = new ArrayList<>();
@@ -246,6 +252,14 @@ public class PicTipDialogView extends Dialog {
 
     private void onPicSel(String crop_path) {
         ((IEventListener) mContext).setIvAddImage(crop_path);
+
+    }
+
+    @Override
+    public void show() {
+//        super.show();
+        toPhotoList();
+
 
     }
 }

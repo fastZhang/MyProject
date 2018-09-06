@@ -31,20 +31,15 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
+import com.miui.zeus.mimo.sdk.ad.AdWorkerFactory;
+import com.miui.zeus.mimo.sdk.ad.IAdWorker;
+import com.miui.zeus.mimo.sdk.listener.MimoAdListener;
 import com.xdandroid.hellodaemon.DaemonEnv;
 import com.xdandroid.hellodaemon.IntentWrapper;
+import com.xiaomi.ad.common.pojo.AdType;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
-import com.zcl.showphone.IFace.IAdListener;
 import com.zcl.showphone.IFace.IEventListener;
-import com.zcl.showphone.ad.HandLoadInterstitialAd;
-//import com.zcl.showphone.ad.LoadInterstitialAd;
-import com.zcl.showphone.ad.LoadInterstitialAd;
 import com.zcl.showphone.service.TraceServiceImpl;
 import com.zcl.showphone.utils.AppInfoUtil;
 import com.zcl.showphone.utils.CallSettingUtil;
@@ -71,7 +66,7 @@ import static com.zcl.showphone.utils.Constant.SYSTEM_CONTACTS_REQ;
 import static com.zcl.showphone.utils.Constant.SYSTEM_RING_REQ;
 import static com.zcl.showphone.utils.Constant.SYSTEM_VOICE_REQ;
 
-public class ControlActivity extends BaseActivity implements IEventListener, IAdListener {
+public class ControlActivity extends BaseActivity implements IEventListener {
 
     public static final String TAG = "ControlActivity";
 
@@ -135,11 +130,7 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
     private CallTimeDialogView mCallTimeDialogView;
     private CallModeDialogView mCallModeDialogView;
 
-    LoadInterstitialAd loadInterstitialAd;
-    protected HandLoadInterstitialAd ad;
-    AdView adView;
-
-//    com.u3k.app.external.InterstitialAd interstitialAd; //艾闪
+    private IAdWorker mWorker;
 
 
     public static void startActivity(Activity owner) {
@@ -184,53 +175,6 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 
             }
         });
-        loadInterstitialAd = new LoadInterstitialAd(this);
-
-//        interstitialAd = new com.u3k.app.external.InterstitialAd(App.mAppIdKey, this, App.AD_ID);
-//        interstitialAd.setAdListener(new com.u3k.app.external.InterstitialAdListener() {
-//
-//            @Override
-//            public void onError(Ad ad, int i, String s) {
-//                Log.d(TAG, "onError: ");
-//            }
-//
-//            @Override
-//            public void onAdLoaded(Ad ad) {
-//                onASAdLoaded(interstitialAd);
-//                Log.d(TAG, "onError: ");
-//
-//            }
-//
-//            @Override
-//            public void onAdClicked(Ad ad) {
-//                Log.d(TAG, "onError: ");
-//
-//            }
-//
-//            @Override
-//            public void onLoggingImpression(Ad ad) {
-//                Log.d(TAG, "onError: ");
-//
-//            }
-//
-//            @Override
-//            public void onInterstitialDisplayed(Ad ad) {
-//                Log.d(TAG, "onError: ");
-//
-//            }
-//
-//            @Override
-//            public void onInterstitialDismissed(Ad ad) {
-//                startGameUK(interstitialAd);
-//                Log.d(TAG, "onError: ");
-//
-//
-//            }
-//        });
-//        startGameUK(interstitialAd);
-
-
-        ad = HandLoadInterstitialAd.getInstance(this);
 
         if (!MtaUtils.isAppLive()) {
             finish();
@@ -249,142 +193,65 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
         theme_mi.setTextColor(CallSettingUtil.isThisCalltheme(this, CallSettingUtil.CallTheme.MI) ? getResources().getColor(R.color.colorMain) : getResources().getColor(R.color.colorMenuTitle));
         theme_blur.setTextColor(CallSettingUtil.isThisCalltheme(this, CallSettingUtil.CallTheme.BLUR) ? getResources().getColor(R.color.colorMain) : getResources().getColor(R.color.colorMenuTitle));
         theme_samsung.setTextColor(CallSettingUtil.isThisCalltheme(this, CallSettingUtil.CallTheme.SAMSUNG) ? getResources().getColor(R.color.colorMain) : getResources().getColor(R.color.colorMenuTitle));
-        initBanner();
         fl_tigger_match.setVisibility(View.GONE);
 
 
     }
 
-//    public void startGameUK(com.u3k.app.external.InterstitialAd ad) {
-//        if (ad != null && !ad.isAdLoaded()) {
-//            ad.loadAd();
-//        }
-//
-//    }
-
-    @Override
-    public void onAdLoaded(InterstitialAd ad) {
-
-        if (ad == loadInterstitialAd.getSplashAd()) {
-
-
-            if (iv_splash.getVisibility() == View.GONE) return;
-
-            mHandler.removeCallbacks(null);
-            mHandler.removeCallbacksAndMessages(null);
-            isOnBackPressed = false;
-
-            if (AppInfoUtil.isGP()) {
-                loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());
-
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        iv_splash.setVisibility(View.GONE);
-
-                    }
-                }, 200);
-
-            }
-        }
-
-        if (ad == loadInterstitialAd.getTiggerAd()) {
-
-            if (AppInfoUtil.isGP() && fl_tigger_match.getVisibility() == VISIBLE) {
-                loadInterstitialAd.showInterstitial(loadInterstitialAd.getTiggerAd());
-                fl_tigger_match.postDelayed(() -> {
-                    fl_tigger_match.setVisibility(View.GONE);
-                }, 100);
-
-            }
-
-        }
-    }
-
-//    @Override
-//    public void onASAdLoaded(com.u3k.app.external.InterstitialAd ad) {
-//
-//
-//        if (iv_splash.getVisibility() == View.GONE) return;
-//
-//        mHandler.removeCallbacks(null);
-//        mHandler.removeCallbacksAndMessages(null);
-//        isOnBackPressed = false;
-//
-//        if (AppInfoUtil.isGP()) {
-//            // Show the ad if it's ready. Otherwise toast and restart the game.
-////            if (ad != null && ad.isAdLoaded()) {
-////                ad.show();
-////            }
-//
-//            mHandler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    iv_splash.setVisibility(View.GONE);
-//
-//                }
-//            }, 200);
-//
-//        }
-//
-//    }
-
-    @Override
-    public void onAdClosed(InterstitialAd ad) {
-//        if (ad == loadInterstitialAd.getStartAd()) {
-////            onClickSchedule();
-//
-//        }
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
 
         if (isOnBackPressed) {
-            loadBanner(adView);
-            if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && loadInterstitialAd.getSplashAd().isLoaded()) {
 
-                loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());//显示
+            try {
+                mWorker = AdWorkerFactory.getAdWorker(this, fl_main, new MimoAdListener() {
+                    @Override
+                    public void onAdPresent() {
+                        // 开屏广告展示
+                        Log.d(TAG, "onAdPresent");
 
-            }
-//            else if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && interstitialAd.isAdLoaded()) {
-//                interstitialAd.show();
-//
-//            }
-            else {
-                iv_splash.setVisibility(VISIBLE);
-
-            }
-
-
-            if (!loadInterstitialAd.getSplashAd().isLoaded()) {
-                loadInterstitialAd.startGame(loadInterstitialAd.getSplashAd());//加载
-
-            }
-
-//            if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && !interstitialAd.isAdLoaded()) {
-//                startGameUK(interstitialAd); //加载
-//            }
-
-
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (iv_splash.getVisibility() == View.GONE) return;
-                    if (!loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd())) {
-
-//                        interstitialAd.show();
                     }
 
-                }
-            }, 4800);
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    iv_splash.setVisibility(View.GONE);
-                }
-            }, 5000);
+                    @Override
+                    public void onAdClick() {
+                        //用户点击了开屏广告
+                        Log.d(TAG, "onAdClick");
+                    }
+
+                    @Override
+                    public void onAdDismissed() {
+                        //这个方法被调用时，表示从开屏广告消失。
+                        Log.d(TAG, "onAdDismissed");
+                    }
+
+                    @Override
+                    public void onAdFailed(String s) {
+                        Log.e(TAG, "ad fail message : " + s);
+                        iv_splash.setVisibility(View.GONE);
+
+                    }
+
+                    @Override
+                    public void onAdLoaded(int size) {
+                        //do nothing
+                        iv_splash.setVisibility(View.GONE);
+
+                    }
+
+                    @Override
+                    public void onStimulateSuccess() {
+                    }
+                }, AdType.AD_SPLASH);
+
+                mWorker.loadAndShow("5c478315816109fba210a0ad2db7478a");
+//                mWorker.loadAndShow("b373ee903da0c6fc9c9da202df95a500");//测试
+            } catch (Exception e) {
+                e.printStackTrace();
+                fl_main.setVisibility(View.GONE);
+                iv_splash.setVisibility(View.GONE);
+            }
 
             isOnBackPressed = false;
         }
@@ -421,7 +288,6 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
             case R.id.fl_tigger:
                 fl_tigger_match.setVisibility(VISIBLE);
                 setGifDrawable(R.drawable.ani_home_top_giftad);
-                loadInterstitialAd.startGame(loadInterstitialAd.getTiggerAd());
                 break;
 
             case R.id.fl_rate:
@@ -483,7 +349,6 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
                 break;
             case R.id.iv_add:
 
-                loadInterstitialAd.startGame(loadInterstitialAd.getHeaderAd());
 
                 onToAddpic();
 
@@ -662,6 +527,11 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
     @Override
     public void setIvAddImage(String url) {
         iv_add.setTag(null);//需要清空tag，否则报错
+        if (url == null) {
+
+            Glide.with(this).load(R.mipmap.btn_header).into(iv_add);
+            return;
+        }
 
         Glide.with(this).load(url).
                 fitCenter()
@@ -670,7 +540,6 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
                 .into(iv_add);
         iv_add.setTag(url);
 
-        loadInterstitialAd.showInterstitial(loadInterstitialAd.getHeaderAd());
     }
 
     @Override
@@ -860,6 +729,10 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
             int idphoneNameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
             phoneName = cursor.getString(idphoneNameIndex);
 
+            int idphonePhotoIndex = cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI);
+
+            setIvAddImage(cursor.getString(idphonePhotoIndex));
+
             // 获得联系人的电话号码的cursor;
             Cursor allPhones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?", new String[]{contactId}, null);
 
@@ -979,7 +852,6 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 //        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 //        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + Integer.parseInt(time) * 1000, pendingIntent);
         Toast.makeText(this, R.string.call_ready, Toast.LENGTH_SHORT).show();
-        ad.startGame(ad.getSplashAd());
 
 //        loadInterstitialAd.showInterstitial(loadInterstitialAd.getStartAd());
 //        finish();
@@ -1032,7 +904,10 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 
     @Override
     public void onBackPressed() {
-        if (drawer_layout.isDrawerOpen(Gravity.START) || drawer_layout.isDrawerOpen(Gravity.RIGHT))
+        // 捕获back键，在展示广告期间按back键，不跳过广告
+        if (fl_main.getVisibility() == View.VISIBLE) {
+            return;
+        } else if (drawer_layout.isDrawerOpen(Gravity.START) || drawer_layout.isDrawerOpen(Gravity.RIGHT))
             drawer_layout.closeDrawers();
         else if (fl_tigger_match.getVisibility() == VISIBLE) {
 
@@ -1043,33 +918,15 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 
     }
 
-    // TODO: 2018/8/28  
-    private void initBanner() {
-        adView = new AdView(this);
-        adView.setAdSize(AdSize.SMART_BANNER);
-        adView.setAdUnitId("ca-app-pub-7835308551963221/8619964851");
-
-        adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-
-                super.onAdClosed();
-            }
-        });
-
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.gravity = Gravity.BOTTOM | Gravity.CENTER;
-        fl_main.addView(adView, 1, lp);
-    }
-
-
-    private void loadBanner(AdView ad) {
-        if (ad != null && !ad.isLoading()) {
-            AdRequest adRequest = new AdRequest.Builder().build();
-            ad.loadAd(adRequest);
+    @Override
+    protected void onDestroy() {
+        try {
+            super.onDestroy();
+            mWorker.recycle();
+        } catch (Exception e) {
         }
-
     }
+
 
     public void setGifDrawable(int resId) {
         if (image_gift_anim != null) {
