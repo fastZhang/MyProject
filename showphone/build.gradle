@@ -1,11 +1,5 @@
 apply plugin: 'com.android.application'
 
-//apply plugin: 'u3kbuild'
-//
-//
-//u3k {
-//    addApiRefferer 'com.zcl.showphone.ControlActivity'
-//}
 
 def rootEXT = rootProject.ext
 
@@ -17,13 +11,13 @@ android {
 
 
     defaultConfig {
-        applicationId "com.zcl.showphone"
+        applicationId "com.funny.call.prank.you"
 
         minSdkVersion rootEXT.minSdkVersion
         targetSdkVersion targetSdkVersion
 
-        versionCode 6
-        versionName "1.04"
+        versionCode 1
+        versionName "1.0"
 
 //        ndk {
 //            abiFilters "armeabi", "armeabi-v7a", "x86"
@@ -63,7 +57,7 @@ android {
     productFlavors.all { flavor ->
         manifestPlaceholders = [
                 //AML912VK4XNY 属于应用"fackcall"独有的 Android AppKey, 用于配置SDK
-                MTA_APPKEY : "AML912VK4XNY",
+                MTA_APPKEY : "AT8V16KPV9NK",
                 //标注应用推广渠道用以区分新用户来源，可填写如应用宝，豌豆荚等
                 MTA_CHANNEL: flavor.name
         ]

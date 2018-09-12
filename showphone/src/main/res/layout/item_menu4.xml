@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/menu_height"
+    android:background="#fff"
+    tools:showIn="@layout/activity_control">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@mipmap/call_theme_icon" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/call_theme"
+            android:textColor="@color/colorMenuTitle"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/tv_themeset"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|right"
+            android:lines="1"
+            android:text="@string/call_mode_type"
+            android:textColor="@color/colorMain"
+            android:textSize="14sp" />
+
+
+        <ImageView
+            android:layout_width="@dimen/menu_arrow_w"
+            android:layout_height="@dimen/menu_arrow_h"
+            android:layout_gravity="center|right"
+            android:layout_margin="@dimen/tip_margin"
+            android:src="@mipmap/icon_pic_arrow" />
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_dashline"
+        android:visibility="gone" />
+
+
+</FrameLayout>

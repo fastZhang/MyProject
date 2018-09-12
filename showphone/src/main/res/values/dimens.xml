@@ -10,7 +10,7 @@
     <dimen name="setting_menu_left">50dp</dimen>
 
     <dimen name="menu_width">140dp</dimen>
-    <dimen name="menu_height">95dp</dimen>
+    <dimen name="menu_height">40dp</dimen>
 
     <dimen name="menu_margintop">100dp</dimen>
 
@@ -33,6 +33,9 @@
 
     <dimen name="glowpadview_outerring_diameter">250.0dip</dimen>
     <dimen name="incoming_call_widget_circle_size">56.0dip</dimen>
+
+    <dimen name="menu_arrow_w">8dp</dimen>
+    <dimen name="menu_arrow_h">14dp</dimen>
 
 
 </resources>

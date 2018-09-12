@@ -16,7 +16,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.zcl.showphone.view.CircleImageView
+        <com.funny.call.prank.you.view.CircleImageView
             android:id="@+id/iv_call_pic"
             android:layout_width="70dp"
             android:layout_height="70dp"
@@ -335,7 +335,7 @@
                 android:backgroundTint="@color/colorWhite">
 
 
-                <com.zcl.showphone.view.MIUPImageView
+                <com.funny.call.prank.you.view.MIUPImageView
                     android:id="@+id/iv_hangup"
                     android:layout_width="@dimen/mi_call_iv"
                     android:layout_height="@dimen/mi_call_iv"
@@ -344,7 +344,7 @@
                     android:layout_marginBottom="20dp"
                     android:src="@mipmap/xiaomitonghuazhongguaduan" />
 
-                <com.zcl.showphone.view.MIUPImageView
+                <com.funny.call.prank.you.view.MIUPImageView
                     android:id="@+id/iv_answer"
 
                     android:layout_width="@dimen/mi_call_iv"

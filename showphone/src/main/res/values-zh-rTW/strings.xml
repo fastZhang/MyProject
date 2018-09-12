@@ -20,7 +20,7 @@
     <string name="call_mode">重複</string>
 
     <string name="call_time_type">3s後來電</string>
-    <string name="call_volice_type">默認</string>
+    <string name="call_volice_type">無</string>
     <string name="call_ring_type">系統默認</string>
     <string name="call_mode_type">無</string>
     <string name="call_mode_10">間隔10s重複3次</string>
@@ -76,6 +76,9 @@
     <string name="theme_mi_mianti">免提</string>
     <string name="theme_mi_jianpan">鍵盤</string>
     <string name="thinks">感謝5星好評</string>
+    <string name="call_theme">主題</string>
+
+
 
 
 </resources>

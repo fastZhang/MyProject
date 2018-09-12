@@ -14,7 +14,7 @@
     <string name="call_ring">铃音</string>
     <string name="call_mode">重复</string>
     <string name="call_time_type">3s后来电</string>
-    <string name="call_volice_type">默认</string>
+    <string name="call_volice_type">无</string>
     <string name="call_ring_type">系统默认</string>
     <string name="call_mode_type">无</string>
     <string name="call_mode_10">间隔10s重复3次</string>
@@ -58,4 +58,5 @@
     <string name="theme_mi_jianpan">键盘</string>
 
     <string name="thinks">感谢5星好评</string>
+    <string name="call_theme">主题</string>
 </resources>

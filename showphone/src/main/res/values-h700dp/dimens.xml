@@ -1,9 +1,9 @@
 <resources>
 
 
-    <dimen name="menu_height">105dp</dimen>
+    <dimen name="menu_height">55dp</dimen>
 
-    <dimen name="menu_margintop">30dp</dimen>
+    <dimen name="menu_margintop">5dp</dimen>
 
     <dimen name="menu_startw">230dp</dimen>
     <dimen name="menu_starth">55dp</dimen>

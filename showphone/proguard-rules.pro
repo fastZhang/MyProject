@@ -74,7 +74,7 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
--keep public class com.zcl.showphone.R$*{
+-keep public class com.funny.call.prank.you.R$*{
 public static final int *;
 }
 

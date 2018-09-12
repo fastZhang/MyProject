@@ -28,7 +28,7 @@
             android:textSize="14sp"
             tools:text="00:04" />
 
-        <com.zcl.showphone.view.CircleImageView
+        <com.funny.call.prank.you.view.CircleImageView
             android:id="@+id/iv_call_pic"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -155,7 +155,7 @@
                     android:layout_gravity="center|left"
                     android:layout_marginLeft="-10dp">
 
-                    <com.zcl.showphone.view.MIUPImageView
+                    <com.funny.call.prank.you.view.MIUPImageView
                         android:id="@+id/iv_hangup"
                         android:layout_width="@dimen/seight_call_iv"
                         android:layout_height="@dimen/seight_call_iv"
@@ -183,7 +183,7 @@
                     android:layout_gravity="center|right"
                     android:layout_marginRight="-10dp">
 
-                    <com.zcl.showphone.view.MIUPImageView
+                    <com.funny.call.prank.you.view.MIUPImageView
                         android:id="@+id/iv_answer"
 
                         android:layout_width="@dimen/seight_call_iv"
