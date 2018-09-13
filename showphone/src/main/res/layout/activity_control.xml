@@ -265,16 +265,24 @@
 
         </LinearLayout>
 
-
-        <ImageView
+        <FrameLayout
             android:id="@+id/iv_splash"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorMainBg"
-            android:clickable="true"
-            android:scaleType="center"
-            android:src="@mipmap/ic_launcher"
-            android:visibility="gone" />
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_launcher"
+                android:visibility="visible" />
+
+
+        </FrameLayout>
+
 
         <include
             android:id="@+id/fl_tigger_match"

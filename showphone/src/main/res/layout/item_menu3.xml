@@ -24,7 +24,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="12dp"
             android:text="@string/call_mode"
             android:textColor="@color/colorMenuTitle"
             android:textSize="16sp" />
@@ -41,7 +41,6 @@
             android:text="@string/call_mode_type"
             android:textColor="@color/colorMain"
             android:textSize="14sp" />
-
 
 
         <ImageView

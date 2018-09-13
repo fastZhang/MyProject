@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fack Call</string>
+    <string name="app_name">Call Prank</string>
     <string name="app_setting">Setting</string>
     <string name="app_theme">Call Theme</string>
     <string name="app_about">About</string>
@@ -11,7 +11,7 @@
     <string name="call_voice_set">voice</string>
     <string name="call_repeate_set">Repeat</string>
     <string name="call_voice">Voice</string>
-    <string name="call_ring">Ring</string>
+    <string name="call_ring">Ringtone</string>
     <string name="call_mode">Repeat</string>
     <string name="call_time_type">3s after call</string>
     <string name="call_volice_type">null</string>
@@ -20,7 +20,7 @@
     <string name="call_mode_10">interval 10s and 3 repetition</string>
     <string name="call_mode_30">interval 30s and 3 repetition</string>
     <string name="call_mode_60">interval 60s and 3 repetition</string>
-    <string name="pic_photo">Photos</string>
+    <string name="pic_photo">Contacts</string>
     <string name="pic_camera">Camera</string>
     <string name="pic_system">Gallery</string>
     <string name="voice_photo">System File</string>

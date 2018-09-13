@@ -5,10 +5,13 @@ import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -59,6 +62,7 @@ public class VoiceDialogView extends Dialog {
     RecyclerView ry_voice;
 
     String[] path = null;
+    MediaPlayer voicePlayer;
 
     public VoiceDialogView(@NonNull final Activity context) {
         super(context);
@@ -181,6 +185,19 @@ public class VoiceDialogView extends Dialog {
 
                 }
             });
+            holder.iv_play.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String name = path[position];
+                    if (!TextUtils.isEmpty(name)) {
+                        String[] names = name.split("\\.");
+                        String path = "file:///android_asset/" + "voice/" + name;
+                        stopVoice();
+                        playVoice(path);
+
+                    }
+                }
+            });
 
         }
 
@@ -193,13 +210,77 @@ public class VoiceDialogView extends Dialog {
 
         class ListHolder extends RecyclerView.ViewHolder {
             public TextView name;
+            public View iv_play;
 
             public ListHolder(View itemView) {
                 super(itemView);
                 name = itemView.findViewById(R.id.name);
+                iv_play = itemView.findViewById(R.id.iv_play);
 
             }
         }
+    }
+
+
+    public void playVoice(String voice) {
+
+        if (!voice.equals("")) {
+
+
+            Uri voiceURI = Uri.parse(voice);
+
+            voicePlayer = new MediaPlayer();
+
+            try {
+
+                if (voice.contains("android_asset")) {
+
+                    String[] strings = voice.split("/");
+                    AssetFileDescriptor fd = mContext.getAssets().openFd(strings[strings.length - 2] + "/" + strings[strings.length - 1]);
+                    voicePlayer.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(), fd.getLength());
+
+                } else
+                    voicePlayer.setDataSource(mContext, voiceURI);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            voicePlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
+            voicePlayer.prepareAsync();
+
+            voicePlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.start();
+                }
+            });
+
+            // 监听音频播放完的代码，实现音频的自动循环播放
+            voicePlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer arg0) {
+                    voicePlayer.start();
+//                    voicePlayer.setLooping(true);
+                }
+            });
+
+        }
+
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        stopVoice();
+    }
+
+    private void stopVoice() {
+
+        if (voicePlayer != null && voicePlayer.isPlaying()) {
+            voicePlayer.stop();
+        }
+
     }
 
 

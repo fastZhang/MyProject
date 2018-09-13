@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.funny.call.prank.you.utils.AssetsPathUtils;
 import com.wq.photo.MediaChoseActivity;
 import com.wq.photo.util.StartCamera;
 import com.wq.photo.widget.PickConfig;
@@ -58,8 +59,8 @@ public class PicTipDialogView extends Dialog {
     private Context mContext;
     private int mChosemode = PickConfig.MODE_SINGLE_PICK;
 
-    private ArrayList<String> imagesPath;
-
+    private List<String> imagesPath;
+    PicListDialogView mPicListDialogView;
 
     public PicTipDialogView(@NonNull final Context context) {
         super(context);
@@ -80,10 +81,20 @@ public class PicTipDialogView extends Dialog {
             case R.id.fl_picphoto:
 
                 try {
-                    imagesPath = PicPathUtils.getHeaderPicPath(getContext().getApplicationContext());
+                    imagesPath = Arrays.asList(AssetsPathUtils.getPathList(mContext, "img_header"));
 
                 } catch (IOException e) {
                     e.printStackTrace();
+                    return;
+                }
+
+                if (true) {
+                    if (mPicListDialogView == null) {
+                        mPicListDialogView = new PicListDialogView((Activity) mContext, imagesPath);
+                    }
+
+                    mPicListDialogView.show();
+                    dismiss();
                     return;
                 }
 
@@ -98,10 +109,12 @@ public class PicTipDialogView extends Dialog {
                         .isSqureCrop(false)
                         .setUropOptions(options)
                         .maxPickSize(1)
-                        .spanCount(4)
+                        .spanCount(1)
                         .setImagesPathFromAssets(imagesPath)
                         .isneedcrop(false)
                         .pickMode(mChosemode).build();
+
+
                 break;
             case R.id.fl_camera:
                 StartCamera.sendStarCamera((Activity) mContext);
@@ -245,7 +258,12 @@ public class PicTipDialogView extends Dialog {
 
 
     private void onPicSel(String crop_path) {
-        ((IEventListener) mContext).setIvAddImage(crop_path);
+        ((IEventListener) mContext).setIvAddImage("", crop_path);
 
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
     }
 }

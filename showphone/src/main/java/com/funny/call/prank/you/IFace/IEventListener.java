@@ -3,7 +3,7 @@ package com.funny.call.prank.you.IFace;
 import android.net.Uri;
 
 public interface IEventListener {
-    void setIvAddImage(String path);
+    void setIvAddImage(String name, String path);
 
     void setTimeTextView(String time, String timeNum);
 

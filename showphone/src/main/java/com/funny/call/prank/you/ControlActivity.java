@@ -78,7 +78,7 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
     @BindView(R.id.iv_add)
     ImageView iv_add;
     @BindView(R.id.iv_splash)
-    ImageView iv_splash;
+    FrameLayout iv_splash;
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer_layout;
@@ -474,7 +474,7 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
             case R.id.fl_pp:
 
                 try {
-                    Uri uri = Uri.parse("https://shimo.im/docs/XAiddJOJuLsCV7vP/"); // 浏览器
+                    Uri uri = Uri.parse("https://shimo.im/docs/iXvDcOVAc1Mwe5dn"); // 浏览器
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     this.startActivity(intent);
                 } catch (Exception e) {
@@ -606,7 +606,7 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
     }
 
     @Override
-    public void setIvAddImage(String url) {
+    public void setIvAddImage(String name, String url) {
         iv_add.setTag(null);//需要清空tag，否则报错
 
         Glide.with(this).load(url).
@@ -615,6 +615,8 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(iv_add);
         iv_add.setTag(url);
+
+        et_name.setText(name);
 
         loadInterstitialAd.showInterstitial(loadInterstitialAd.getHeaderAd());
     }
