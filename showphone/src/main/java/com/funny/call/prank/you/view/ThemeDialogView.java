@@ -83,7 +83,9 @@ public class ThemeDialogView extends Dialog {
         theme_mi.setTextColor(CallSettingUtil.isThisCalltheme(mContext, CallSettingUtil.CallTheme.MI) ? mContext.getResources().getColor(R.color.colorMain) : mContext.getResources().getColor(R.color.colorMenuTitle));
         theme_blur.setTextColor(CallSettingUtil.isThisCalltheme(mContext, CallSettingUtil.CallTheme.BLUR) ? mContext.getResources().getColor(R.color.colorMain) : mContext.getResources().getColor(R.color.colorMenuTitle));
         theme_samsung.setTextColor(CallSettingUtil.isThisCalltheme(mContext, CallSettingUtil.CallTheme.SAMSUNG) ? mContext.getResources().getColor(R.color.colorMain) : mContext.getResources().getColor(R.color.colorMenuTitle));
-
+        findViewById(R.id.iv_finish).setOnClickListener(v -> {
+            dismiss();
+        });
     }
 
 

@@ -11,11 +11,18 @@
         android:layout_height="@dimen/app_title_h"
         android:background="@color/colorMain">
 
-        <TextView
+        <ImageView
+            android:id="@+id/iv_finish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="@string/pic_photo"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/app_title_text" />

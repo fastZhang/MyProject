@@ -74,13 +74,15 @@ public class PicListDialogView extends Dialog {
         if (imagesPath != null) {
             ry_voice.setAdapter(new VoiceListAdapter());
         }
+        findViewById(R.id.iv_finish).setOnClickListener(v -> {
+            dismiss();
+        });
 
     }
 
 
     class VoiceListAdapter extends RecyclerView.Adapter<VoiceListAdapter.ListHolder> {
-        String[] names;
-        String path;
+
 
         @NonNull
         @Override
@@ -94,10 +96,12 @@ public class PicListDialogView extends Dialog {
         public void onBindViewHolder(@NonNull ListHolder holder, int position) {
             if (imagesPath == null) return;
 
+
             String name = imagesPath.get(position);
             if (!TextUtils.isEmpty(name)) {
-                names = name.split("\\.");
-                path = "file:///android_asset/" + "img_header/" + name;
+
+                String[] names = name.split("\\.");
+                String path = "file:///android_asset/" + "img_header/" + name;
 
 
                 holder.name.setText(names[0]);
@@ -108,10 +112,13 @@ public class PicListDialogView extends Dialog {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (!TextUtils.isEmpty(name)) {
+                        String[] names = name.split("\\.");
+                        String path = "file:///android_asset/" + "img_header/" + name;
 
-                    ((IEventListener) mContext).setIvAddImage(names[0], path);
 
-
+                        ((IEventListener) mContext).setIvAddImage(names[0], path);
+                    }
                     dismiss();
 
                 }

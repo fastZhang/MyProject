@@ -100,6 +100,9 @@ public class VoiceDialogView extends Dialog {
 
             ry_voice.setAdapter(new VoiceListAdapter());
         }
+        findViewById(R.id.iv_finish).setOnClickListener(v -> {
+            dismiss();
+        });
 
     }
 

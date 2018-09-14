@@ -6,14 +6,14 @@ def rootEXT = rootProject.ext
 
 
 android {
-    compileSdkVersion rootEXT.compileSdkVersion
+    compileSdkVersion compileSdkVersionInt
 
 
 
     defaultConfig {
         applicationId "com.funny.call.prank.you"
 
-        minSdkVersion rootEXT.minSdkVersion
+        minSdkVersion rootEXT.minSdkVersionInt
         targetSdkVersion targetSdkVersion
 
         versionCode 1
