@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.funny.call.prank.you.ad.LoadIBannerAd;
 import com.funny.call.prank.you.view.ThemeDialogView;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -128,7 +129,6 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 
     LoadInterstitialAd loadInterstitialAd;
     protected HandLoadInterstitialAd ad;
-    AdView adView;
 
 //    com.u3k.app.external.InterstitialAd interstitialAd; //艾闪
 
@@ -175,7 +175,8 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 
             }
         });
-        loadInterstitialAd = new LoadInterstitialAd(this);
+        loadInterstitialAd = LoadInterstitialAd.getInstance(this);
+        LoadIBannerAd.getInstance(this);
 
 //        interstitialAd = new com.u3k.app.external.InterstitialAd(App.mAppIdKey, this, App.AD_ID);
 //        interstitialAd.setAdListener(new com.u3k.app.external.InterstitialAdListener() {
@@ -236,8 +237,9 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
         Glide.with(this).load(R.mipmap.gif_guagua).into(iv_guagua);
 
 
-//        initBanner();
+        initBanner();
         fl_tigger_match.setVisibility(View.GONE);
+        iv_splash.setVisibility(View.VISIBLE);
         setCallThemeText(CallSettingUtil.getCallTheme(this).name());
 
 
@@ -329,21 +331,22 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
     protected void onResume() {
         super.onResume();
 
+
         if (isOnBackPressed) {
+            iv_splash.setVisibility(VISIBLE);
+
             loadBanner(adView);
             if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && loadInterstitialAd.getSplashAd().isLoaded()) {
 
                 loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd());//显示
-
+                mHandler.postDelayed(() -> {
+                    iv_splash.setVisibility(View.GONE);
+                }, 200);
             }
 //            else if (BuildConfig.FLAVOR.equals(BuildConfig.gp) && interstitialAd.isAdLoaded()) {
 //                interstitialAd.show();
 //
 //            }
-            else {
-                iv_splash.setVisibility(VISIBLE);
-
-            }
 
 
             if (!loadInterstitialAd.getSplashAd().isLoaded()) {
@@ -361,7 +364,6 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
                 public void run() {
                     if (iv_splash.getVisibility() == View.GONE) return;
                     if (!loadInterstitialAd.showInterstitial(loadInterstitialAd.getSplashAd())) {
-
 //                        interstitialAd.show();
                     }
 
@@ -393,8 +395,8 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.fl_share:
-                toOtherApp(this, null, "Fack Call",
-                        "Fack Call: Fack Call for you." +
+                toOtherApp(this, null, "Call Prank",
+                        "Call Prank: Call Prank for you." +
                                 "get it from：" +
                                 (AppInfoUtil.isGP() ? GP_STORE : MI_STORE)
                                 + "details?id=" + getPackageName());
@@ -447,6 +449,7 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
                     mCallTimeDialogView = new CallTimeDialogView(this);
                 }
                 mCallTimeDialogView.show();
+                loadInterstitialAd.startGame(loadInterstitialAd.getTimeSetAd());
 
                 break;
             case R.id.cv_callring:
@@ -989,11 +992,13 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 
     }
 
-    // TODO: 2018/8/28  
+    // TODO: 2018/8/28
+    AdView adView;
+
     private void initBanner() {
         adView = new AdView(this);
         adView.setAdSize(AdSize.SMART_BANNER);
-        adView.setAdUnitId("");
+        adView.setAdUnitId("ca-app-pub-4409839171902420/5618210613");
 
         adView.setAdListener(new AdListener() {
             @Override

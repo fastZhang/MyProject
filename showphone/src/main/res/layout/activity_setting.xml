@@ -45,7 +45,6 @@
 
         <FrameLayout
             android:id="@+id/fl_rate"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="60dp">
 
@@ -85,7 +84,6 @@
         </FrameLayout>
 
         <FrameLayout
-            android:visibility="gone"
 
             android:id="@+id/fl_share"
             android:layout_width="match_parent"
@@ -128,7 +126,6 @@
 
         <FrameLayout
             android:id="@+id/fl_feedback"
-            android:visibility="gone"
 
             android:layout_width="match_parent"
             android:layout_height="60dp">

@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.funny.call.prank.you.IFace.IEventListener;
 import com.funny.call.prank.you.R;
+import com.funny.call.prank.you.ad.LoadIBannerAd;
 import com.funny.call.prank.you.utils.AssetsPathUtils;
 import com.funny.call.prank.you.utils.CallSettingUtil;
 
@@ -86,6 +87,9 @@ public class ThemeDialogView extends Dialog {
         findViewById(R.id.iv_finish).setOnClickListener(v -> {
             dismiss();
         });
+
+        LoadIBannerAd.getInstance(mContext).loadBanner().showBanner(findViewById(R.id.fl_banner));
+
     }
 
 
@@ -165,6 +169,10 @@ public class ThemeDialogView extends Dialog {
         super.dismiss();
         if (callTheme != null)
             ((IEventListener) mContext).setCallThemeText(callTheme.name());
+
+
+        LoadIBannerAd.getInstance(mContext).removeAd();
+
 
     }
 }

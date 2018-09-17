@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.funny.call.prank.you.IFace.IEventListener;
 import com.funny.call.prank.you.R;
+import com.funny.call.prank.you.ad.LoadIBannerAd;
 import com.funny.call.prank.you.utils.AssetsPathUtils;
 
 import java.io.IOException;
@@ -77,6 +78,9 @@ public class PicListDialogView extends Dialog {
         findViewById(R.id.iv_finish).setOnClickListener(v -> {
             dismiss();
         });
+
+        LoadIBannerAd.getInstance(mContext).loadBanner().showBanner(findViewById(R.id.fl_banner));
+
 
     }
 

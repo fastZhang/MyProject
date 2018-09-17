@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/shape_homepic_tip"
+    android:layout_height="match_parent"
+    android:background="#fff"
     android:orientation="vertical">
 
     <FrameLayout
@@ -30,119 +30,6 @@
 
 
     </FrameLayout>
-
-    <!--<FrameLayout-->
-    <!--android:id="@+id/fl_picphoto"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/tip_item_h">-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:layout_margin="@dimen/tip_margin"-->
-    <!--android:text="@string/pic_photo"-->
-    <!--android:textColor="@color/colorMenuTitle"-->
-    <!--android:textSize="@dimen/item_text" />-->
-
-
-    <!--<View-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="1dp"-->
-    <!--android:layout_gravity="bottom"-->
-    <!--android:background="@color/colorLine" />-->
-
-    <!--</FrameLayout>-->
-
-    <!--<FrameLayout-->
-    <!--android:id="@+id/fl_camera"-->
-
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/tip_item_h">-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:layout_margin="@dimen/tip_margin"-->
-    <!--android:text="@string/pic_camera"-->
-    <!--android:textColor="@color/colorMenuTitle"-->
-    <!--android:textSize="@dimen/item_text" />-->
-
-
-    <!--<View-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="1dp"-->
-    <!--android:layout_gravity="bottom"-->
-    <!--android:background="@color/colorLine" />-->
-
-    <!--</FrameLayout>-->
-
-    <!--<FrameLayout-->
-    <!--android:id="@+id/fl_camera"-->
-
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/tip_item_h">-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:layout_margin="@dimen/tip_margin"-->
-    <!--android:text="@string/pic_camera"-->
-    <!--android:textColor="@color/colorMenuTitle"-->
-    <!--android:textSize="@dimen/item_text" />-->
-
-
-    <!--<View-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="1dp"-->
-    <!--android:layout_gravity="bottom"-->
-    <!--android:background="@color/colorLine" />-->
-
-    <!--</FrameLayout>-->
-
-    <!--<FrameLayout-->
-    <!--android:id="@+id/fl_camera"-->
-
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/tip_item_h">-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:layout_margin="@dimen/tip_margin"-->
-    <!--android:text="@string/pic_camera"-->
-    <!--android:textColor="@color/colorMenuTitle"-->
-    <!--android:textSize="@dimen/item_text" />-->
-
-
-    <!--<View-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="1dp"-->
-    <!--android:layout_gravity="bottom"-->
-    <!--android:background="@color/colorLine" />-->
-
-    <!--</FrameLayout>-->
-
-    <!--<FrameLayout-->
-    <!--android:id="@+id/fl_systemphoto"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/tip_item_h">-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:layout_margin="@dimen/tip_margin"-->
-    <!--android:text="@string/pic_system"-->
-    <!--android:textColor="@color/colorMenuTitle"-->
-    <!--android:textSize="@dimen/item_text" />-->
-
-
-    <!--</FrameLayout>-->
-
 
     <RadioGroup
         android:id="@+id/rp_sel"
@@ -218,6 +105,20 @@
         android:textColor="@color/colorWhite"
         android:textSize="16sp"
         android:visibility="gone" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/fl_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom">
+
+
+        </FrameLayout>
+    </FrameLayout>
 
 
 </LinearLayout>

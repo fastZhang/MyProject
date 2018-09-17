@@ -21,12 +21,10 @@ public class App extends Application {
         DaemonEnv.initialize(this, TraceServiceImpl.class, DaemonEnv.DEFAULT_WAKE_UP_INTERVAL);
         // Initialize the Mobile Ads SDK.
 
-//        if (BuildConfig.FLAVOR.equals(BuildConfig.gp)) {
-//
-//            MobileAds.initialize(this, "");
-//
-//
-//        }
+        if (BuildConfig.FLAVOR.equals(BuildConfig.gp)) {
+            MobileAds.initialize(this, "ca-app-pub-4409839171902420~1510610499");
+        }
+
         UMConfigure.init(this, "5b97bad68f4a9d7dc7000093", BuildConfig.FLAVOR, UMConfigure.DEVICE_TYPE_PHONE, null);
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
 

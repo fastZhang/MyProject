@@ -24,6 +24,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.funny.call.prank.you.ad.LoadIBannerAd;
+import com.funny.call.prank.you.ad.LoadInterstitialAd;
 import com.wq.photo.util.StartCamera;
 import com.wq.photo.widget.PickConfig;
 import com.yalantis.ucrop.UCrop;
@@ -46,7 +48,7 @@ import static com.yalantis.ucrop.UCrop.REQUEST_CROP;
 
 public class CallTimeDialogView extends Dialog {
 
-    private Context mContext;
+    private Activity mContext;
 
     @BindView(R.id.rp_sel)
     RadioGroup rp_sel;
@@ -61,7 +63,7 @@ public class CallTimeDialogView extends Dialog {
     RadioButton rb_120;
 
 
-    public CallTimeDialogView(@NonNull final Context context) {
+    public CallTimeDialogView(@NonNull final Activity context) {
         super(context);
         mContext = context;
         ((ViewGroup) getWindow().getDecorView()).addView(View.inflate(context, R.layout.view_calltime_tip, null));
@@ -74,6 +76,7 @@ public class CallTimeDialogView extends Dialog {
 
         ButterKnife.bind(this);
 
+
     }
 
     @Override
@@ -82,6 +85,9 @@ public class CallTimeDialogView extends Dialog {
         findViewById(R.id.iv_finish).setOnClickListener(v -> {
             dismiss();
         });
+
+        LoadIBannerAd.getInstance(mContext).loadBanner().showBanner(findViewById(R.id.fl_banner));
+
     }
 
     @OnClick({R.id.tv_active, R.id.rb_3, R.id.rb_30, R.id.rb_60, R.id.rb_120})
@@ -122,5 +128,16 @@ public class CallTimeDialogView extends Dialog {
 
     }
 
-//
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        LoadInterstitialAd.getInstance(mContext).showInterstitial(LoadInterstitialAd.getInstance(mContext).getTimeSetAd());
+
+        LoadIBannerAd.getInstance(mContext).removeAd();
+
+
+    }
+
+
+    //
 }

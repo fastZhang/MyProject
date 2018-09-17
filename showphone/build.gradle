@@ -16,8 +16,8 @@ android {
         minSdkVersion rootEXT.minSdkVersionInt
         targetSdkVersion targetSdkVersion
 
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.11"
 
 //        ndk {
 //            abiFilters "armeabi", "armeabi-v7a", "x86"

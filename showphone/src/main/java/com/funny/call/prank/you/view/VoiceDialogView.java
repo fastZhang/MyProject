@@ -30,6 +30,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.funny.call.prank.you.ad.LoadIBannerAd;
+import com.funny.call.prank.you.ad.LoadInterstitialAd;
+import com.funny.call.prank.you.utils.PreferencesUtil;
 import com.funny.call.prank.you.utils.ScreenInfoUtil;
 import com.wq.photo.util.StartCamera;
 import com.wq.photo.widget.PickConfig;
@@ -103,6 +106,9 @@ public class VoiceDialogView extends Dialog {
         findViewById(R.id.iv_finish).setOnClickListener(v -> {
             dismiss();
         });
+
+        LoadIBannerAd.getInstance(mContext).loadBanner().showBanner(findViewById(R.id.fl_banner));
+
 
     }
 
@@ -198,6 +204,7 @@ public class VoiceDialogView extends Dialog {
                         stopVoice();
                         playVoice(path);
 
+                        LoadInterstitialAd.getInstance(mContext).startGame(LoadInterstitialAd.getInstance(mContext).getVoiceSetAd()).showInterstitial(LoadInterstitialAd.getInstance(mContext).getVoiceSetAd());
                     }
                 }
             });

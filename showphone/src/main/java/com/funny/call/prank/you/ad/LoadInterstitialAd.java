@@ -34,10 +34,37 @@ public class LoadInterstitialAd {
     private InterstitialAd splashAd;
     private InterstitialAd headerAd;
     private InterstitialAd startAd;
+
+    public InterstitialAd getTimeSetAd() {
+        return timeSetAd;
+    }
+
+    private InterstitialAd timeSetAd;
+
+    public InterstitialAd getVoiceSetAd() {
+        return voiceSetAd;
+    }
+
+    private InterstitialAd voiceSetAd;
     private InterstitialAd tiggerAd;
 
 
-    public LoadInterstitialAd(Activity context) {
+
+    static LoadInterstitialAd instance;
+
+
+    public static LoadInterstitialAd getInstance(Activity context) {
+        if (null == instance) {
+
+            instance = new LoadInterstitialAd(context);
+        }
+
+        return instance;
+    }
+
+
+
+    private LoadInterstitialAd(Activity context) {
         if (!(BuildConfig.FLAVOR.equals(BuildConfig.gp))) {
             return;
         }
@@ -46,12 +73,16 @@ public class LoadInterstitialAd {
         headerAd = new InterstitialAd(context);
 //        startAd = new InterstitialAd(context);
         tiggerAd = new InterstitialAd(context);
+//        timeSetAd = new InterstitialAd(context);
+        voiceSetAd = new InterstitialAd(context);
 
 
-        initInterstitialAd(context, splashAd, "");
-        initInterstitialAd(context, headerAd, "");
+        initInterstitialAd(context, splashAd, "ca-app-pub-4409839171902420/7506007357");
+        initInterstitialAd(context, headerAd, "ca-app-pub-4409839171902420/4604511843");
 //        initInterstitialAd(context, startAd, "");
         initInterstitialAd(context, tiggerAd, "");
+//        initInterstitialAd(context, timeSetAd, "ca-app-pub-4409839171902420/4395083693");
+        initInterstitialAd(context, voiceSetAd, "ca-app-pub-4409839171902420/5713579386");
 
         startGame(splashAd);
 //        startGame(tiggerAd);
@@ -79,12 +110,13 @@ public class LoadInterstitialAd {
 
     }
 
-    public void startGame(InterstitialAd ad) {
+    public LoadInterstitialAd startGame(InterstitialAd ad) {
         if (ad != null && !ad.isLoading() && !ad.isLoaded()) {
             AdRequest adRequest = new AdRequest.Builder().build();
 //            AdRequest adRequest = new AdRequest.Builder().addTestDevice("B09B121E39796297E267CE7F263B3D26").build();
             ad.loadAd(adRequest);
         }
+        return this;
 
     }
 

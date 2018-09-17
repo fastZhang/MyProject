@@ -45,7 +45,7 @@ public class HandLoadInterstitialAd {
         splashAd = new InterstitialAd(context);
 
 
-        initInterstitialAd(context, splashAd, "");
+        initInterstitialAd(context, splashAd, "ca-app-pub-4409839171902420/5522007692");
 
     }
 

@@ -1,5 +1,6 @@
 package com.funny.call.prank.you.view;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.funny.call.prank.you.IFace.IEventListener;
 import com.funny.call.prank.you.R;
+import com.funny.call.prank.you.ad.LoadIBannerAd;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,7 +24,7 @@ import butterknife.OnClick;
 
 public class CallModeDialogView extends Dialog {
 
-    private Context mContext;
+    private Activity mContext;
 
     @BindView(R.id.rp_sel)
     RadioGroup rp_sel;
@@ -36,7 +38,7 @@ public class CallModeDialogView extends Dialog {
     RadioButton rb_120;
 
 
-    public CallModeDialogView(@NonNull final Context context) {
+    public CallModeDialogView(@NonNull final Activity context) {
         super(context);
         mContext = context;
         ((ViewGroup) getWindow().getDecorView()).addView(View.inflate(context, R.layout.view_callmode_tip, null));
@@ -47,6 +49,8 @@ public class CallModeDialogView extends Dialog {
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         ButterKnife.bind(this);
+
+
     }
 
     @Override
@@ -55,6 +59,9 @@ public class CallModeDialogView extends Dialog {
         findViewById(R.id.iv_finish).setOnClickListener(v -> {
             dismiss();
         });
+        LoadIBannerAd.getInstance(mContext).loadBanner().showBanner(findViewById(R.id.fl_banner));
+
+
     }
 
     @OnClick({R.id.tv_active, R.id.rb_3, R.id.rb_30, R.id.rb_60, R.id.rb_120})
@@ -97,5 +104,12 @@ public class CallModeDialogView extends Dialog {
 
     }
 
-//
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        LoadIBannerAd.getInstance(mContext).removeAd();
+
+    }
+
+    //
 }
