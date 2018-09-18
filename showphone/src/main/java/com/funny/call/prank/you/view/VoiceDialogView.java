@@ -34,6 +34,7 @@ import com.funny.call.prank.you.ad.LoadIBannerAd;
 import com.funny.call.prank.you.ad.LoadInterstitialAd;
 import com.funny.call.prank.you.utils.PreferencesUtil;
 import com.funny.call.prank.you.utils.ScreenInfoUtil;
+import com.google.android.gms.ads.AdListener;
 import com.wq.photo.util.StartCamera;
 import com.wq.photo.widget.PickConfig;
 import com.yalantis.ucrop.UCrop;
@@ -202,9 +203,20 @@ public class VoiceDialogView extends Dialog {
                         String[] names = name.split("\\.");
                         String path = "file:///android_asset/" + "voice/" + name;
                         stopVoice();
-                        playVoice(path);
 
-                        LoadInterstitialAd.getInstance(mContext).startGame(LoadInterstitialAd.getInstance(mContext).getVoiceSetAd()).showInterstitial(LoadInterstitialAd.getInstance(mContext).getVoiceSetAd());
+                        if(!LoadInterstitialAd.getInstance(mContext).startGame(LoadInterstitialAd.getInstance(mContext).getVoiceSetAd()).showInterstitial(LoadInterstitialAd.getInstance(mContext).getVoiceSetAd())){
+                            playVoice(path);
+
+                        } else {
+                            LoadInterstitialAd.getInstance(mContext).getVoiceSetAd().setAdListener(new AdListener(){
+                                @Override
+                                public void onAdClosed() {
+                                    super.onAdClosed();
+                                    playVoice(path);
+
+                                }
+                            });
+                        };
                     }
                 }
             });
@@ -239,7 +251,10 @@ public class VoiceDialogView extends Dialog {
 
             Uri voiceURI = Uri.parse(voice);
 
-            voicePlayer = new MediaPlayer();
+            if (voicePlayer == null)
+                voicePlayer = new MediaPlayer();
+            else voicePlayer.reset();
+
 
             try {
 
@@ -282,13 +297,23 @@ public class VoiceDialogView extends Dialog {
     @Override
     public void dismiss() {
         super.dismiss();
-        stopVoice();
+        release();
     }
 
     private void stopVoice() {
 
         if (voicePlayer != null && voicePlayer.isPlaying()) {
             voicePlayer.stop();
+        }
+
+    }
+
+    public void release() {
+        stopVoice();
+
+        if (voicePlayer != null) {
+            voicePlayer.release();
+            voicePlayer = null;
         }
 
     }
