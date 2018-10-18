@@ -1037,6 +1037,7 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
     @Override
     protected void onStop() {
         super.onStop();
-        mVoiceDialogView.release();
+        if (mVoiceDialogView != null)
+            mVoiceDialogView.release();
     }
 }

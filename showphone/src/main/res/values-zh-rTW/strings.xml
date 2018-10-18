@@ -1,7 +1,7 @@
 <resources>
 
 
-    <string name="app_name">假電話</string>
+    <string name="app_name">虛擬來電</string>
     <string name="app_setting">設置</string>
     <string name="app_theme">來電主題</string>
     <string name="app_about">關於</string>
