@@ -55,9 +55,8 @@
 
             <TextView
                 android:id="@+id/try_blur"
-                android:layout_width="35dp"
-
-                android:layout_height="22dp"
+                android:layout_width="40dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center|right"
                 android:layout_margin="@dimen/tip_margin"
                 android:background="@drawable/shape_try"
@@ -93,8 +92,9 @@
 
             <TextView
                 android:id="@+id/try_samsung"
-                android:layout_width="35dp"
-                android:layout_height="22dp"
+                android:layout_width="40dp"
+
+                android:layout_height="25dp"
                 android:layout_gravity="center|right"
                 android:layout_margin="@dimen/tip_margin"
                 android:background="@drawable/shape_try"
@@ -130,9 +130,9 @@
 
             <TextView
                 android:id="@+id/try2"
-                android:layout_width="35dp"
+                android:layout_width="40dp"
 
-                android:layout_height="22dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center|right"
                 android:layout_margin="@dimen/tip_margin"
                 android:background="@drawable/shape_try"
@@ -168,8 +168,8 @@
 
             <TextView
                 android:id="@+id/try1"
-                android:layout_width="35dp"
-                android:layout_height="22dp"
+                android:layout_width="40dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center|right"
                 android:layout_margin="@dimen/tip_margin"
                 android:background="@drawable/shape_try"

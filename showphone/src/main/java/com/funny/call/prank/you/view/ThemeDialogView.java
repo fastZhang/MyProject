@@ -125,19 +125,26 @@ public class ThemeDialogView extends Dialog {
 
 
             case R.id.try1:
+                callTheme = CallSettingUtil.CallTheme.ANDROID5;
+
                 ((IEventListener) mContext).onStartCall();
                 break;
             case R.id.try2:
+                callTheme = CallSettingUtil.CallTheme.MI;
+
                 ((IEventListener) mContext).onStartCall();
 
                 break;
 
             case R.id.try_blur:
+                callTheme = CallSettingUtil.CallTheme.BLUR;
 
                 ((IEventListener) mContext).onStartCall();
                 break;
 
             case R.id.try_samsung:
+                callTheme = CallSettingUtil.CallTheme.SAMSUNG;
+
                 ((IEventListener) mContext).onStartCall();
 
                 break;
