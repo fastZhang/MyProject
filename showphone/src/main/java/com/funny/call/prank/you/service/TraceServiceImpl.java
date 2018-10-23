@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.IBinder;
 
 import com.xdandroid.hellodaemon.AbsWorkService;
-import com.funny.call.prank.you.FakeRingerActivity;
 import com.funny.call.prank.you.utils.CallSettingUtil;
 
 import java.util.concurrent.TimeUnit;
@@ -107,7 +106,7 @@ public class TraceServiceImpl extends AbsWorkService {
 
 
 
-                Intent intent = new Intent(getApplication(), CallSettingUtil.getSetThemeClass(getApplication()));
+                Intent intent = new Intent();
 
                 intent.putExtra("contactImage", contactImage);
                 intent.putExtra("number", number);
@@ -124,8 +123,8 @@ public class TraceServiceImpl extends AbsWorkService {
                 intent.putExtra("duration", Integer.parseInt(duration));
                 intent.putExtra("hangUpAfter", Integer.parseInt(hangUpAfter));
 
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+
+                CallSettingUtil.getSetThemeClass(intent);
 
                 modeTimes = 0;
 

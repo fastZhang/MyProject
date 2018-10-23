@@ -2,11 +2,13 @@ package com.funny.call.prank.you.utils;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 
-import com.funny.call.prank.you.FakeRingerActivity;
-import com.funny.call.prank.you.activity.BlurFakeRingerActivity;
-import com.funny.call.prank.you.activity.mi.MIFakeRingerActivity;
-import com.funny.call.prank.you.activity.mi.SmEightFakeRingerActivity;
+import com.funny.call.prank.you.App;
+import com.funny.call.prank.you.activity.BlurRinger;
+import com.funny.call.prank.you.activity.MiRinger;
+import com.funny.call.prank.you.activity.NormalRinger;
+import com.funny.call.prank.you.activity.SMRinger;
 
 public class CallSettingUtil {
 
@@ -21,37 +23,46 @@ public class CallSettingUtil {
 
     }
 
-    public static CallTheme getCallTheme(Context context) {
-        String name = PreferencesUtil.get(context, "setting", "theme_call");
+    public static CallTheme getCallTheme() {
+        String name = PreferencesUtil.get(App.context, "setting", "theme_call");
         if (name == null) return CallTheme.BLUR;
         else
             return CallTheme.valueOf(name);
     }
 
 
-    public static Class<?> getSetThemeClass(Application application) {
+    public static Class<?> getSetThemeClass(Intent intent) {
 
-        return CallSettingUtil.getThemeClass(application, getCallTheme(application));
+        return CallSettingUtil.getThemeClass(getCallTheme(), intent);
 
     }
 
 
-    public static Class<?> getThemeClass(Application application, CallTheme theme) {
+    public static Class<?> getThemeClass(CallTheme theme, Intent data) {
 
         if (theme == CallTheme.MI) {
-            return MIFakeRingerActivity.class;
+            new MiRinger(App.context).setIntent(data).show();
+
+            return MiRinger.class;
 
         } else if (theme == CallTheme.BLUR) {
-            return BlurFakeRingerActivity.class;
+            new BlurRinger(App.context).setIntent(data).show();
+
+            return BlurRinger.class;
+//            return BlurFakeRingerActivity.class;
 
         } else if (theme == CallTheme.ANDROID5) {
-            return FakeRingerActivity.class;
+            new NormalRinger(App.context).setIntent(data).show();
+
+            return NormalRinger.class;
         } else if (theme == CallTheme.SAMSUNG) {
-            return SmEightFakeRingerActivity.class;
+            new SMRinger(App.context).setIntent(data).show();
+
+            return SMRinger.class;
         }
 
 
-        return BlurFakeRingerActivity.class;
+        return BlurRinger.class;
 
     }
 

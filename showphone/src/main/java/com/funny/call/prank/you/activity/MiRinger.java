@@ -1,6 +1,5 @@
-package com.funny.call.prank.you.activity.mi;
+package com.funny.call.prank.you.activity;
 
-import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentResolver;
@@ -10,7 +9,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -18,6 +16,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.provider.CallLog;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,21 +30,23 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.xdandroid.hellodaemon.DaemonEnv;
 import com.funny.call.prank.you.IFace.ICallEventListener;
 import com.funny.call.prank.you.R;
-import com.funny.call.prank.you.activity.CallBaseActivity;
 import com.funny.call.prank.you.service.TraceServiceImpl;
 import com.funny.call.prank.you.utils.CallLogUtilities;
 import com.funny.call.prank.you.view.MIUPImageView;
+import com.xdandroid.hellodaemon.DaemonEnv;
 
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class SmEightFakeRingerActivity extends CallBaseActivity implements ICallEventListener {
+import static android.content.Context.AUDIO_SERVICE;
+import static android.content.Context.NOTIFICATION_SERVICE;
+import static android.content.Context.POWER_SERVICE;
 
+public class MiRinger extends RingDialogView implements ICallEventListener {
 
     private static final int INCOMING_CALL_NOTIFICATION = 1001;
     private static final int MISSED_CALL_NOTIFICATION = 1002;
@@ -65,8 +66,6 @@ public class SmEightFakeRingerActivity extends CallBaseActivity implements ICall
 
     @BindView(R.id.iv_animation)
     ImageView iv_animation;
-    @BindView(R.id.iv_animation_r)
-    ImageView iv_animation_r;
 
     @BindView(R.id.iv_hangup)
     MIUPImageView iv_hangup;
@@ -98,9 +97,6 @@ public class SmEightFakeRingerActivity extends CallBaseActivity implements ICall
     private AudioManager audioManager;
     private ContentResolver contentResolver;
 
-    private int currentRingerMode;
-    private int currentRingerVolume;
-    private int currentMediaVolume;
 
     private long secs;
 
@@ -109,29 +105,29 @@ public class SmEightFakeRingerActivity extends CallBaseActivity implements ICall
         @Override
         public void run() {
             onNextCall();
-            finish();
+            dismiss();
         }
     };
 
 
-    @SuppressLint("ResourceType")
-    @Override
-    protected int getLayout() {
-        fullScreen(this);
-        return R.layout.activity_fake_ringer_sm;
+    public MiRinger(@NonNull Context context) {
+        super(context);
     }
 
-    private void getBaseConfig() {
-        contentResolver = getContentResolver();
-        resources = getResources();
-        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        currentRingerMode = audioManager.getRingerMode();
-        currentRingerVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
-        currentMediaVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_fake_ringer_mi;
+    }
 
 
-        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+    private void getBaseConfig(Context context) {
+        contentResolver = context.getContentResolver();
+        resources = context.getResources();
+        audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
+        notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+
+
+        PowerManager powerManager = (PowerManager) context.getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "Tag");
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
@@ -143,7 +139,7 @@ public class SmEightFakeRingerActivity extends CallBaseActivity implements ICall
 
     private void getIntentData() {
 
-        Bundle extras = getIntent().getExtras();
+        Bundle extras = mIntent.getExtras();
         name = extras.getString("name");
         voice = extras.getString("voice", "");
         duration = extras.getInt("duration");
@@ -158,13 +154,13 @@ public class SmEightFakeRingerActivity extends CallBaseActivity implements ICall
     @Override
     protected void init() {
 
-        getBaseConfig();
+        getBaseConfig(mContext);
         getIntentData();
 
         setContactImage();
 
 
-        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
+        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(mContext);
         nBuilder.setSmallIcon(R.mipmap.ic_call);
         nBuilder.setOngoing(true);
         nBuilder.setContentTitle(name);
@@ -182,21 +178,23 @@ public class SmEightFakeRingerActivity extends CallBaseActivity implements ICall
         } else {
             ringtoneURI = Uri.parse(ringStringUri);
         }
-        ringtone = RingtoneManager.getRingtone(getApplicationContext(), ringtoneURI);
+        ringtone = RingtoneManager.getRingtone(mContext.getApplicationContext(), ringtoneURI);
         ringtone.play();
 
-        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
         long[] pattern = {1000, 1000, 1000, 1000, 1000};
         vibrator.vibrate(pattern, 0);
 
 
+        iv_hangup.setOnICallEventListener(this);
+        iv_answer.setOnICallEventListener(this);
     }
 
 
     private void setContactImage() {
 
         if (!(contactImageString == null))
-            Glide.with(this).load(contactImageString).asBitmap().into(new SimpleTarget<Bitmap>() {
+            Glide.with(mContext).load(contactImageString).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                     iv_call_pic.setImageBitmap(resource);
@@ -207,15 +205,10 @@ public class SmEightFakeRingerActivity extends CallBaseActivity implements ICall
         tv_number.setText(number);
         tv_name.setText(name);
 
-        Animation animCallStatusPulseL = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.call_tip_l);
-        Animation animCallStatusPulseR = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.call_tip_r);
-        iv_animation.startAnimation(animCallStatusPulseR);
-        iv_animation_r.startAnimation(animCallStatusPulseL);
+        Animation animCallStatusPulse = AnimationUtils.loadAnimation(mContext.getApplicationContext(), R.anim.call_tip_up);
+        iv_animation.startAnimation(animCallStatusPulse);
 
         fl_called_bg.setVisibility(View.GONE);
-        callDuration.setVisibility(View.INVISIBLE);
-        iv_hangup.setHor(true);
-        iv_answer.setHor(true);
     }
 
 
@@ -239,7 +232,7 @@ public class SmEightFakeRingerActivity extends CallBaseActivity implements ICall
 
         onNextCall();
         stopVoice();
-        finish();
+        dismiss();
 
     }
 
@@ -261,7 +254,7 @@ public class SmEightFakeRingerActivity extends CallBaseActivity implements ICall
     // adds a missed call to the log and shows a notification
     private void missedCall() {
 
-        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
+        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(mContext);
 
         nBuilder.setSmallIcon(android.R.drawable.stat_notify_missed_call);
 
@@ -277,7 +270,7 @@ public class SmEightFakeRingerActivity extends CallBaseActivity implements ICall
 
         showCallLog.setType(CallLog.Calls.CONTENT_TYPE);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, showCallLog, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, showCallLog, PendingIntent.FLAG_CANCEL_CURRENT);
 
         nBuilder.setContentIntent(pendingIntent);
 
@@ -297,8 +290,11 @@ public class SmEightFakeRingerActivity extends CallBaseActivity implements ICall
 
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void dismiss() {
+        super.dismiss();
+
+        mHandler.removeCallbacks(hangUP);
+        callFinishAction();
 
         stopVoice();
         notificationManager.cancel(INCOMING_CALL_NOTIFICATION);
@@ -311,13 +307,10 @@ public class SmEightFakeRingerActivity extends CallBaseActivity implements ICall
 
         wakeLock.release();
 
-        audioManager.setRingerMode(currentRingerMode);
-        audioManager.setStreamVolume(AudioManager.STREAM_RING, currentRingerVolume, 0);
 
         stopRinging();
         unMuteAll();
 
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentMediaVolume, 0);
 
     }
 
@@ -326,20 +319,13 @@ public class SmEightFakeRingerActivity extends CallBaseActivity implements ICall
 
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        mHandler.removeCallbacks(hangUP);
-        callFinishAction();
-
-    }
 
     private void onNextCall() {
-        String mode = getIntent().getExtras().getString("mode");
-        int modeTimes = getIntent().getExtras().getInt("modeTimes");
+        String mode = mIntent.getExtras().getString("mode");
+        int modeTimes = mIntent.getExtras().getInt("modeTimes");
 
-        if (!mode.equals(getString(R.string.call_mode_type)) && modeTimes < 3) {
-            Intent intent = new Intent(this, TraceServiceImpl.class);
+        if (!mode.equals(mContext.getString(R.string.call_mode_type)) && modeTimes < 3) {
+            Intent intent = new Intent(mContext, TraceServiceImpl.class);
 
             intent.putExtra("contactImage", contactImageString);
             intent.putExtra("number", number);
@@ -368,15 +354,14 @@ public class SmEightFakeRingerActivity extends CallBaseActivity implements ICall
         mHandler.post(hangUP);
     }
 
+
     @Override
     public void actionAp(View view) {
         if (view == iv_answer) {
 
             main.setBackgroundResource(R.mipmap.mi_ring_calling_bg);
             fl_called_bg.setVisibility(View.VISIBLE);
-            callDuration.setVisibility(View.VISIBLE);
             iv_animation.clearAnimation();
-            iv_animation_r.clearAnimation();
 
             mHandler.removeCallbacks(hangUP);
             stopRinging();
@@ -402,25 +387,12 @@ public class SmEightFakeRingerActivity extends CallBaseActivity implements ICall
             mHandler.post(hangUP);
 
         }
-        iv_answer_bg.setVisibility(View.GONE);
-        iv_hangup_bg.setVisibility(View.GONE);
 
     }
-    @BindView(R.id.iv_hangup_bg)
-    View iv_hangup_bg;
-
-    @BindView(R.id.iv_answer_bg)
-    View iv_answer_bg;
 
     @Override
     public void actionDown(View view) {
-        if (view == iv_answer) {
 
-            iv_answer_bg.setVisibility(View.VISIBLE);
-
-        } else if (view == iv_hangup) {
-            iv_hangup_bg.setVisibility(View.VISIBLE);
-
-        }
     }
+
 }

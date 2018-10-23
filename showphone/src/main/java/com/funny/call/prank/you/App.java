@@ -1,6 +1,7 @@
 package com.funny.call.prank.you;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.Build;
 
 import com.google.android.gms.ads.MobileAds;
@@ -12,11 +13,13 @@ import com.xdandroid.hellodaemon.DaemonEnv;
 import com.funny.call.prank.you.service.TraceServiceImpl;
 
 public class App extends Application {
+    public static Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
+        context = this;
         //需要在 Application 的 onCreate() 中调用一次 DaemonEnv.initialize()
         DaemonEnv.initialize(this, TraceServiceImpl.class, DaemonEnv.DEFAULT_WAKE_UP_INTERVAL);
         // Initialize the Mobile Ads SDK.

@@ -68,10 +68,10 @@ public class MIUPImageView extends AppCompatImageView {
             case MotionEvent.ACTION_UP:
                 if (getTop() - t < -ScreenInfoUtil.dip2px(getContext(), 40)) {
                     Log.d("MIUPImageView", "onTouchEvent: " + ScreenInfoUtil.dip2px(getContext(), 40));
-                    ((ICallEventListener) getContext()).actionAp(this);
+                    mListener.actionAp(this);
                 }
                 if (isHor)
-                    ((ICallEventListener) getContext()).actionAp(this);
+                    mListener.actionAp(this);
 
                 layout(l, t, r, b);
 
@@ -79,7 +79,7 @@ public class MIUPImageView extends AppCompatImageView {
             case MotionEvent.ACTION_DOWN:
                 lastX = x;
                 lastY = y;
-                ((ICallEventListener) getContext()).actionDown(this);
+                mListener.actionDown(this);
 
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -95,6 +95,12 @@ public class MIUPImageView extends AppCompatImageView {
                 break;
         }
         return true;
+    }
+
+    ICallEventListener mListener;
+
+    public void setOnICallEventListener(ICallEventListener listener) {
+        mListener = listener;
     }
 
 

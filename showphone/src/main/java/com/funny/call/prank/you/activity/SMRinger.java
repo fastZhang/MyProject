@@ -1,4 +1,4 @@
-package com.funny.call.prank.you.activity.mi;
+package com.funny.call.prank.you.activity;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
@@ -9,51 +9,46 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.provider.CallLog;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.xdandroid.hellodaemon.DaemonEnv;
 import com.funny.call.prank.you.IFace.ICallEventListener;
+import com.funny.call.prank.you.IFace.IEventListener;
 import com.funny.call.prank.you.R;
-import com.funny.call.prank.you.activity.CallBaseActivity;
 import com.funny.call.prank.you.service.TraceServiceImpl;
 import com.funny.call.prank.you.utils.CallLogUtilities;
 import com.funny.call.prank.you.view.MIUPImageView;
+import com.xdandroid.hellodaemon.DaemonEnv;
 
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MIFakeRingerActivity extends CallBaseActivity implements ICallEventListener {
+import static android.content.Context.AUDIO_SERVICE;
+import static android.content.Context.NOTIFICATION_SERVICE;
+import static android.content.Context.POWER_SERVICE;
+
+public class SMRinger extends RingDialogView implements ICallEventListener {
 
 
     private static final int INCOMING_CALL_NOTIFICATION = 1001;
@@ -74,6 +69,8 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
 
     @BindView(R.id.iv_animation)
     ImageView iv_animation;
+    @BindView(R.id.iv_animation_r)
+    ImageView iv_animation_r;
 
     @BindView(R.id.iv_hangup)
     MIUPImageView iv_hangup;
@@ -105,9 +102,6 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
     private AudioManager audioManager;
     private ContentResolver contentResolver;
 
-    private int currentRingerMode;
-    private int currentRingerVolume;
-    private int currentMediaVolume;
 
     private long secs;
 
@@ -116,29 +110,23 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
         @Override
         public void run() {
             onNextCall();
-            finish();
+            dismiss();
         }
     };
 
-
-    @SuppressLint("ResourceType")
-    @Override
-    protected int getLayout() {
-        fullScreen(this);
-        return R.layout.activity_fake_ringer_mi;
+    public SMRinger(@NonNull Context context) {
+        super(context);
     }
 
-    private void getBaseConfig() {
-        contentResolver = getContentResolver();
-        resources = getResources();
-        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        currentRingerMode = audioManager.getRingerMode();
-        currentRingerVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
-        currentMediaVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+    private void getBaseConfig(Context context) {
+        contentResolver = context.getContentResolver();
+        resources = context.getResources();
+        audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
+        notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
 
-        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        PowerManager powerManager = (PowerManager) context.getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "Tag");
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
@@ -150,7 +138,7 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
 
     private void getIntentData() {
 
-        Bundle extras = getIntent().getExtras();
+        Bundle extras = mIntent.getExtras();
         name = extras.getString("name");
         voice = extras.getString("voice", "");
         duration = extras.getInt("duration");
@@ -161,17 +149,21 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
 
     }
 
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_fake_ringer_sm;
+    }
 
     @Override
     protected void init() {
 
-        getBaseConfig();
+        getBaseConfig(mContext);
         getIntentData();
 
         setContactImage();
 
 
-        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
+        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(mContext);
         nBuilder.setSmallIcon(R.mipmap.ic_call);
         nBuilder.setOngoing(true);
         nBuilder.setContentTitle(name);
@@ -189,13 +181,15 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
         } else {
             ringtoneURI = Uri.parse(ringStringUri);
         }
-        ringtone = RingtoneManager.getRingtone(getApplicationContext(), ringtoneURI);
+        ringtone = RingtoneManager.getRingtone(mContext.getApplicationContext(), ringtoneURI);
         ringtone.play();
 
-        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
         long[] pattern = {1000, 1000, 1000, 1000, 1000};
         vibrator.vibrate(pattern, 0);
 
+        iv_hangup.setOnICallEventListener(this);
+        iv_answer.setOnICallEventListener(this);
 
     }
 
@@ -203,7 +197,7 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
     private void setContactImage() {
 
         if (!(contactImageString == null))
-            Glide.with(this).load(contactImageString).asBitmap().into(new SimpleTarget<Bitmap>() {
+            Glide.with(mContext).load(contactImageString).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                     iv_call_pic.setImageBitmap(resource);
@@ -214,10 +208,15 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
         tv_number.setText(number);
         tv_name.setText(name);
 
-        Animation animCallStatusPulse = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.call_tip_up);
-        iv_animation.startAnimation(animCallStatusPulse);
+        Animation animCallStatusPulseL = AnimationUtils.loadAnimation(mContext.getApplicationContext(), R.anim.call_tip_l);
+        Animation animCallStatusPulseR = AnimationUtils.loadAnimation(mContext.getApplicationContext(), R.anim.call_tip_r);
+        iv_animation.startAnimation(animCallStatusPulseR);
+        iv_animation_r.startAnimation(animCallStatusPulseL);
 
         fl_called_bg.setVisibility(View.GONE);
+        callDuration.setVisibility(View.INVISIBLE);
+        iv_hangup.setHor(true);
+        iv_answer.setHor(true);
     }
 
 
@@ -241,7 +240,7 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
 
         onNextCall();
         stopVoice();
-        finish();
+        dismiss();
 
     }
 
@@ -263,7 +262,7 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
     // adds a missed call to the log and shows a notification
     private void missedCall() {
 
-        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
+        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(mContext);
 
         nBuilder.setSmallIcon(android.R.drawable.stat_notify_missed_call);
 
@@ -279,7 +278,7 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
 
         showCallLog.setType(CallLog.Calls.CONTENT_TYPE);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, showCallLog, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, showCallLog, PendingIntent.FLAG_CANCEL_CURRENT);
 
         nBuilder.setContentIntent(pendingIntent);
 
@@ -299,8 +298,12 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
 
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void dismiss() {
+        super.dismiss();
+
+        mHandler.removeCallbacks(hangUP);
+        callFinishAction();
+
 
         stopVoice();
         notificationManager.cancel(INCOMING_CALL_NOTIFICATION);
@@ -313,13 +316,10 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
 
         wakeLock.release();
 
-        audioManager.setRingerMode(currentRingerMode);
-        audioManager.setStreamVolume(AudioManager.STREAM_RING, currentRingerVolume, 0);
 
         stopRinging();
         unMuteAll();
 
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentMediaVolume, 0);
 
     }
 
@@ -328,20 +328,13 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
 
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        mHandler.removeCallbacks(hangUP);
-        callFinishAction();
-
-    }
 
     private void onNextCall() {
-        String mode = getIntent().getExtras().getString("mode");
-        int modeTimes = getIntent().getExtras().getInt("modeTimes");
+        String mode = mIntent.getExtras().getString("mode");
+        int modeTimes = mIntent.getExtras().getInt("modeTimes");
 
-        if (!mode.equals(getString(R.string.call_mode_type)) && modeTimes < 3) {
-            Intent intent = new Intent(this, TraceServiceImpl.class);
+        if (!mode.equals(mContext.getString(R.string.call_mode_type)) && modeTimes < 3) {
+            Intent intent = new Intent(mContext, TraceServiceImpl.class);
 
             intent.putExtra("contactImage", contactImageString);
             intent.putExtra("number", number);
@@ -376,7 +369,9 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
 
             main.setBackgroundResource(R.mipmap.mi_ring_calling_bg);
             fl_called_bg.setVisibility(View.VISIBLE);
+            callDuration.setVisibility(View.VISIBLE);
             iv_animation.clearAnimation();
+            iv_animation_r.clearAnimation();
 
             mHandler.removeCallbacks(hangUP);
             stopRinging();
@@ -402,11 +397,26 @@ public class MIFakeRingerActivity extends CallBaseActivity implements ICallEvent
             mHandler.post(hangUP);
 
         }
+        iv_answer_bg.setVisibility(View.GONE);
+        iv_hangup_bg.setVisibility(View.GONE);
 
     }
 
+    @BindView(R.id.iv_hangup_bg)
+    View iv_hangup_bg;
+
+    @BindView(R.id.iv_answer_bg)
+    View iv_answer_bg;
+
     @Override
     public void actionDown(View view) {
+        if (view == iv_answer) {
 
+            iv_answer_bg.setVisibility(View.VISIBLE);
+
+        } else if (view == iv_hangup) {
+            iv_hangup_bg.setVisibility(View.VISIBLE);
+
+        }
     }
 }

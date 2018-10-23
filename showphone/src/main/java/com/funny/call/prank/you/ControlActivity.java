@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.funny.call.prank.you.activity.BlurRinger;
 import com.funny.call.prank.you.ad.LoadIBannerAd;
 import com.funny.call.prank.you.view.ThemeDialogView;
 import com.google.android.gms.ads.AdListener;
@@ -240,7 +241,7 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
         initBanner();
         fl_tigger_match.setVisibility(View.GONE);
         iv_splash.setVisibility(View.VISIBLE);
-        setCallThemeText(CallSettingUtil.getCallTheme(this).name());
+        setCallThemeText(CallSettingUtil.getCallTheme().name());
 
 
     }
@@ -507,15 +508,16 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
                 permission(new String[]{Permission.READ_CALL_LOG, Permission.WRITE_CALL_LOG, Manifest.permission.WAKE_LOCK}).
                 onGranted(permission -> {
 
-                    NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !notificationManager.isNotificationPolicyAccessGranted()) {
-                        Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-                        getApplicationContext().startActivity(intent);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(ControlActivity.this)) {
+
+                        AndPermission.with(ControlActivity.this).overlay().start();
+
                     } else {
-//                        if ((callTheme != null) || !loadInterstitialAd.showInterstitial(loadInterstitialAd.getStartAd()))
                         onClickSchedule();
 
                     }
+
 
                 }).
                 onDenied(permission -> {
@@ -907,8 +909,8 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
         if (mThemeDialogView != null && mThemeDialogView.getCallTheme() != null) {
             time = "0";
 
-            intent.setClass(this, CallSettingUtil.getThemeClass(getApplication(), mThemeDialogView.getCallTheme()));
-            startActivity(intent);
+            CallSettingUtil.getThemeClass(mThemeDialogView.getCallTheme(), intent);
+
             mThemeDialogView.setCallTheme(null);
 
             return;

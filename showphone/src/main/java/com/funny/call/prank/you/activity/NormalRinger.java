@@ -1,18 +1,14 @@
 package com.funny.call.prank.you.activity;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -22,6 +18,7 @@ import android.os.Handler;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.provider.CallLog;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -31,7 +28,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -41,20 +37,22 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.xdandroid.hellodaemon.DaemonEnv;
-import com.funny.call.prank.you.BaseActivity;
 import com.funny.call.prank.you.R;
 import com.funny.call.prank.you.service.TraceServiceImpl;
 import com.funny.call.prank.you.utils.CallLogUtilities;
 import com.funny.call.prank.you.utils.PicPathUtils;
 import com.funny.call.prank.you.utils.ScreenInfoUtil;
+import com.xdandroid.hellodaemon.DaemonEnv;
 
 import java.util.Locale;
 
 import butterknife.BindView;
 
-public class BlurFakeRingerActivity extends CallBaseActivity {
+import static android.content.Context.AUDIO_SERVICE;
+import static android.content.Context.NOTIFICATION_SERVICE;
+import static android.content.Context.POWER_SERVICE;
 
+public class NormalRinger extends RingDialogView {
     private static final int INCOMING_CALL_NOTIFICATION = 1001;
     private static final int MISSED_CALL_NOTIFICATION = 1002;
 
@@ -71,6 +69,7 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
     private TextView callStatus;
     private TextView callDuration;
 
+    private ViewGroup main;
 
     private RelativeLayout callActionButtons;
 
@@ -101,22 +100,17 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
 
     private Resources resources;
 
-    private int currentRingerMode;
-
-    private int currentRingerVolume;
 
     private String contactImageString;
 
-    private int currentMediaVolume;
 
     final Handler handler = new Handler();
 
     private Runnable hangUP = new Runnable() {
         @Override
         public void run() {
-            finish();
+            dismiss();
             onNextCall();
-
 
         }
     };
@@ -124,42 +118,41 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
     @BindView(R.id.callInfoLayout)
     RelativeLayout mRelativeLayout;
 
-
-    @SuppressLint("ResourceType")
-    @Override
-    protected int getLayout() {
-        fullScreen(this);
-        return R.layout.activity_fake_ringer_blur;
+    public NormalRinger(@NonNull Context context) {
+        super(context);
     }
+
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_fake_ringer;
+    }
+
+
+
 
     @Override
     protected void init() {
 
-        mRelativeLayout.getLayoutParams().height = (int) (ScreenInfoUtil.screenHeight(this) * 0.31f);
+        mRelativeLayout.getLayoutParams().height = (int) (ScreenInfoUtil.screenHeight(mContext) * 0.31f);
 
         TextView phoneNumber = (TextView) findViewById(R.id.phoneNumber);
         TextView callerName = (TextView) findViewById(R.id.callerName);
 
-        final Animation ringExpandAnimation = AnimationUtils.loadAnimation(this, R.anim.ring_expand);
-        final Animation ringShrinkAnimation = AnimationUtils.loadAnimation(this, R.anim.ring_shrink);
+        final Animation ringExpandAnimation = AnimationUtils.loadAnimation(mContext, R.anim.ring_expand);
+        final Animation ringShrinkAnimation = AnimationUtils.loadAnimation(mContext, R.anim.ring_shrink);
 
 
         contactPhoto = (ImageView) findViewById(R.id.contactPhoto);
 
+        contentResolver = mContext.getContentResolver();
 
-        contentResolver = getContentResolver();
+        resources = mContext.getResources();
 
-        resources = getResources();
+        audioManager = (AudioManager) mContext.getSystemService(AUDIO_SERVICE);
 
-        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        notificationManager = (NotificationManager) mContext.getSystemService(NOTIFICATION_SERVICE);
 
-        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-        currentRingerMode = audioManager.getRingerMode();
-
-        currentRingerVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
-
-        currentMediaVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 
         callActionButtons = (RelativeLayout) findViewById(R.id.callActionButtons);
 
@@ -177,10 +170,11 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
 
         callDuration = (TextView) findViewById(R.id.callDuration);
 
+        main = findViewById(R.id.main);
 
         ring = (ImageView) findViewById(R.id.ring);
 
-        Bundle extras = getIntent().getExtras();
+        Bundle extras = mIntent.getExtras();
 
         name = extras.getString("name");
 
@@ -195,7 +189,7 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
         hangUpAfter = extras.getInt("hangUpAfter");
 
 
-        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        PowerManager powerManager = (PowerManager) mContext.getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "Tag");
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
@@ -203,7 +197,7 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
         wakeLock.setReferenceCounted(false);
 
-        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
+        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(mContext);
         nBuilder.setSmallIcon(R.mipmap.ic_call);
         nBuilder.setOngoing(true);
         nBuilder.setContentTitle(name);
@@ -214,12 +208,6 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
         handler.postDelayed(hangUP, hangUpAfter * 1000);
 
         muteAll();
-
-        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) contactPhoto.getLayoutParams();
-        int w = ScreenInfoUtil.screenWidth(BlurFakeRingerActivity.this) - ScreenInfoUtil.dip2px(BlurFakeRingerActivity.this, 60);
-        lp.width = w;
-        lp.height = w;
-        contactPhoto.setLayoutParams(lp);
 
         setContactImage(true);
 
@@ -244,7 +232,7 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
 
                     decline.setVisibility(View.VISIBLE);
 
-                    text.setVisibility(View.GONE);
+                    text.setVisibility(View.VISIBLE);
 
                     callActionButton.setVisibility(View.INVISIBLE);
 
@@ -277,6 +265,7 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
 
                         stopRinging();
 
+                        main.setBackgroundResource(R.mipmap.answered_bg);
 
                         endCall.setVisibility(View.VISIBLE);
 
@@ -309,7 +298,7 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
                             public void run() {
 
                                 onNextCall();
-                                finish();
+                                dismiss();
                             }
 
                         }, duration * 1000);
@@ -317,18 +306,18 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
 
                     } else if ((x2 + 200) < x1) {
 
-                        finish();
+                        dismiss();
                         onNextCall();
 
                     } else if ((y2 + 200) < y1) {
 
-                        finish();
+                        dismiss();
                         onNextCall();
 
 
                     } else if ((y2 - 200) > y1) {
 
-                        finish();
+                        dismiss();
                         onNextCall();
 
 
@@ -353,7 +342,7 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
             }
         });
 
-        Animation animCallStatusPulse = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.call_status_pulse);
+        Animation animCallStatusPulse = AnimationUtils.loadAnimation(mContext.getApplicationContext(), R.anim.call_status_pulse);
 
         callStatus.startAnimation(animCallStatusPulse);
 
@@ -374,9 +363,9 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
             ringtoneURI = Uri.parse(ringStringUri);
         }
 
-        ringtone = RingtoneManager.getRingtone(getApplicationContext(), ringtoneURI);
+        ringtone = RingtoneManager.getRingtone(mContext.getApplicationContext(), ringtoneURI);
 
-        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
 
         ringtone.play();
 
@@ -392,17 +381,16 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
         if (!(contactImageString == null)) {
 
 
-            Glide.with(this).load(PicPathUtils.wrapHeaderPicPath(this, contactImageString)).into(new SimpleTarget<GlideDrawable>() {
+            Glide.with(mContext).load(PicPathUtils.wrapHeaderPicPath(mContext, contactImageString)).into(new SimpleTarget<GlideDrawable>() {
                 @Override
                 public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
 
                     if (tint) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            resource.setTint(getResources().getColor(R.color.contact_photo_tint));
+                            resource.setTint(mContext.getResources().getColor(R.color.contact_photo_tint));
                             resource.setTintMode(PorterDuff.Mode.DARKEN);
                         }
                     }
-
 
                     contactPhoto.setImageDrawable(resource);
                 }
@@ -432,7 +420,7 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
 
         onNextCall();
         stopVoice();
-        finish();
+        dismiss();
 
     }
 
@@ -455,7 +443,7 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
     // adds a missed call to the log and shows a notification
     private void missedCall() {
 
-        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
+        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(mContext);
 
         nBuilder.setSmallIcon(android.R.drawable.stat_notify_missed_call);
 
@@ -471,7 +459,7 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
 
         showCallLog.setType(CallLog.Calls.CONTENT_TYPE);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, showCallLog, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, showCallLog, PendingIntent.FLAG_CANCEL_CURRENT);
 
         nBuilder.setContentIntent(pendingIntent);
 
@@ -491,9 +479,12 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
 
 
     @Override
-    protected void onDestroy() {
+    public void dismiss() {
+        super.dismiss();
 
-        super.onDestroy();
+        handler.removeCallbacks(hangUP);
+        callFinishAction();
+//==========
 
         stopVoice();
 
@@ -511,15 +502,11 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
 
         wakeLock.release();
 
-//        audioManager.setRingerMode(currentRingerMode);
-
-//        audioManager.setStreamVolume(AudioManager.STREAM_RING, currentRingerVolume, 0);
 
         stopRinging();
 
         unMuteAll();
 
-//        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentMediaVolume, 0);
 
     }
 
@@ -528,25 +515,17 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
 
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        handler.removeCallbacks(hangUP);
-
-        callFinishAction();
-
-    }
 
     private void onNextCall() {
-        String mode = getIntent().getExtras().getString("mode");
+        String mode = mIntent.getExtras().getString("mode");
 
-        int modeTimes = getIntent().getExtras().getInt("modeTimes");
+        int modeTimes = mIntent.getExtras().getInt("modeTimes");
         System.out.println("modeTimes" + modeTimes);
 
         Log.d("modeTimes", "finish: " + modeTimes);
 
-        if (!mode.equals(getString(R.string.call_mode_type)) && modeTimes < 3) {
-            Intent intent = new Intent(this, TraceServiceImpl.class);
+        if (!mode.equals(mContext.getString(R.string.call_mode_type)) && modeTimes < 3) {
+            Intent intent = new Intent(mContext, TraceServiceImpl.class);
 
             intent.putExtra("contactImage", contactImageString);
             intent.putExtra("number", number);
@@ -565,13 +544,6 @@ public class BlurFakeRingerActivity extends CallBaseActivity {
 
             TraceServiceImpl.sShouldStopService = false;
             DaemonEnv.startServiceMayBindByIntentData(intent, TraceServiceImpl.class);
-//
-//            PendingIntent pendingIntent = PendingIntent.getActivity(this, ALARM_ID, intent, PendingIntent.FLAG_ONE_SHOT);
-//            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//
-//            alarmManager.cancel(pendingIntent);
-//
-//            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + Integer.parseInt(mode) * 1000, pendingIntent);
 
         }
     }
