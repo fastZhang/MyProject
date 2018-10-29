@@ -26,12 +26,9 @@
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <!--<uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />-->
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
-
-
 
 
     <uses-sdk tools:overrideLibrary="com.example.mid" />
@@ -45,15 +42,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
         <activity
             android:name="com.funny.call.prank.you.ControlActivity"
             android:screenOrientation="portrait">
@@ -63,31 +51,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".VirtualActivity" />
-        <activity android:name=".SettingActivity" />
-
-        <activity android:name="com.funny.call.prank.you.AboutActivity"></activity>
 
         <activity
-            android:name="com.funny.call.prank.you.FakeRingerActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
+            android:name=".VirtualActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.funny.call.prank.you.activity.mi.MIFakeRingerActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.funny.call.prank.you.activity.mi.SmEightFakeRingerActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.funny.call.prank.you.activity.BlurFakeRingerActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTask"
+            android:name="com.funny.call.prank.you.AboutActivity"
             android:screenOrientation="portrait" />
 
 

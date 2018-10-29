@@ -101,7 +101,7 @@ public abstract class RingDialogView extends Dialog {
 
     protected void callFinishAction() {
 //        HandLoadInterstitialAd.getInstance(this).showInterstitial(HandLoadInterstitialAd.getInstance(this).getInterstitialAd());
-        HandLoadInterstitialAd.getInstance(mContext).showInterstitial(HandLoadInterstitialAd.getInstance(mContext).getSplashAd());
+//        HandLoadInterstitialAd.getInstance(mContext).showInterstitial(HandLoadInterstitialAd.getInstance(mContext).getSplashAd());
     }
 
     protected void fullScreen(Window window) {
