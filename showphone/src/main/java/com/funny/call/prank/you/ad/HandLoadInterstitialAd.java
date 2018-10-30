@@ -42,7 +42,7 @@ public class HandLoadInterstitialAd {
             return;
         }
 
-        splashAd = new InterstitialAd(context);
+//        splashAd = new InterstitialAd(context);
 
 
 //        initInterstitialAd(context, splashAd, "ca-app-pub-4409839171902420/5522007692");

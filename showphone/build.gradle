@@ -16,8 +16,8 @@ android {
         minSdkVersion rootEXT.minSdkVersionInt
         targetSdkVersion targetSdkVersion
 
-        versionCode 5
-        versionName "1.12"
+        versionCode 6
+        versionName "1.13"
 
 //        ndk {
 //            abiFilters "armeabi", "armeabi-v7a", "x86"
@@ -125,8 +125,6 @@ dependencies {
     implementation 'com.qq.mta:mta:3.4.7-release'
     implementation 'com.tencent.mid:mid:4.06-release'
     implementation 'com.nineoldandroids:library:2.4.0'
-
-
 
     implementation 'com.umeng.sdk:common:1.5.0'
     implementation 'com.umeng.sdk:analytics:7.5.0'

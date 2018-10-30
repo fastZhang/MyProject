@@ -504,27 +504,27 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 
     @Override
     public void onStartCall() {
-        AndPermission.with(this).runtime().
-                permission(new String[]{Permission.READ_CALL_LOG, Permission.WRITE_CALL_LOG, Manifest.permission.WAKE_LOCK}).
-                onGranted(permission -> {
 
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(ControlActivity.this)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(ControlActivity.this)) {
 
-                        AndPermission.with(ControlActivity.this).overlay().start();
+            AndPermission.with(ControlActivity.this).overlay().start();
 
-                    } else {
+        } else {
+
+            AndPermission.with(this)
+                    .runtime()
+                    .permission(new String[]{Permission.READ_CALL_LOG, Permission.WRITE_CALL_LOG})
+                    .onGranted(permission -> {
                         onClickSchedule();
+                    })
+                    .onDenied(permission -> {
+                        AndPermission.with(this).runtime().setting().start();
+                        Toast.makeText(this, this.getString(R.string.text_permission_call_log), Toast.LENGTH_LONG).show();
+                    })
+                    .start();
+        }
 
-                    }
-
-
-                }).
-                onDenied(permission -> {
-                    AndPermission.with(this).runtime().setting().start();
-                    Toast.makeText(this, this.getString(R.string.text_permission_call_log), Toast.LENGTH_LONG).show();
-                }).
-                start();
     }
 
     @Override
@@ -551,8 +551,6 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
                     }
 
                     mVoiceDialogView.show();
-
-
                 })
                 .onDenied(permissions -> {
                     AndPermission.with(this).runtime().setting().start();
