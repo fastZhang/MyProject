@@ -511,18 +511,20 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
             AndPermission.with(ControlActivity.this).overlay().start();
 
         } else {
-
-            AndPermission.with(this)
-                    .runtime()
-                    .permission(new String[]{Permission.READ_CALL_LOG, Permission.WRITE_CALL_LOG})
-                    .onGranted(permission -> {
-                        onClickSchedule();
-                    })
-                    .onDenied(permission -> {
-                        AndPermission.with(this).runtime().setting().start();
-                        Toast.makeText(this, this.getString(R.string.text_permission_call_log), Toast.LENGTH_LONG).show();
-                    })
-                    .start();
+            onClickSchedule();
+//
+//
+//            AndPermission.with(this)
+//                    .runtime()
+//                    .permission(new String[]{Permission.READ_CALL_LOG, Permission.WRITE_CALL_LOG})
+//                    .onGranted(permission -> {
+//                        onClickSchedule();
+//                    })
+//                    .onDenied(permission -> {
+//                        AndPermission.with(this).runtime().setting().start();
+//                        Toast.makeText(this, this.getString(R.string.text_permission_call_log), Toast.LENGTH_LONG).show();
+//                    })
+//                    .start();
         }
 
     }
@@ -936,17 +938,17 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
     }
 
 
-    public void onClickTest(View v) {
-//            case R.id.btn_start:
-
-        TraceServiceImpl.sShouldStopService = false;
-        DaemonEnv.startServiceMayBind(TraceServiceImpl.class);
-
-//            case R.id.btn_white:
-        IntentWrapper.whiteListMatters(this, "轨迹跟踪服务的持续运行");
-//            case R.id.btn_stop:
-        TraceServiceImpl.stopService();
-    }
+//    public void onClickTest(View v) {
+////            case R.id.btn_start:
+//
+//        TraceServiceImpl.sShouldStopService = false;
+//        DaemonEnv.startServiceMayBind(TraceServiceImpl.class);
+//
+////            case R.id.btn_white:
+//        IntentWrapper.whiteListMatters(this, "轨迹跟踪服务的持续运行");
+////            case R.id.btn_stop:
+//        TraceServiceImpl.stopService();
+//    }
 
 
     protected void rate() {

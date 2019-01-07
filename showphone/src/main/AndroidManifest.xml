@@ -12,8 +12,8 @@
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.READ_CALL_LOG" />
-    <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
+    <!--<uses-permission android:name="android.permission.READ_CALL_LOG" />-->
+    <!--<uses-permission android:name="android.permission.WRITE_CALL_LOG" />-->
 
     <!-- 勿打扰状态 -->
     <!--<uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />-->

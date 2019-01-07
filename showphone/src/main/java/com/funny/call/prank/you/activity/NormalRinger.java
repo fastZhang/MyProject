@@ -165,6 +165,12 @@ public class NormalRinger extends RingDialogView {
         text = (ImageButton) findViewById(R.id.callActionText);
 
         endCall = (ImageButton) findViewById(R.id.endCall);
+        endCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickEndCall(v);
+            }
+        });
 
         callStatus = (TextView) findViewById(R.id.callStatus);
 
