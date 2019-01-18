@@ -46,6 +46,8 @@
     <string name="theme_mi">小米</string>
     <string name="theme_samsung">三星</string>
     <string name="theme_blur">常规</string>
+    <string name="theme_lg2">LG</string>
+
     <string name="theme_try">预览</string>
     <string name="theme_mi_jy">静音</string>
     <string name="theme_mi_zanting">暂停</string>

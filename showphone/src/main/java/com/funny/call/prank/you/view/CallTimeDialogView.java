@@ -55,12 +55,16 @@ public class CallTimeDialogView extends Dialog {
 
     @BindView(R.id.rb_3)
     RadioButton rb_3;
+    @BindView(R.id.rb_10)
+    RadioButton rb_10;
     @BindView(R.id.rb_30)
     RadioButton rb_30;
     @BindView(R.id.rb_60)
     RadioButton rb_60;
     @BindView(R.id.rb_120)
     RadioButton rb_120;
+    @BindView(R.id.rb_5m)
+    RadioButton rb_5m;
 
 
     public CallTimeDialogView(@NonNull final Activity context) {
@@ -90,7 +94,7 @@ public class CallTimeDialogView extends Dialog {
 
     }
 
-    @OnClick({R.id.tv_active, R.id.rb_3, R.id.rb_30, R.id.rb_60, R.id.rb_120})
+    @OnClick({R.id.tv_active, R.id.rb_3, R.id.rb_10, R.id.rb_30, R.id.rb_60, R.id.rb_120, R.id.rb_5m})
     void onClick(View view) {
 
         onSelId(view);
@@ -107,6 +111,11 @@ public class CallTimeDialogView extends Dialog {
                 time = (String) rb_3.getText();
                 timeNum = "3";
                 break;
+            case R.id.rb_10:
+                time = (String) rb_10.getText();
+                timeNum = "10";
+
+                break;
             case R.id.rb_30:
                 time = (String) rb_30.getText();
                 timeNum = "30";
@@ -121,6 +130,11 @@ public class CallTimeDialogView extends Dialog {
                 timeNum = "120";
 
                 time = (String) rb_120.getText();
+                break;
+            case R.id.rb_5m:
+                timeNum = "300";
+
+                time = (String) rb_5m.getText();
                 break;
         }
         ((IEventListener) mContext).setTimeTextView(time + afterCall, timeNum);

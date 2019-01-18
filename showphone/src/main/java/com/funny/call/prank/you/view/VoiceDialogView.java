@@ -176,6 +176,15 @@ public class VoiceDialogView extends Dialog {
         @Override
         public void onBindViewHolder(@NonNull ListHolder holder, int position) {
             if (path == null) return;
+            if (path[position].contains("like") && PreferencesUtil.get(mContext, "dot", "like") == null) {
+                holder.view_new.setVisibility(View.VISIBLE);
+            } else if (path[position].contains("Loud") && PreferencesUtil.get(mContext, "dot", "Loud") == null) {
+                holder.view_new.setVisibility(View.VISIBLE);
+            } else {
+                holder.view_new.setVisibility(View.GONE);
+
+            }
+
             holder.name.setText(path[position]);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -188,6 +197,15 @@ public class VoiceDialogView extends Dialog {
 
 
                         ((IEventListener) mContext).setVoiceTextView(names[0], Uri.parse(path));
+
+
+                        if (name.contains("like")) {
+                            PreferencesUtil.save(mContext, "dot", "like", "like");
+                            holder.view_new.setVisibility(View.GONE);
+                        } else if (name.contains("Loud")) {
+                            PreferencesUtil.save(mContext, "dot", "Loud", "Loud");
+                            holder.view_new.setVisibility(View.GONE);
+                        }
 
                     }
 
@@ -204,11 +222,11 @@ public class VoiceDialogView extends Dialog {
                         String path = "file:///android_asset/" + "voice/" + name;
                         stopVoice();
 
-                        if(!LoadInterstitialAd.getInstance(mContext).startGame(LoadInterstitialAd.getInstance(mContext).getVoiceSetAd()).showInterstitial(LoadInterstitialAd.getInstance(mContext).getVoiceSetAd())){
+                        if (!LoadInterstitialAd.getInstance(mContext).startGame(LoadInterstitialAd.getInstance(mContext).getVoiceSetAd()).showInterstitial(LoadInterstitialAd.getInstance(mContext).getVoiceSetAd())) {
                             playVoice(path);
 
                         } else {
-                            LoadInterstitialAd.getInstance(mContext).getVoiceSetAd().setAdListener(new AdListener(){
+                            LoadInterstitialAd.getInstance(mContext).getVoiceSetAd().setAdListener(new AdListener() {
                                 @Override
                                 public void onAdClosed() {
                                     super.onAdClosed();
@@ -216,7 +234,8 @@ public class VoiceDialogView extends Dialog {
 
                                 }
                             });
-                        };
+                        }
+                        ;
                     }
                 }
             });
@@ -233,10 +252,12 @@ public class VoiceDialogView extends Dialog {
         class ListHolder extends RecyclerView.ViewHolder {
             public TextView name;
             public View iv_play;
+            public View view_new;
 
             public ListHolder(View itemView) {
                 super(itemView);
                 name = itemView.findViewById(R.id.name);
+                view_new = itemView.findViewById(R.id.view_new);
                 iv_play = itemView.findViewById(R.id.iv_play);
 
             }

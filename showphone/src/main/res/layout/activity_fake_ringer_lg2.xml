@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2d708d"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="#785548"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/unknown"
+                android:textColor="#fff"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10086"
+                android:textColor="#fff"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/callDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="5dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            android:visibility="visible"
+            tools:text="00:04" />
+
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/call_state"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#2d708d"
+        android:gravity="center|right"
+        android:paddingRight="10dp"
+        android:text="@string/incoming_call"
+        android:textColor="@color/colorWhite" />
+
+    <ImageView
+        android:id="@+id/iv_call_pic"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/lg_g2_picture_unknown" />
+
+
+    <LinearLayout
+        android:id="@+id/fl_called_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="-60dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/lg_g2_hold" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#999fab"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@mipmap/lg_g2_recive_call_but_backg_on"
+                android:padding="12dp"
+                android:src="@mipmap/lg_g2_voice" />
+
+            <ImageView
+                android:id="@+id/btn_hangup"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@mipmap/notification_btn_endcall_press_lg_g2_on"
+                android:padding="12dp"
+                android:src="@mipmap/lg_g2_endcall_icon" />
+
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@mipmap/lg_g2_recive_call_but_backg_on"
+                android:padding="12dp"
+                android:src="@mipmap/lg_g2_dialpad" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#999fab"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@mipmap/lg_g2_recive_call_but_backg_on"
+                android:padding="12dp"
+                android:src="@mipmap/lg_g2_speaker" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@mipmap/lg_g2_recive_call_but_backg_on"
+                android:padding="12dp"
+                android:src="@mipmap/lg_g2_mute" />
+
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@mipmap/lg_g2_recive_call_but_backg_on"
+                android:padding="12dp"
+                android:src="@mipmap/lg_g2_bluetooth" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/fl_calling_bg"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:background="#999fab"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingTop="10dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="10dp"
+        android:visibility="visible">
+
+
+        <ImageView
+            android:id="@+id/iv_answer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@mipmap/phone_button_acc_call_press_lg_g2_on"
+            android:padding="12dp"
+            android:src="@mipmap/lg_g2_receive_icon" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@mipmap/lg_g2_recive_call_but_backg_on"
+            android:padding="12dp"
+            android:src="@mipmap/lg_g2_message_icon" />
+
+
+        <ImageView
+            android:id="@+id/iv_hangup"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@mipmap/notification_btn_endcall_press_lg_g2_on"
+            android:padding="12dp"
+            android:src="@mipmap/lg_g2_endcall_icon" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

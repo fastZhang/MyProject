@@ -935,6 +935,7 @@ public class ControlActivity extends BaseActivity implements IEventListener, IAd
 //        loadInterstitialAd.showInterstitial(loadInterstitialAd.getStartAd());
 //        finish();
 
+        onBackPressed();
     }
 
 

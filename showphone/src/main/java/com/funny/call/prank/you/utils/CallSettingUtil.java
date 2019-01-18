@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import com.funny.call.prank.you.App;
 import com.funny.call.prank.you.activity.BlurRinger;
+import com.funny.call.prank.you.activity.LG2Ringer;
 import com.funny.call.prank.you.activity.MiRinger;
 import com.funny.call.prank.you.activity.NormalRinger;
 import com.funny.call.prank.you.activity.SMRinger;
@@ -14,7 +15,7 @@ public class CallSettingUtil {
 
 
     public enum CallTheme {
-        MI, ANDROID5, BLUR, SAMSUNG //436EEE
+        MI, ANDROID5, BLUR, SAMSUNG, LG2//436EEE
     }
 
     public static void setCallTheme(Context context, CallTheme theme) {
@@ -59,6 +60,10 @@ public class CallSettingUtil {
             new SMRinger(App.context).setIntent(data).show();
 
             return SMRinger.class;
+        } else if (theme == CallTheme.LG2) {
+            new LG2Ringer(App.context).setIntent(data).show();
+
+            return LG2Ringer.class;
         }
 
 

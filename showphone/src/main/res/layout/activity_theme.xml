@@ -37,6 +37,43 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/fl_theme_lg2"
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tip_item_h">
+
+
+            <TextView
+                android:id="@+id/theme_lg2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:padding="@dimen/tip_margin"
+                android:text="@string/theme_lg2"
+                android:textColor="@color/colorMenuTitle"
+                android:textSize="@dimen/item_text" />
+
+            <TextView
+                android:id="@+id/try_lg2"
+                android:layout_width="40dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center|right"
+                android:layout_margin="@dimen/tip_margin"
+                android:background="@drawable/shape_try"
+                android:gravity="center"
+                android:text="@string/theme_try"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/item_text_tip" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="@color/colorLine" />
+
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/fl_theme_blur"
 
             android:layout_width="match_parent"

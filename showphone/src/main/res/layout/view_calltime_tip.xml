@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_title_h"
         android:background="@color/colorMain">
+
         <ImageView
             android:id="@+id/iv_finish"
             android:layout_width="wrap_content"
@@ -16,6 +17,7 @@
             android:layout_gravity="center_vertical"
             android:padding="10dp"
             android:src="@drawable/ic_arrow_back" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -162,6 +164,22 @@
             android:background="@color/colorLine" />
 
         <RadioButton
+            android:id="@+id/rb_10"
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tip_item_h"
+            android:button="@null"
+
+            android:gravity="center"
+            android:text="10s" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="@color/colorLine" />
+
+        <RadioButton
             android:id="@+id/rb_30"
 
             android:layout_width="match_parent"
@@ -201,7 +219,21 @@
             android:layout_height="@dimen/tip_item_h"
             android:button="@null"
             android:gravity="center"
-            android:text="120s" />
+            android:text="2 min" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="@color/colorLine" />
+
+        <RadioButton
+            android:id="@+id/rb_5m"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tip_item_h"
+            android:button="@null"
+            android:gravity="center"
+            android:text="5 min" />
 
     </RadioGroup>
 

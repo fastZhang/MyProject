@@ -44,6 +44,10 @@ public class ThemeDialogView extends Dialog {
     TextView theme_mi;
     @BindView(R.id.theme_samsung)
     TextView theme_samsung;
+
+    @BindView(R.id.theme_lg2)
+    TextView theme_lg2;
+
     @BindView(R.id.theme_blur)
     TextView theme_blur;
 
@@ -84,6 +88,7 @@ public class ThemeDialogView extends Dialog {
         theme_mi.setTextColor(CallSettingUtil.isThisCalltheme(mContext, CallSettingUtil.CallTheme.MI) ? mContext.getResources().getColor(R.color.colorMain) : mContext.getResources().getColor(R.color.colorMenuTitle));
         theme_blur.setTextColor(CallSettingUtil.isThisCalltheme(mContext, CallSettingUtil.CallTheme.BLUR) ? mContext.getResources().getColor(R.color.colorMain) : mContext.getResources().getColor(R.color.colorMenuTitle));
         theme_samsung.setTextColor(CallSettingUtil.isThisCalltheme(mContext, CallSettingUtil.CallTheme.SAMSUNG) ? mContext.getResources().getColor(R.color.colorMain) : mContext.getResources().getColor(R.color.colorMenuTitle));
+        theme_lg2.setTextColor(CallSettingUtil.isThisCalltheme(mContext, CallSettingUtil.CallTheme.LG2) ? mContext.getResources().getColor(R.color.colorMain) : mContext.getResources().getColor(R.color.colorMenuTitle));
         findViewById(R.id.iv_finish).setOnClickListener(v -> {
             dismiss();
         });
@@ -93,8 +98,8 @@ public class ThemeDialogView extends Dialog {
     }
 
 
-    @OnClick({R.id.try1, R.id.try2, R.id.try_blur, R.id.try_samsung,
-            R.id.fl_theme_mi, R.id.fl_theme_android, R.id.fl_theme_blur, R.id.fl_theme_samsung})
+    @OnClick({R.id.try1, R.id.try2, R.id.try_blur, R.id.try_samsung, R.id.try_lg2,
+            R.id.fl_theme_mi, R.id.fl_theme_android, R.id.fl_theme_blur, R.id.fl_theme_samsung, R.id.fl_theme_lg2})
     void onClick(View view) {
 
         switch (view.getId()) {
@@ -108,6 +113,12 @@ public class ThemeDialogView extends Dialog {
                 callTheme = CallSettingUtil.CallTheme.SAMSUNG;
 
                 themeSelect((TextView) theme_samsung, CallSettingUtil.CallTheme.SAMSUNG);
+
+                break;
+            case R.id.fl_theme_lg2:
+                callTheme = CallSettingUtil.CallTheme.LG2;
+
+                themeSelect((TextView) theme_lg2, CallSettingUtil.CallTheme.LG2);
 
                 break;
             case R.id.fl_theme_android:
@@ -144,6 +155,12 @@ public class ThemeDialogView extends Dialog {
 
             case R.id.try_samsung:
                 callTheme = CallSettingUtil.CallTheme.SAMSUNG;
+
+                ((IEventListener) mContext).onStartCall();
+
+                break;
+            case R.id.try_lg2:
+                callTheme = CallSettingUtil.CallTheme.LG2;
 
                 ((IEventListener) mContext).onStartCall();
 

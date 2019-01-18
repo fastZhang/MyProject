@@ -46,6 +46,7 @@
     <string name="theme_mi">MIUI</string>
     <string name="theme_samsung">Samsung</string>
     <string name="theme_blur">Blur</string>
+    <string name="theme_lg2">LG</string>
     <string name="theme_try">Try</string>
     <string name="theme_mi_jy">Mute</string>
     <string name="theme_mi_zanting">Suspend</string>

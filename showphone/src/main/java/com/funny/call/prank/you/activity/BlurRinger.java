@@ -1,5 +1,6 @@
 package com.funny.call.prank.you.activity;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.RemoteInput;
@@ -134,6 +135,7 @@ public class BlurRinger extends RingDialogView {
     }
 
 
+    @SuppressLint("InvalidWakeLockTag")
     @Override
     protected void init() {
 
@@ -372,10 +374,11 @@ public class BlurRinger extends RingDialogView {
         }
 
         ringtone = RingtoneManager.getRingtone(mContext.getApplicationContext(), ringtoneURI);
+        if (ringtone != null)
+            ringtone.play();
 
         vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
 
-        ringtone.play();
 
         long[] pattern = {1000, 1000, 1000, 1000, 1000};
 
